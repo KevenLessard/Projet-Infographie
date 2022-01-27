@@ -20,4 +20,8 @@
 *.so
 *.xcconfig
 *.xcodeproj
+*.sdf
+*.opensdf
+*.suo
+ipch/
 .DS_Store
