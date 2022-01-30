@@ -11,7 +11,7 @@ void ofApp::setup(){
 // Panneau de propriete des objets     
 //Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
 	guiPropriete.setup();
-
+	guiPropriete.setPosition(ofGetWindowWidth() - guiPropriete.getWidth(), 0);
 	guiPropriete.add(labelPropriete.setup("Panneau", "Propriete"));
 	guiPropriete.add(intSlider.setup("intSlider", 64, 3, 64));
 	guiPropriete.add(floatSlider.setup("floatSlider", 30.0, 0.0, 300.0));
@@ -28,7 +28,7 @@ void ofApp::setup(){
 
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchie.setup();
-
+	guiHierarchie.setPosition(0, 0);
 	guiHierarchie.add(labelHierarchie.setup("Panneau", "Hierarchie"));
 
 	//panneau de contrôle de formes. 
@@ -40,6 +40,7 @@ void ofApp::setup(){
 	parameterGroup.add(circleGroup.circleParameters);
 
 	guiFormes.setup(parameterGroup);
+	guiFormes.setPosition(0, ofGetWindowHeight() - guiFormes.getHeight());
 
 	
 }
@@ -119,7 +120,8 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-
+	guiPropriete.setPosition(ofGetWindowWidth() - guiPropriete.getWidth(), 0);
+	guiFormes.setPosition(0, ofGetWindowHeight() - guiFormes.getHeight());
 }
 
 //--------------------------------------------------------------
