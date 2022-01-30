@@ -7,7 +7,7 @@
     <ClCompile Include="src\application.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\formes.cpp">
+    <ClCompile Include="src\form.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp">
@@ -65,7 +65,7 @@
     <ClInclude Include="src\application.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\formes.h">
+    <ClInclude Include="src\form.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer.h">

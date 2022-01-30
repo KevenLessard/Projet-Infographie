@@ -4,9 +4,9 @@ des instances dans les panneaux d'interface dont celui de Hierarchie*/
 
 
 
-#include "formes.h"
+#include "form.h"
 
-void Formes::setup()
+void Form::setup()
 {
 	circleParameters.setName("Controle de cercles");
 	circleParameters.add(name.set("cercle"));
@@ -23,7 +23,7 @@ void Formes::setup()
 	
 }
 
-void Formes::draw()
+void Form::draw()
 {
 	ofSetColor(red, green, blue, alpha);
 	ofCircle(positionX, positionY, radius);

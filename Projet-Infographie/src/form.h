@@ -5,7 +5,7 @@ des instances dans les panneaux d'interface dont celui de Hierarchie*/
 #pragma once
 
 #include "ofMain.h"
-class Formes
+class Form
 {
 public:
 	void setup();

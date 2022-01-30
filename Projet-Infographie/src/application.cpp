@@ -10,26 +10,27 @@ void ofApp::setup(){
 	
 // Panneau de propriete des objets     
 //Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
-	guiPropriete.setup();
-	guiPropriete.setPosition(ofGetWindowWidth() - guiPropriete.getWidth(), 0);
-	guiPropriete.add(labelPropriete.setup("Panneau", "Propriete"));
-	guiPropriete.add(intSlider.setup("intSlider", 64, 3, 64));
-	guiPropriete.add(floatSlider.setup("floatSlider", 30.0, 0.0, 300.0));
-	guiPropriete.add(toggle.setup("toggle", false));
-	guiPropriete.add(button.setup("button"));
+	guiProperties.setup();
+	guiProperties.setPosition(ofGetWindowWidth() - guiProperties.getWidth(), 0);
+	guiProperties.add(labelProperties.setup("Panneau", "Propriete"));
+	guiProperties.add(intSlider.setup("intSlider", 64, 3, 64));
+	guiProperties.add(floatSlider.setup("floatSlider", 30.0, 0.0, 300.0));
+	guiProperties.add(toggle.setup("toggle", false));
+	guiProperties.add(button.setup("button"));
 	
-	guiPropriete.add(intField.setup("int field", 100, 0, 100));
-	guiPropriete.add(floatField.setup("float field", 100.0, 0.0, 100.0));
-	guiPropriete.add(textField.setup("text field", "text"));
+	guiProperties.add(intField.setup("int field", 100, 0, 100));
+	guiProperties.add(floatField.setup("float field", 100.0, 0.0, 100.0));
+	guiProperties.add(textField.setup("text field", "text"));
 
-	guiPropriete.add(vec2Slider.setup("vec2 slider", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(ofGetWidth(),ofGetHeight())));
-	guiPropriete.add(vec3Slider.setup("vec3 slider", ofVec3f(100, 150,90), ofVec3f(0, 0,0), ofVec3f(255,255,255)));
-	guiPropriete.add(vec4Slider.setup("Couleur RGBA", ofVec4f(100, 100, 100,100), ofVec4f(0, 0, 0,0), ofVec4f(255,255, 255, 255)));
+	guiProperties.add(vec2Slider.setup("vec2 slider", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(ofGetWidth(),ofGetHeight())));
+	guiProperties.add(vec3Slider.setup("vec3 slider", ofVec3f(100, 150,90), ofVec3f(0, 0,0), ofVec3f(255,255,255)));
+	guiProperties.add(vec4Slider.setup("Couleur RGBA", ofVec4f(100, 100, 100,100), ofVec4f(0, 0, 0,0), ofVec4f(255,255, 255, 255)));
 
 	//panneau de hierarchie des objets ** À développer **
-	guiHierarchie.setup();
-	guiHierarchie.setPosition(0, 0);
-	guiHierarchie.add(labelHierarchie.setup("Panneau", "Hierarchie"));
+	guiHierarchy.setup();
+	guiHierarchy.setPosition(0, 0);
+	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
+	guiHierarchy.add(newObjectButton.setup("New object"));
 
 	//panneau de contrôle de formes. 
 // Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
@@ -39,17 +40,13 @@ void ofApp::setup(){
 	circleGroup.setup();
 	parameterGroup.add(circleGroup.circleParameters);
 
-	guiFormes.setup(parameterGroup);
-	guiFormes.setPosition(0, ofGetWindowHeight() - guiFormes.getHeight());
-
-	
+	guiForms.setup(parameterGroup);
+	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
 	renderer.update();
-
 }
 
 //--------------------------------------------------------------
@@ -69,10 +66,10 @@ void ofApp::draw(){
 	ofDrawCircle(vec2Slider->x, vec2Slider->y, 128);
 
 	//Apparition des fenêtres de l'interface
-	guiPropriete.draw();
-	guiHierarchie.draw();
+	guiProperties.draw();
+	guiHierarchy.draw();
 	circleGroup.draw();
-	guiFormes.draw();
+	guiForms.draw();
 
 	renderer.draw();
 
@@ -120,8 +117,8 @@ void ofApp::mouseExited(int x, int y){
 
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
-	guiPropriete.setPosition(ofGetWindowWidth() - guiPropriete.getWidth(), 0);
-	guiFormes.setPosition(0, ofGetWindowHeight() - guiFormes.getHeight());
+	guiProperties.setPosition(ofGetWindowWidth() - guiProperties.getWidth(), 0);
+	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
 }
 
 //--------------------------------------------------------------

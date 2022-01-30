@@ -4,17 +4,17 @@
 #include "ofxGui.h"
 
 #include "renderer.h"
-#include "formes.h"
+#include "form.h"
 
 class ofApp : public ofBaseApp{
 
 	Renderer renderer;
-	ofxPanel guiPropriete;
-	ofxPanel guiHierarchie;
-	ofxPanel guiFormes;
+	ofxPanel guiProperties;
+	ofxPanel guiHierarchy;
+	ofxPanel guiForms;
 
 	ofParameterGroup parameterGroup;
-	Formes circleGroup;
+	Form circleGroup;
 
 	public:
 		
@@ -38,8 +38,9 @@ class ofApp : public ofBaseApp{
 		ofxFloatSlider floatSlider;
 		ofxToggle toggle;
 		ofxButton button;
-		ofxLabel labelPropriete;
-		ofxLabel labelHierarchie;
+		ofxButton newObjectButton;
+		ofxLabel labelProperties;
+		ofxLabel labelHierarchy;
 
 		ofxFloatField floatField;
 		ofxIntField intField;
@@ -48,7 +49,6 @@ class ofApp : public ofBaseApp{
 		ofxVec2Slider vec2Slider;
 		ofxVec3Slider vec3Slider;
 		ofxVec4Slider vec4Slider;
-
 
 		
 };

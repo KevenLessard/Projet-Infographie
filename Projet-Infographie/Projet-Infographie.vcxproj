@@ -182,7 +182,7 @@
   <ItemGroup>
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\application.cpp" />
-    <ClCompile Include="src\formes.cpp" />
+    <ClCompile Include="src\form.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxBaseGui.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxButton.cpp" />
@@ -197,7 +197,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h" />
-    <ClInclude Include="src\formes.h" />
+    <ClInclude Include="src\form.h" />
     <ClInclude Include="src\renderer.h" />
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxBaseGui.h" />
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxButton.h" />
