@@ -7,6 +7,8 @@ void ofApp::setup(){
 	ofLog() << "<app::setup>";
 
 	renderer.setup();
+
+	is_verbose = false;
 	
 // Panneau de propriete des objets     
 //Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
@@ -83,35 +85,86 @@ void ofApp::keyPressed(int key){
 //--------------------------------------------------------------
 void ofApp::keyReleased(int key){
 
+	switch (key)
+	{
+	case 118: // touche v
+		is_verbose = !is_verbose;
+		ofLog() << "<verbose mode: " << is_verbose << ">";
+		break;
+
+	default:
+		ofSetBackgroundAuto(!ofGetBackgroundAuto());
+		break;
+	}
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseMoved(int x, int y ){
+
+	renderer.mouse_current_x = x;
+	renderer.mouse_current_y = y;
+
+	if (is_verbose)
+		ofLog() << "ofApp::mouseMoved   at: ( x :" << x << ", y:" << y << ")";
 
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseDragged(int x, int y, int button){
 
+	renderer.mouse_current_x = x;
+	renderer.mouse_current_y = y;
+
+	if (is_verbose)
+		ofLog() << "ofApp::mouseDragged   at: ( x :" << x << ", y:" << y << ")" "button:" << button;
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mousePressed(int x, int y, int button){
+
+	renderer.is_mouse_button_pressed = true;
+
+	renderer.mouse_current_x = x;
+	renderer.mouse_current_y = y;
+
+	renderer.mouse_press_x = x;
+	renderer.mouse_press_y = y;
+
+	ofLog() << "ofApp::mousePressed   at: ( x :" << x << ", y:" << y << ")";
 
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseReleased(int x, int y, int button){
 
+	renderer.is_mouse_button_pressed = false;
+
+	renderer.mouse_current_x = x;
+	renderer.mouse_current_y = y;
+
+	ofLog() << "ofApp::mouseReleased   at: ( x :" << x << ", y:" << y << ")";
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseEntered(int x, int y){
 
+	renderer.mouse_current_x = x;
+	renderer.mouse_current_y = y;
+
+	ofLog() << "ofApp::mouseEntered   at: ( x :" << x << ", y:" << y << ")";
+
 }
 
 //--------------------------------------------------------------
 void ofApp::mouseExited(int x, int y){
+
+	renderer.mouse_current_x = x;
+	renderer.mouse_current_y = y;
+
+	ofLog() << "ofApp::mouseExited  at: ( x :" << x << ", y:" << y << ")";
+
 
 }
 
