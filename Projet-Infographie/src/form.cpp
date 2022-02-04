@@ -11,11 +11,7 @@ void Form::setup()
 	circleParameters.setName("Controle de cercles");
 	circleParameters.add(name.set("cercle"));
 	
-	circleParameters.add(red.set("rouge", 255, 0, 255));
-	circleParameters.add(green.set("vert", 255, 0, 255));
-	circleParameters.add(blue.set("bleu", 255, 0, 255));
-	circleParameters.add(alpha.set("alpha", 255, 0, 255));
-
+	circleParameters.add(colorPickerCercle.set("couleur du cercle", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	circleParameters.add(positionX.set("position X", 500, 0, 1000));
 	circleParameters.add(positionY.set("position Y", 600, 0, 800));
 
@@ -25,6 +21,6 @@ void Form::setup()
 
 void Form::draw()
 {
-	ofSetColor(red, green, blue, alpha);
+	ofSetColor(colorPickerCercle);
 	ofCircle(positionX, positionY, radius);
 }
