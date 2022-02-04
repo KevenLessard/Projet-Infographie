@@ -16,6 +16,8 @@ class ofApp : public ofBaseApp{
 	ofParameterGroup parameterGroup;
 	Form circleGroup;
 
+	bool is_verbose;
+
 	public:
 		
 		void setup();
