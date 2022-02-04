@@ -13,8 +13,10 @@ public:
 
 // Parametre pour un cercle
 	ofParameterGroup circleParameters;
-
-	ofParameter<ofColor> colorPickerCercle;
+	ofParameter<int> red;
+	ofParameter<int> green;
+	ofParameter<int>blue;
+	ofParameter<int>alpha;
 
 	ofParameter<int> positionX;
 	ofParameter<int> positionY;
