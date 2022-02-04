@@ -114,3 +114,6 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/openframeworks+visualstudio,windows
+Projet-Infographie/bin/Projet-Infographie_debug.exe
+Projet-Infographie/bin/Projet-Infographie_debug.exp
+Projet-Infographie/bin/Projet-Infographie_debug.lib
