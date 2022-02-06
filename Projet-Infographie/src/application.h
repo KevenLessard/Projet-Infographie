@@ -5,10 +5,12 @@
 
 #include "renderer.h"
 #include "form.h"
+//#include "gestionImages.h"
 
 class ofApp : public ofBaseApp{
 
 	Renderer renderer;
+	//GestionImages gestionImages;
 	ofxPanel guiProperties;
 	ofxPanel guiHierarchy;
 	ofxPanel guiForms;
@@ -51,6 +53,14 @@ class ofApp : public ofBaseApp{
 		ofxVec2Slider vec2Slider;
 		ofxVec3Slider vec3Slider;
 		ofxVec4Slider vec4Slider;
+		
+		
+		void openFileSelection(ofFileDialogResult openFileResult);
 
+		void actionResearchImages();
+
+		vector<ofImage>loadedImages;
+		vector<ofImage>processedImages;
+		string originalFileExtension;
 		
 };

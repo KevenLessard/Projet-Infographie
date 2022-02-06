@@ -7,6 +7,7 @@ void ofApp::setup(){
 	ofLog() << "<app::setup>";
 
 	renderer.setup();
+	//gestionImages.setup();
 
 	is_verbose = false;
 	
@@ -49,6 +50,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	renderer.update();
+	//gestionImages.update();
 }
 
 //--------------------------------------------------------------
@@ -60,12 +62,13 @@ void ofApp::draw(){
 		ofSetColor(ofRandom(vec3Slider->x), ofRandom(vec3Slider->y), ofRandom(vec3Slider->z));
 	}
 
-	ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, 120);
+	
 
 	// Assignation des sliders pour set la couleur, la position ou la resolution d'un cercle.
 	ofSetCircleResolution(intSlider);
 	ofSetColor(vec4Slider->r,vec4Slider->g, vec4Slider->b, vec4Slider->a);
 	ofDrawCircle(vec2Slider->x, vec2Slider->y, 128);
+	ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, 120);
 
 	//Apparition des fenêtres de l'interface
 	guiProperties.draw();
@@ -74,9 +77,77 @@ void ofApp::draw(){
 	guiForms.draw();
 
 	renderer.draw();
+	//gestionImages.draw();
 
+	//dessin de l'image chargée dans le buffer loadedImages.
+	ofDrawBitmapString("Press r to open an image, v to switch verbose mode", ofGetWidth()/2, ofGetHeight() -10);
+	for (unsigned int i = 0; i < loadedImages.size(); i++) {
+		loadedImages[i].draw(0, 20);
+		
+	}
+	
 }
 
+//---------------------------------------------------------------
+//Sort function for stl::sort http://www.cplusplus.com/reference/algorithm/sort/
+bool sortColorFunction(ofColor i, ofColor j) {
+	return (i.getBrightness() < j.getBrightness());
+}
+
+//--------------------------------------------------------------
+//Fonction pour charger un fichier choisi lors de la recherche dans le réseau local.
+void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
+
+	ofLog()<<"getName(): " + openFileResult.getName();
+	ofLog()<<"getPath(): " + openFileResult.getPath();
+
+	ofFile file(openFileResult.getPath());
+
+	if (file.exists()) {
+		//présentement, nous chargons une seule image à la fois
+		loadedImages.clear();
+
+		ofLog()<<"The file exists - now checking the type via file extension";
+		string fileExtension = ofToUpper(file.getExtension());
+
+		if (fileExtension == "JPG" || fileExtension == "PNG") {
+
+			// Conserver l'extention pour la sauvegarde future
+			originalFileExtension = fileExtension;
+
+			//Load l'image choisie
+			ofImage image;
+			image.load(openFileResult.getPath());
+			if (image.getWidth() > ofGetWidth() || image.getHeight() > ofGetHeight())
+			{
+				image.resize(image.getWidth() / 2, image.getHeight() / 2);
+			}
+			loadedImages.push_back(image);
+			ofLog() << "loading completed";
+			
+		}
+	}
+}
+
+//--------------------------------------------------------------
+//Fonction pour rechercher dans le réseau local une image
+void ofApp::actionResearchImages() {
+
+	//Open the Open File Dialog
+	ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une image (JPG ou PNG)";
+
+	//Check if the user opened a file
+	if (openFileResult.bSuccess) {
+
+		ofLog()<<"file selected";
+
+		//ouvrir l'image choisie
+		openFileSelection(openFileResult);
+	}
+	else {
+		ofLog()<<"operation canceled by user";
+	}
+}
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
@@ -87,7 +158,16 @@ void ofApp::keyReleased(int key){
 
 	switch (key)
 	{
-	case 118: // touche v
+
+		
+	case 114: // touche r pour rechercher une image
+		
+		ofLog() << " recherche image";
+		actionResearchImages();
+			
+		break;
+		
+	case 118: // touche v pour verbose
 		is_verbose = !is_verbose;
 		ofLog() << "<verbose mode: " << is_verbose << ">";
 		break;
@@ -96,7 +176,6 @@ void ofApp::keyReleased(int key){
 		ofSetBackgroundAuto(!ofGetBackgroundAuto());
 		break;
 	}
-
 }
 
 //--------------------------------------------------------------
