@@ -134,7 +134,7 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 void ofApp::actionResearchImages() {
 
 	//Open the Open File Dialog
-	ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une image (JPG ou PNG)";
+	ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une image (JPG ou PNG)");
 
 	//Check if the user opened a file
 	if (openFileResult.bSuccess) {

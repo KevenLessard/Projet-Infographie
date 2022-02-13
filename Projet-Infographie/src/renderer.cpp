@@ -36,7 +36,7 @@ void Renderer::draw_cursor(float x, float y) const
 
     ofDrawCircle(x, y, 20);
     ofDrawCircle(x, y, 1);
-//ofNoFill();
+    //ofNoFill();
     
 /*
     ofDrawLine(x + offset, y, x + offset + length, y);
