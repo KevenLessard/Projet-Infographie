@@ -1,19 +1,21 @@
 #include "import3DModel.h"
 
-//import3DModel::Model(std::string filename)
-//{
-//
-//}
+Model3D::Model3D(std::string _file_name){
+	model3D.loadModel(_file_name);
+	file_name = _file_name;
+}
 
-void Model3D::modelTest() {
-	model.loadModel("teapot.obj");
+Model3D::Model3D() {
+	model3D.loadModel("teapot.obj");
 	file_name = "teapot.obj";
 }
 
+
+
 void Model3D::draw() {
-	model.setRotation(0, 0, 0, 0, 0);
-	model.setScale(1, 1, 1);
-	model.drawFaces();
+	model3D.setRotation(0, 0, 0, 0, 0);
+	model3D.setScale(1, 1, 1);
+	model3D.drawFaces();
 }
 
 void Model3D::update() {
