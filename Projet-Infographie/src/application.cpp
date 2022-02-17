@@ -32,8 +32,8 @@ void ofApp::setup(){
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
-	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
-	guiHierarchy.add(newObjectButton.setup("New object"));
+	guiHierarchy.add(labelHierarchy.setup("Panneau", "Objet"));
+	guiHierarchy.add(new3DObjectButton.setup("Teapot"));
 
 	//panneau de contrôle de formes. 
 // Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
@@ -87,6 +87,7 @@ void ofApp::draw(){
 	}
 	
 }
+
 
 //---------------------------------------------------------------
 //Sort function for stl::sort http://www.cplusplus.com/reference/algorithm/sort/
@@ -171,6 +172,9 @@ void ofApp::keyReleased(int key){
 		is_verbose = !is_verbose;
 		ofLog() << "<verbose mode: " << is_verbose << ">";
 		break;
+
+	case 119: //W
+		renderer.add_Model3D();
 
 	default:
 		ofSetBackgroundAuto(!ofGetBackgroundAuto());

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "import3DModel.h"
+#include <vector>
 
 class Renderer
 {
@@ -18,6 +20,8 @@ public:
 	void setup();
 	void update();
 	void draw();
+
+	void add_Model3D();
 
 	void draw_cursor(float x, float y) const;
 

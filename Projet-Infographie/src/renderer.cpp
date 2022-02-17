@@ -54,3 +54,9 @@ void Renderer::draw()
 	// afficher le curseur
 	draw_cursor(mouse_current_x, mouse_current_y);
 }
+
+void Renderer::add_Model3D(){
+    Model3D *model3D = new Model3D();
+    model3D->modelTest();
+    model3D->draw();
+}
