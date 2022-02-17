@@ -13,6 +13,8 @@ Model3D::Model3D() {
 
 
 void Model3D::draw() {
+	ofSetColor(255);
+	model3D.setPosition(ofGetWidth()/2, ofGetHeight()/2, 0);
 	model3D.setRotation(0, 0, 0, 0, 0);
 	model3D.setScale(1, 1, 1);
 	model3D.drawFaces();
