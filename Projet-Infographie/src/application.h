@@ -52,5 +52,6 @@ class ofApp : public ofBaseApp{
 		ofxVec3Slider vec3Slider;
 		ofxVec4Slider vec4Slider;
 
-		
+private:
+	void addNewObject();
 };

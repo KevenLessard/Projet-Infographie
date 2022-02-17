@@ -20,19 +20,20 @@ void ofApp::setup(){
 	guiProperties.add(toggle.setup("toggle", false));
 	guiProperties.add(button.setup("button"));
 	
-	guiProperties.add(intField.setup("int field", 100, 0, 100));
+	guiProperties.add(intField.setup("int field", 0, 0, 100));
 	guiProperties.add(floatField.setup("float field", 100.0, 0.0, 100.0));
 	guiProperties.add(textField.setup("text field", "text"));
 
 	guiProperties.add(vec2Slider.setup("vec2 slider", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(ofGetWidth(),ofGetHeight())));
-	guiProperties.add(vec3Slider.setup("vec3 slider", ofVec3f(100, 150,90), ofVec3f(0, 0,0), ofVec3f(255,255,255)));
-	guiProperties.add(vec4Slider.setup("Couleur RGBA", ofVec4f(100, 100, 100,100), ofVec4f(0, 0, 0,0), ofVec4f(255,255, 255, 255)));
+	guiProperties.add(vec3Slider.setup("Position", ofVec3f(100, 150,90), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
+	guiProperties.add(vec4Slider.setup("Rotation", ofVec4f(0, 0, 0,0), ofVec4f(0, 0, 0,0), ofVec4f(360,360, 360, 360)));
 
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
-	guiHierarchy.add(newObjectButton.setup("New object"));
+	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
+	newObjectButton.addListener(this, &ofApp::addNewObject);
 
 	//panneau de contrôle de formes. 
 // Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
@@ -48,6 +49,12 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	int index = intField;
+	ofVec3f newPosition(vec3Slider);
+	renderer.moveObject(index, newPosition);
+	ofVec4f temp(vec4Slider);
+	ofQuaternion newRotation(temp);
+	renderer.rotateObject(index, newRotation);
 	renderer.update();
 }
 
@@ -60,21 +67,17 @@ void ofApp::draw(){
 		ofSetColor(ofRandom(vec3Slider->x), ofRandom(vec3Slider->y), ofRandom(vec3Slider->z));
 	}
 
-	ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, 120);
-
 	// Assignation des sliders pour set la couleur, la position ou la resolution d'un cercle.
-	ofSetCircleResolution(intSlider);
+	//ofSetCircleResolution(intSlider);
 	ofSetColor(vec4Slider->r,vec4Slider->g, vec4Slider->b, vec4Slider->a);
-	ofDrawCircle(vec2Slider->x, vec2Slider->y, 128);
+	//ofDrawCircle(vec2Slider->x, vec2Slider->y, 128);
+
+	renderer.draw();
 
 	//Apparition des fenêtres de l'interface
 	guiProperties.draw();
 	guiHierarchy.draw();
-	circleGroup.draw();
 	guiForms.draw();
-
-	renderer.draw();
-
 }
 
 //--------------------------------------------------------------
@@ -182,4 +185,8 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
 
+}
+
+void ofApp::addNewObject() {
+	renderer.addNew3dObject();
 }
