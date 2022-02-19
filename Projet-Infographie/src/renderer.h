@@ -28,4 +28,6 @@ public:
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
 	void rotateObject(int index, ofVec3f newRotation);
+	void image_export(const string name, const string extension) const;
+
 };

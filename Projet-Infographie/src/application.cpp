@@ -25,7 +25,11 @@ void ofApp::setup(){
 	guiProperties.add(proportionGroup);
 	guiProperties.add(positionSlider.setup("Position", ofVec3f(0, 0,0), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
 	guiProperties.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360,360, 360)));
+
+	//Informations de sauvegarde dynamique
 	guiProperties.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
+	guiProperties.add(intSliderTakes.setup("nombre de prises", 1, 1, 24));
+	guiProperties.add(floatSliderTime.setup("temps sauvegarde (secondes)", 5.0, 1.0, 30.0));
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
@@ -155,6 +159,29 @@ void ofApp::keyReleased(int key){
 		ofLog() << " recherche image";
 		actionResearchImages();
 			
+		break;
+
+	case 115: // touche s pour sauvegarde dynamique de la scene
+
+		ofLog() << "Touche S activé et relachee";
+		nbTakes = intSliderTakes;
+		timeByTakes = (floatSliderTime / nbTakes);
+		i = 0;
+		while (i != nbTakes)
+		{
+			ofResetElapsedTimeCounter();
+			timePassed = ofGetElapsedTimef();
+			while (timePassed < timeByTakes)
+			{
+				//ofLog() << "timeBytakes" << timeByTakes;
+				timePassed = ofGetElapsedTimef();
+				//ofLog() << "timePassed" << timePassed;
+			}
+			renderer.image_export("serie", "png");
+			ofLog() << "image" << i << "exporte";
+			ofResetElapsedTimeCounter();
+			i++;
+		}
 		break;
 		
 	case 118: // touche v pour verbose
