@@ -16,19 +16,16 @@ void ofApp::setup(){
 	guiProperties.setup();
 	guiProperties.setPosition(ofGetWindowWidth() - guiProperties.getWidth(), 0);
 	guiProperties.add(labelProperties.setup("Panneau", "Propriete"));
-	guiProperties.add(intSlider.setup("intSlider", 64, 3, 64));
-	guiProperties.add(floatSlider.setup("floatSlider", 30.0, 0.0, 300.0));
-	guiProperties.add(toggle.setup("toggle", false));
-	guiProperties.add(button.setup("button"));
 	
 	guiProperties.add(intField.setup("index objet", 0, 0, 100));
-	//guiProperties.add(floatField.setup("float field", 100.0, 0.0, 100.0));
-	//guiProperties.add(textField.setup("text field", "text"));
-
-	guiProperties.add(proportionSlider.setup("Proportion", ofVec3f(1, 1, 1), ofVec3f(0, 0, 0), ofVec3f(100, 100, 100)));
+	proportionGroup.setName("Proportion");
+	proportionGroup.add(proportionX.set("X", 1, 0, 1000));
+	proportionGroup.add(proportionX.set("Y", 1, 0, 1000));
+	proportionGroup.add(proportionX.set("Z", 1, 0, 1000));
+	guiProperties.add(proportionGroup);
 	guiProperties.add(positionSlider.setup("Position", ofVec3f(0, 0,0), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
 	guiProperties.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360,360, 360)));
-
+	guiProperties.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
@@ -53,7 +50,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	int index = intField;
-	ofVec3f newProportion(proportionSlider);
+	ofVec3f newProportion(proportionX, proportionY, proportionZ);
 	renderer.proportionateObject(index, newProportion);
 	ofVec3f newPosition(positionSlider);
 	renderer.moveObject(index, newPosition);
@@ -71,15 +68,12 @@ void ofApp::draw(){
 	guiProperties.draw();
 	guiHierarchy.draw();
 	guiForms.draw();
-
-	renderer.draw();
 	//gestionImages.draw();
 
 	//dessin de l'image chargée dans le buffer loadedImages.
 	ofDrawBitmapString("Press r to open an image, v to switch verbose mode", ofGetWidth()/2, ofGetHeight() -10);
 	for (unsigned int i = 0; i < loadedImages.size(); i++) {
 		loadedImages[i].draw(0, 20);
-		
 	}
 	
 }

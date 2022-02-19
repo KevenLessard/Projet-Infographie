@@ -51,10 +51,16 @@ class ofApp : public ofBaseApp{
 		ofxIntField intField;
 		ofxTextField textField;
 
+		ofParameterGroup proportionGroup;
+		ofParameter<float> proportionX;
+		ofParameter<float> proportionY;
+		ofParameter<float> proportionZ;
 
-		ofxVec3Slider proportionSlider;
 		ofxVec3Slider positionSlider;
 		ofxVec3Slider rotationSlider;
+
+		ofParameterGroup colorGroup;
+		ofParameter<ofColor> colorPicker;
 
 private:
 	void addNewObject();
