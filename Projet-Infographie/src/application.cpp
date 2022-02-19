@@ -33,6 +33,9 @@ void ofApp::setup(){
 	guiProperties.add(intSliderTakes.setup("nombre de prises", 1, 1, 24));
 	guiProperties.add(floatSliderTime.setup("temps sauvegarde (secondes)", 5.0, 1.0, 30.0));
 
+	//propriété de couleurs
+	guiProperties.add(renderer.colorPicker.set("couleur de l'objet", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
+
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
@@ -64,7 +67,7 @@ void ofApp::update(){
 	ofVec3f newRotation(rotationSlider);
 	renderer.rotateObject(index, newRotation);
 	renderer.update();
-	//gestionImages.update();
+	
 }
 
 //--------------------------------------------------------------
@@ -89,7 +92,7 @@ void ofApp::draw(){
 }
 
 //---------------------------------------------------------------
-//Sort function for stl::sort http://www.cplusplus.com/reference/algorithm/sort/
+//Sort function 
 bool sortColorFunction(ofColor i, ofColor j) {
 	return (i.getBrightness() < j.getBrightness());
 }

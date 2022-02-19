@@ -5,12 +5,10 @@
 
 #include "renderer.h"
 #include "form.h"
-//#include "gestionImages.h"
 
 class ofApp : public ofBaseApp{
 
 	Renderer renderer;
-	//GestionImages gestionImages;
 	ofxPanel guiProperties;
 	ofxPanel guiHierarchy;
 	ofxPanel guiForms;
@@ -57,6 +55,7 @@ class ofApp : public ofBaseApp{
 		ofxVec3Slider proportionSlider;
 		ofxVec3Slider positionSlider;
 		ofxVec3Slider rotationSlider;
+		
 
 		float timeByTakes;
 		int i = 0;

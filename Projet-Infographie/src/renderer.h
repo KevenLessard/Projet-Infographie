@@ -15,8 +15,9 @@ public:
 	float center_y;
 
 	bool is_mouse_button_pressed;
-
+	
 	vector<of3dPrimitive*> objects;
+	ofParameter<ofColor> colorPicker;
 
 	void setup();
 	void update();
@@ -29,5 +30,6 @@ public:
 	void moveObject(int index, ofVec3f newPosition);
 	void rotateObject(int index, ofVec3f newRotation);
 	void image_export(const string name, const string extension) const;
+	void getHsb(float& hue, float& saturation, float& brightness) const;
 
 };
