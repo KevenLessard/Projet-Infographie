@@ -20,16 +20,17 @@ void ofApp::setup(){
 	guiProperties.add(intField.setup("index objet", 0, 0, 100));
 	proportionGroup.setName("Proportion");
 	proportionGroup.add(proportionX.set("X", 1, 0, 1000));
-	proportionGroup.add(proportionX.set("Y", 1, 0, 1000));
-	proportionGroup.add(proportionX.set("Z", 1, 0, 1000));
+	proportionGroup.add(proportionY.set("Y", 1, 0, 1000));
+	proportionGroup.add(proportionZ.set("Z", 1, 0, 1000));
 	guiProperties.add(proportionGroup);
 	guiProperties.add(positionSlider.setup("Position", ofVec3f(0, 0,0), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
 	guiProperties.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360,360, 360)));
+	guiProperties.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 
 	//Informations de sauvegarde dynamique
-	guiProperties.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties.add(intSliderTakes.setup("nombre de prises", 1, 1, 24));
 	guiProperties.add(floatSliderTime.setup("temps sauvegarde (secondes)", 5.0, 1.0, 30.0));
+
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
