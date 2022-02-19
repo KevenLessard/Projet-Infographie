@@ -5,6 +5,7 @@
 
 #include "renderer.h"
 #include "form.h"
+#include "import3DModel.h"
 //#include "gestionImages.h"
 
 class ofApp : public ofBaseApp{
@@ -42,7 +43,7 @@ class ofApp : public ofBaseApp{
 		ofxFloatSlider floatSlider;
 		ofxToggle toggle;
 		ofxButton button;
-		ofxButton newObjectButton;
+		ofxButton new3DObjectButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
