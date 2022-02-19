@@ -43,6 +43,7 @@ class ofApp : public ofBaseApp{
 		ofxToggle toggle;
 		ofxButton button;
 		ofxButton newObjectButton;
+		ofxButton newCubeButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
@@ -50,9 +51,14 @@ class ofApp : public ofBaseApp{
 		ofxIntField intField;
 		ofxTextField textField;
 
-		ofxVec2Slider vec2Slider;
-		ofxVec3Slider vec3Slider;
-		ofxVec4Slider vec4Slider;
+
+		ofxVec3Slider proportionSlider;
+		ofxVec3Slider positionSlider;
+		ofxVec3Slider rotationSlider;
+
+private:
+	void addNewObject();
+	void addNewSphere();
 		
 		
 		void openFileSelection(ofFileDialogResult openFileResult);
