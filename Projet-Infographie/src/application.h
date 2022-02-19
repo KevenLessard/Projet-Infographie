@@ -10,10 +10,12 @@
 class ofApp : public ofBaseApp{
 
 	Renderer renderer;
-	//GestionImages gestionImages;
+	
 	ofxPanel guiProperties;
 	ofxPanel guiHierarchy;
 	ofxPanel guiForms;
+
+	
 
 	ofParameterGroup parameterGroup;
 	Form circleGroup;
@@ -43,6 +45,7 @@ class ofApp : public ofBaseApp{
 		ofxToggle toggle;
 		ofxButton button;
 		ofxButton newObjectButton;
+		ofxButton RGBtoHSV;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 

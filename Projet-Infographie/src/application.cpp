@@ -41,9 +41,10 @@ void ofApp::setup(){
 	
 
 	circleGroup.setup();
-	parameterGroup.add(circleGroup.circleParameters);
+	parameterGroup.add(circleGroup.Parameters);
 
 	guiForms.setup(parameterGroup);
+	guiForms.add(RGBtoHSV.setup("RGB to HSV"));
 	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
 }
 
@@ -56,19 +57,12 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
-	//Test de fonctionnement d'un bouton dans le gui de propriété
-	if (button)
-	{
-		ofSetColor(ofRandom(vec3Slider->x), ofRandom(vec3Slider->y), ofRandom(vec3Slider->z));
-	}
-
 	
-
 	// Assignation des sliders pour set la couleur, la position ou la resolution d'un cercle.
 	ofSetCircleResolution(intSlider);
 	ofSetColor(vec4Slider->r,vec4Slider->g, vec4Slider->b, vec4Slider->a);
 	ofDrawCircle(vec2Slider->x, vec2Slider->y, 128);
-	ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, 120);
+	
 
 	//Apparition des fenêtres de l'interface
 	guiProperties.draw();
@@ -148,6 +142,8 @@ void ofApp::actionResearchImages() {
 		ofLog()<<"operation canceled by user";
 	}
 }
+
+
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
@@ -159,7 +155,14 @@ void ofApp::keyReleased(int key){
 	switch (key)
 	{
 
-		
+	case 49: // creation d'un cercle
+
+		ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, 120);
+
+		break;
+
+
+
 	case 114: // touche r pour rechercher une image
 		
 		ofLog() << " recherche image";
@@ -171,6 +174,7 @@ void ofApp::keyReleased(int key){
 		is_verbose = !is_verbose;
 		ofLog() << "<verbose mode: " << is_verbose << ">";
 		break;
+
 
 	default:
 		ofSetBackgroundAuto(!ofGetBackgroundAuto());
@@ -224,6 +228,8 @@ void ofApp::mouseReleased(int x, int y, int button){
 	renderer.mouse_current_y = y;
 
 	ofLog() << "ofApp::mouseReleased   at: ( x :" << x << ", y:" << y << ")";
+
+
 }
 
 //--------------------------------------------------------------
