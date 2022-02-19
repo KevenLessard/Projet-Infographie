@@ -14,7 +14,8 @@ void Renderer::setup()
 
 void Renderer::update()
 {
-
+    center_x = ofGetWidth() / 2.0f;
+    center_y = ofGetHeight() / 2.0f;
 }
 
 // fonction de dessin du curseur
@@ -42,16 +43,19 @@ void Renderer::draw_cursor(float x, float y) const
 
 void Renderer::draw()
 {
+    ofPushMatrix();
+    ofTranslate(center_x, center_y, 0);
     ofEnableDepthTest();
-
     for (of3dPrimitive* object : objects) {
         ofPushMatrix();
         ofFill();
-        ofSetColor(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
-        object->drawAxes(10);
+        ofSetColor(61, 61, 205);
+        object->drawAxes(100);
+        object->draw(OF_MESH_WIREFRAME);
         ofPopMatrix();
     }
     ofDisableDepthTest();
+    ofPopMatrix();
 }
 
 void Renderer::addNew3dObject() {
@@ -62,23 +66,35 @@ void Renderer::addNew3dObject() {
         object->setParent(*objects[objects.size() - 1]);
         object->setScale(1, 1, 1);
     }
-    object->setPosition(60, 60, 0);
+    object->setPosition(ofRandom(0, ofGetWidth()), ofRandom(0, ofGetHeight()), 0);
     objects.push_back(object);
+}
+
+void Renderer::addNewSphere() {
+    ofSpherePrimitive* sphere = new ofSpherePrimitive();
+    sphere->setRadius(10);
+    objects.push_back(sphere);
+}
+
+void Renderer::proportionateObject(int index, ofVec3f newProportion) {
+    if (index >= objects.size()) {
+        return;
+    }
+    objects[index]->setScale(newProportion);
 }
 
 void Renderer::moveObject(int index, ofVec3f newPosition) {
     if (index >= objects.size()) {
         return;
     }
-        
     objects[index]->setPosition(newPosition);
-    ofColor color(ofRandom(0, 255), ofRandom(0, 255), ofRandom(0, 255));
 }
 
-void Renderer::rotateObject(int index, ofQuaternion newRotation) {
+void Renderer::rotateObject(int index, ofVec3f newRotation) {
     if (index >= objects.size()) {
         return;
     }
-    
+    ofQuaternion actualRotation(newRotation);
+
     objects[index]->setOrientation(newRotation);
 }

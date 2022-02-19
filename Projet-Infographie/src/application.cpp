@@ -10,8 +10,8 @@ void ofApp::setup(){
 
 	is_verbose = false;
 	
-// Panneau de propriete des objets     
-//Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
+	//Panneau de propriete des objets     
+	//Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
 	guiProperties.setup();
 	guiProperties.setPosition(ofGetWindowWidth() - guiProperties.getWidth(), 0);
 	guiProperties.add(labelProperties.setup("Panneau", "Propriete"));
@@ -20,23 +20,25 @@ void ofApp::setup(){
 	guiProperties.add(toggle.setup("toggle", false));
 	guiProperties.add(button.setup("button"));
 	
-	guiProperties.add(intField.setup("int field", 0, 0, 100));
-	guiProperties.add(floatField.setup("float field", 100.0, 0.0, 100.0));
-	guiProperties.add(textField.setup("text field", "text"));
+	guiProperties.add(intField.setup("index objet", 0, 0, 100));
+	//guiProperties.add(floatField.setup("float field", 100.0, 0.0, 100.0));
+	//guiProperties.add(textField.setup("text field", "text"));
 
-	guiProperties.add(vec2Slider.setup("vec2 slider", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(ofGetWidth(),ofGetHeight())));
-	guiProperties.add(vec3Slider.setup("Position", ofVec3f(100, 150,90), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
-	guiProperties.add(vec4Slider.setup("Rotation", ofVec4f(0, 0, 0,0), ofVec4f(0, 0, 0,0), ofVec4f(360,360, 360, 360)));
+	guiProperties.add(proportionSlider.setup("Proportion", ofVec3f(1, 1, 1), ofVec3f(0, 0, 0), ofVec3f(100, 100, 100)));
+	guiProperties.add(positionSlider.setup("Position", ofVec3f(0, 0,0), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
+	guiProperties.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360,360, 360)));
 
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
+	guiHierarchy.add(newCubeButton.setup("New sphere"));
 	newObjectButton.addListener(this, &ofApp::addNewObject);
+	newCubeButton.addListener(this, &ofApp::addNewSphere);
 
 	//panneau de contrôle de formes. 
-// Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
+	//Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
 	//Certaines choses se recoupent entre les deux sections (panneau de propriété) mais nous ferons des choix.
 	
 
@@ -50,28 +52,17 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	int index = intField;
-	ofVec3f newPosition(vec3Slider);
+	ofVec3f newProportion(proportionSlider);
+	renderer.proportionateObject(index, newProportion);
+	ofVec3f newPosition(positionSlider);
 	renderer.moveObject(index, newPosition);
-	ofVec4f temp(vec4Slider);
-	ofQuaternion newRotation(temp);
+	ofVec3f newRotation(rotationSlider);
 	renderer.rotateObject(index, newRotation);
 	renderer.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
-	//Test de fonctionnement d'un bouton dans le gui de propriété
-	if (button)
-	{
-		ofSetColor(ofRandom(vec3Slider->x), ofRandom(vec3Slider->y), ofRandom(vec3Slider->z));
-	}
-
-	// Assignation des sliders pour set la couleur, la position ou la resolution d'un cercle.
-	//ofSetCircleResolution(intSlider);
-	ofSetColor(vec4Slider->r,vec4Slider->g, vec4Slider->b, vec4Slider->a);
-	//ofDrawCircle(vec2Slider->x, vec2Slider->y, 128);
-
 	renderer.draw();
 
 	//Apparition des fenêtres de l'interface
@@ -167,8 +158,6 @@ void ofApp::mouseExited(int x, int y){
 	renderer.mouse_current_y = y;
 
 	ofLog() << "ofApp::mouseExited  at: ( x :" << x << ", y:" << y << ")";
-
-
 }
 
 //--------------------------------------------------------------
@@ -189,4 +178,8 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 
 void ofApp::addNewObject() {
 	renderer.addNew3dObject();
+}
+
+void ofApp::addNewSphere() {
+	renderer.addNewSphere();
 }

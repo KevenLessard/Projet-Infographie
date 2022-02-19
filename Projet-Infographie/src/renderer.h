@@ -11,6 +11,9 @@ public:
 	int mouse_current_x;
 	int mouse_current_y;
 
+	float center_x;
+	float center_y;
+
 	bool is_mouse_button_pressed;
 
 	vector<of3dPrimitive*> objects;
@@ -21,6 +24,8 @@ public:
 
 	void draw_cursor(float x, float y) const;
 	void addNew3dObject();
+	void addNewSphere();
+	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
-	void rotateObject(int index, ofQuaternion newRotation);
+	void rotateObject(int index, ofVec3f newRotation);
 };
