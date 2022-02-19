@@ -5,17 +5,16 @@
 
 #include "renderer.h"
 #include "form.h"
+#include "import3DModel.h"
 //#include "gestionImages.h"
 
 class ofApp : public ofBaseApp{
 
 	Renderer renderer;
-	
+	//GestionImages gestionImages;
 	ofxPanel guiProperties;
 	ofxPanel guiHierarchy;
 	ofxPanel guiForms;
-
-	
 
 	ofParameterGroup parameterGroup;
 	Form circleGroup;
@@ -44,8 +43,7 @@ class ofApp : public ofBaseApp{
 		ofxFloatSlider floatSlider;
 		ofxToggle toggle;
 		ofxButton button;
-		ofxButton newObjectButton;
-		ofxButton RGBtoHSV;
+		ofxButton new3DObjectButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 

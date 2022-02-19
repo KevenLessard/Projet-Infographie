@@ -32,8 +32,8 @@ void ofApp::setup(){
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
-	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
-	guiHierarchy.add(newObjectButton.setup("New object"));
+	guiHierarchy.add(labelHierarchy.setup("Panneau", "Objet"));
+	guiHierarchy.add(new3DObjectButton.setup("Teapot"));
 
 	//panneau de contrôle de formes. 
 // Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
@@ -41,10 +41,9 @@ void ofApp::setup(){
 	
 
 	circleGroup.setup();
-	parameterGroup.add(circleGroup.Parameters);
+	parameterGroup.add(circleGroup.circleParameters);
 
 	guiForms.setup(parameterGroup);
-	guiForms.add(RGBtoHSV.setup("RGB to HSV"));
 	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
 }
 
@@ -57,12 +56,19 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 
+	//Test de fonctionnement d'un bouton dans le gui de propriété
+	if (button)
+	{
+		ofSetColor(ofRandom(vec3Slider->x), ofRandom(vec3Slider->y), ofRandom(vec3Slider->z));
+	}
+
 	
+
 	// Assignation des sliders pour set la couleur, la position ou la resolution d'un cercle.
 	ofSetCircleResolution(intSlider);
 	ofSetColor(vec4Slider->r,vec4Slider->g, vec4Slider->b, vec4Slider->a);
 	ofDrawCircle(vec2Slider->x, vec2Slider->y, 128);
-	
+	ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, 120);
 
 	//Apparition des fenêtres de l'interface
 	guiProperties.draw();
@@ -81,6 +87,7 @@ void ofApp::draw(){
 	}
 	
 }
+
 
 //---------------------------------------------------------------
 //Sort function for stl::sort http://www.cplusplus.com/reference/algorithm/sort/
@@ -142,8 +149,6 @@ void ofApp::actionResearchImages() {
 		ofLog()<<"operation canceled by user";
 	}
 }
-
-
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 
@@ -155,14 +160,7 @@ void ofApp::keyReleased(int key){
 	switch (key)
 	{
 
-	case 49: // creation d'un cercle
-
-		ofDrawCircle(ofGetWidth() / 2, ofGetHeight() / 2, 120);
-
-		break;
-
-
-
+		
 	case 114: // touche r pour rechercher une image
 		
 		ofLog() << " recherche image";
@@ -175,6 +173,8 @@ void ofApp::keyReleased(int key){
 		ofLog() << "<verbose mode: " << is_verbose << ">";
 		break;
 
+	case 119: //W
+		renderer.add_Model3D();
 
 	default:
 		ofSetBackgroundAuto(!ofGetBackgroundAuto());
@@ -228,8 +228,6 @@ void ofApp::mouseReleased(int x, int y, int button){
 	renderer.mouse_current_y = y;
 
 	ofLog() << "ofApp::mouseReleased   at: ( x :" << x << ", y:" << y << ")";
-
-
 }
 
 //--------------------------------------------------------------

@@ -3,12 +3,19 @@
 
 void Renderer::setup()
 {
-	{
-		mouse_press_x = mouse_press_y = mouse_current_x = mouse_current_y = 0;
+    ofSetBackgroundColor(31);
 
-		is_mouse_button_pressed = false;
+    //Pour3D
+    speed = 100.0f;
+    is_flip_axis_y = false;
 
-	}
+    offset_x = 0.0f;
+    offset_z = 0.0f;
+
+    delta_x = speed;
+    delta_z = speed;
+
+
 }
 
 void Renderer::update()
@@ -48,9 +55,18 @@ void Renderer::draw_cursor(float x, float y) const
 
 void Renderer::draw()
 {
+    ofTranslate(center_x + offset_x, is_flip_axis_y ? -center_y : center_y, offset_z);
+    for (Object3D* obj : objects3D) {
+        obj->draw();
+    }
 	// épaisseur du trait
 	ofSetLineWidth(2);
 
 	// afficher le curseur
 	draw_cursor(mouse_current_x, mouse_current_y);
+}
+
+void Renderer::add_Model3D(){
+    Model3D *model3D = new Model3D();
+    objects3D.push_back(model3D);
 }
