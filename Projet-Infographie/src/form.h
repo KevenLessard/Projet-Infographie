@@ -12,7 +12,6 @@ class Form
 public:
 	Form();
 
-
 	void setup();
 	void draw();
 	

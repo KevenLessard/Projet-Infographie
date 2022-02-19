@@ -41,6 +41,8 @@ class ofApp : public ofBaseApp{
 
 		ofxIntSlider intSlider;
 		ofxFloatSlider floatSlider;
+		ofxIntSlider intSliderTakes;
+		ofxFloatSlider floatSliderTime;
 		ofxToggle toggle;
 		ofxButton button;
 		ofxButton new3DObjectButton;
@@ -63,5 +65,10 @@ class ofApp : public ofBaseApp{
 		vector<ofImage>loadedImages;
 		vector<ofImage>processedImages;
 		string originalFileExtension;
+
+		float timeByTakes;
+		int i = 0;
+		int nbTakes;
+		float timePassed;
 		
 };

@@ -6,6 +6,8 @@ void ofApp::setup(){
 	ofSetWindowTitle("Moteur de rendu 2d/3d");
 	ofLog() << "<app::setup>";
 
+	
+
 	renderer.setup();
 	//gestionImages.setup();
 
@@ -29,6 +31,10 @@ void ofApp::setup(){
 	guiProperties.add(vec3Slider.setup("vec3 slider", ofVec3f(100, 150,90), ofVec3f(0, 0,0), ofVec3f(255,255,255)));
 	guiProperties.add(vec4Slider.setup("Couleur RGBA", ofVec4f(100, 100, 100,100), ofVec4f(0, 0, 0,0), ofVec4f(255,255, 255, 255)));
 
+	//Informations de sauvegarde dynamique
+	guiProperties.add(intSliderTakes.setup("nombre de prises", 1, 1, 24));
+	guiProperties.add(floatSliderTime.setup("temps sauvegarde (secondes)", 5.0, 1.0, 30.0));
+
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
@@ -41,7 +47,7 @@ void ofApp::setup(){
 	
 
 	circleGroup.setup();
-	parameterGroup.add(circleGroup.circleParameters);
+	parameterGroup.add(circleGroup.Parameters);
 
 	guiForms.setup(parameterGroup);
 	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
@@ -50,6 +56,7 @@ void ofApp::setup(){
 //--------------------------------------------------------------
 void ofApp::update(){
 	renderer.update();
+	
 	//gestionImages.update();
 }
 
@@ -160,12 +167,36 @@ void ofApp::keyReleased(int key){
 	switch (key)
 	{
 
-		
+	
+
 	case 114: // touche r pour rechercher une image
 		
 		ofLog() << " recherche image";
 		actionResearchImages();
 			
+		break;
+
+	case 115: // touche s pour sauvegarde dynamique de la scene
+
+		ofLog() << "Touche S activé et relachee";
+		nbTakes = intSliderTakes;
+		timeByTakes = (floatSliderTime / nbTakes);
+		i = 0;
+		while (i != nbTakes)
+		{
+			ofResetElapsedTimeCounter();
+			timePassed = ofGetElapsedTimef();
+			while (timePassed < timeByTakes)
+			{
+				//ofLog() << "timeBytakes" << timeByTakes;
+				timePassed = ofGetElapsedTimef();
+				//ofLog() << "timePassed" << timePassed;
+			}
+			renderer.image_export("serie", "png");
+			ofLog() << "image" << i << "exporte";
+			ofResetElapsedTimeCounter();
+			i++;
+		}
 		break;
 		
 	case 118: // touche v pour verbose
@@ -173,7 +204,7 @@ void ofApp::keyReleased(int key){
 		ofLog() << "<verbose mode: " << is_verbose << ">";
 		break;
 
-	case 119: //W
+	case 119: //W ajoute le model 3D "Tea pot"
 		renderer.add_Model3D();
 
 	default:

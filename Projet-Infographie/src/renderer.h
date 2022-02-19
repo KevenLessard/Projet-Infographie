@@ -25,6 +25,10 @@ public:
 
 	void draw_cursor(float x, float y) const;
 
+	void image_export(const string name, const string extension) const;
+	//void rgbToHsbColor(ofColor);
+	
+
 
 	//Mode 3D à tester:
 	float center_x;

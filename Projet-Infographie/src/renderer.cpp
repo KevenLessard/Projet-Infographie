@@ -4,6 +4,7 @@
 void Renderer::setup()
 {
     ofSetBackgroundColor(31);
+    ofSetFrameRate(60);
 
     //Pour3D
     speed = 100.0f;
@@ -52,6 +53,24 @@ void Renderer::draw_cursor(float x, float y) const
     ofDrawLine(x, y - offset, x, y - offset - length);
     */
 }
+
+void Renderer::image_export(const string name, const string extension) const
+{
+    ofImage image;
+
+    string time_stamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
+    string file_name = name + time_stamp + "." + extension;
+
+    image.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+    image.save(file_name);
+
+    ofLog() << "export image:" << file_name;
+}
+
+//void Renderer::rgbToHsbColor(ofColor)
+//{
+
+//}
 
 void Renderer::draw()
 {
