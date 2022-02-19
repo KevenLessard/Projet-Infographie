@@ -40,6 +40,8 @@ class ofApp : public ofBaseApp{
 
 		ofxIntSlider intSlider;
 		ofxFloatSlider floatSlider;
+		ofxIntSlider intSliderTakes;
+		ofxFloatSlider floatSliderTime;
 		ofxToggle toggle;
 		ofxButton button;
 		ofxButton newObjectButton;
@@ -55,6 +57,11 @@ class ofApp : public ofBaseApp{
 		ofxVec3Slider proportionSlider;
 		ofxVec3Slider positionSlider;
 		ofxVec3Slider rotationSlider;
+
+		float timeByTakes;
+		int i = 0;
+		int nbTakes;
+		float timePassed;
 
 private:
 	void addNewObject();

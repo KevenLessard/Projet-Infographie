@@ -107,3 +107,16 @@ void Renderer::rotateObject(int index, ofVec3f newRotation) {
 
     objects[index]->setOrientation(newRotation);
 }
+
+void Renderer::image_export(const string name, const string extension) const
+{
+    ofImage image;
+
+    string time_stamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
+    string file_name = name + time_stamp + "." + extension;
+
+    image.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+    image.save(file_name);
+
+    ofLog() << "export image:" << file_name;
+}
