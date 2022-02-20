@@ -64,12 +64,22 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	renderer.is_camera_move_forward = is_key_press_up;
+	renderer.is_camera_move_backward = is_key_press_down;
+
+	renderer.is_camera_move_left = is_key_press_left;
+	renderer.is_camera_move_right = is_key_press_right;
+
+	renderer.is_camera_move_up = is_key_press_q;
+	renderer.is_camera_move_down = is_key_press_e;
+
 	ofVec3f newProportion(proportionX, proportionY, proportionZ);
 	renderer.proportionateObject(indexField - 1, newProportion);
 	ofVec3f newPosition(positionSlider);
 	renderer.moveObject(indexField - 1, newPosition);
 	ofVec3f newRotation(rotationSlider);
 	renderer.rotateObject(indexField - 1, newRotation);
+
 	renderer.update();
 	//gestionImages.update();
 }
@@ -85,6 +95,7 @@ void ofApp::draw(){
 	//gestionImages.draw();
 
 	//dessin de l'image chargée dans le buffer loadedImages.
+	ofDrawBitmapString("Camera movement: ↑ ↓ ← → q e", ofGetWidth() / 2, 15);
 	ofDrawBitmapString("Press r to open an image, v to switch verbose mode", ofGetWidth()/2, ofGetHeight() -10);
 	for (unsigned int i = 0; i < loadedImages.size(); i++) {
 		loadedImages[i].draw(0, 20);
@@ -152,7 +163,32 @@ void ofApp::actionResearchImages() {
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+	switch (key)
+	{
+	case 101: // touche e
+		is_key_press_e = true;
+		break;
+	case 113: // touche q
+		is_key_press_q = true;
+		break;
+	case OF_KEY_LEFT: // touche ←
+		renderer.cameraTruck(-1);
+		break;
 
+	case OF_KEY_UP: // touche ↑
+		renderer.cameraDolly(1);
+		break;
+
+	case OF_KEY_RIGHT: // touche →
+		renderer.cameraTruck(1);
+		break;
+
+	case OF_KEY_DOWN: // touche ↓
+		renderer.cameraDolly(-1);
+		break;
+	default:
+		break;
+	}
 }
 
 //--------------------------------------------------------------
@@ -161,7 +197,12 @@ void ofApp::keyReleased(int key){
 	switch (key)
 	{
 
-		
+	case 101: // touche e
+		is_key_press_e = false;
+		break;
+	case 113: // touche q
+		is_key_press_q = false;
+		break;
 	case 114: // touche r pour rechercher une image
 		
 		ofLog() << " recherche image";
@@ -195,6 +236,22 @@ void ofApp::keyReleased(int key){
 	case 118: // touche v pour verbose
 		is_verbose = !is_verbose;
 		ofLog() << "<verbose mode: " << is_verbose << ">";
+		break;
+
+	case OF_KEY_LEFT: // touche ←
+		is_key_press_left = false;
+		break;
+
+	case OF_KEY_UP: // touche ↑
+		is_key_press_up = false;
+		break;
+
+	case OF_KEY_RIGHT: // touche →
+		is_key_press_right = false;
+		break;
+
+	case OF_KEY_DOWN: // touche ↓
+		is_key_press_down = false;
 		break;
 
 	default:

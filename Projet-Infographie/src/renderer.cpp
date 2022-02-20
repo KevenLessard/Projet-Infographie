@@ -10,6 +10,14 @@ void Renderer::setup()
 
 		is_mouse_button_pressed = false;
         mainCamera.setPosition(0, 0, 100);
+        mainCamera.setFov(60.0f);
+
+        is_camera_move_left = false;
+        is_camera_move_right = false;
+        is_camera_move_up = false;
+        is_camera_move_down = false;
+        is_camera_move_forward = false;
+        is_camera_move_backward = false;
 	}
 }
 
@@ -17,6 +25,28 @@ void Renderer::update()
 {
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
+
+    time_current = ofGetElapsedTimef();
+    time_elapsed = time_current - time_last;
+    time_last = time_current;
+
+    speed_translation = speed_delta * time_elapsed;
+    speed_rotation = speed_translation / 8.0f;
+
+    if (is_camera_move_left)
+        mainCamera.truck(-speed_translation);
+    if (is_camera_move_right)
+        mainCamera.truck(speed_translation);
+
+    if (is_camera_move_up)
+        mainCamera.boom(speed_translation);
+    if (is_camera_move_down)
+        mainCamera.boom(-speed_translation);
+
+    if (is_camera_move_forward)
+        mainCamera.dolly(-speed_translation);
+    if (is_camera_move_backward)
+        mainCamera.dolly(speed_translation);
 }
 
 // fonction de dessin du curseur
@@ -195,4 +225,16 @@ void Renderer::switchProjectionMode() {
         mainCamera.enableOrtho();
         is_camera_ortho = true;
     }
+}
+
+void Renderer::cameraZoom() {
+
+}
+
+void Renderer::cameraTruck(int direction) {
+    mainCamera.truck(10 * direction);
+}
+
+void Renderer::cameraDolly(int direction) {
+    mainCamera.dolly(10 * direction);
 }

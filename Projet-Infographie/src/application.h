@@ -69,7 +69,12 @@ class ofApp : public ofBaseApp {
 
 		ofxIntField cameraObjectIndex;
 		ofxButton projectionModeButton;
-
+		bool is_key_press_up;
+		bool is_key_press_down;
+		bool is_key_press_left;
+		bool is_key_press_right;
+		bool is_key_press_e;
+		bool is_key_press_q;
 private:
 	void addNewObject();
 	void addNewSphere();
