@@ -37,11 +37,29 @@ void ofApp::setup(){
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
+	guiHierarchy.add(newCubeButton.setup("New sphere"));
+	guiHierarchy.add(newTeapotButton.setup("Teapot.obj"));
+	guiHierarchy.add(newGlassesButton.setup("glasses.3DS"));
+	guiHierarchy.add(newTVButton.setup("tv.fbx"));
 	guiHierarchy.add(newSphereButton.setup("New sphere"));
 	guiHierarchy.add(deleteButton.setup("Delete object"));
 	newObjectButton.addListener(this, &ofApp::addNewObject);
-	newSphereButton.addListener(this, &ofApp::addNewSphere);
-	deleteButton.addListener(this, &ofApp::deleteObject);
+	newCubeButton.addListener(this, &ofApp::addNewSphere);
+	newTeapotButton.addListener(this, &ofApp::addNewTeapot);
+	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
+	newTVButton.addListener(this, &ofApp::addNewTV);
+
+
+	//panneau de contrôle de formes. 
+	//Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
+	//Certaines choses se recoupent entre les deux sections (panneau de propriété) mais nous ferons des choix.
+	
+
+	circleGroup.setup();
+	parameterGroup.add(circleGroup.circleParameters);
+
+	guiForms.setup(parameterGroup);
+	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
 }
 
 //--------------------------------------------------------------
@@ -276,28 +294,4 @@ void ofApp::addNewObject() {
 
 void ofApp::addNewSphere() {
 	renderer.addNewSphere();
-}
-
-void ofApp::deleteObject() {
-	renderer.deleteObject(indexField);
-}
-
-void ofApp::switchCurrentObject(int & index) {
-	ofLog() << "index listener";
-	if (index >= renderer.objects.size()) {
-		return;
-	}
-	ofVec3f pos = renderer.objects[index]->getPosition();
-	ofVec3f rot = renderer.objects[index]->getOrientationEuler();
-	ofVec3f pro = renderer.objects[index]->getScale();
-	proportionX.set(pro.x);
-	proportionY.set(pro.y);
-	proportionZ.set(pro.z);
-
-	positionSlider = pos;
-	rotationSlider = rot;
-}
-
-void ofApp::selection(int x, int y) {
-	ofLog() << x << " " << y;
 }

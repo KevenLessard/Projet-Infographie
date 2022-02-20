@@ -45,8 +45,12 @@ class ofApp : public ofBaseApp {
 		ofxToggle toggle;
 		ofxButton button;
 		ofxButton newObjectButton;
-		ofxButton newSphereButton;
-		ofxButton deleteButton;
+		ofxButton newCubeButton;
+		//Hugo
+		ofxButton newTeapotButton;
+		ofxButton newGlassesButton;
+		ofxButton newTVButton;
+
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
@@ -67,12 +71,16 @@ class ofApp : public ofBaseApp {
 
 		ofParameter<ofColor> colorPicker;
 
-	private:
-		void addNewObject();
-		void addNewSphere();
-		void deleteObject();
-		void switchCurrentObject(int & index);
-		void selection(int x, int y);
+private:
+	void addNewObject();
+	void addNewSphere();
+	//Hugo
+	void addNewTeapot();
+	void addNewGlasses();
+	void addNewTV();
+	void deleteObject();
+	void switchCurrentObject(int& index);
+	void selection(int x, int y);
 		
 		void openFileSelection(ofFileDialogResult openFileResult);
 
