@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ofMain.h"
+#include "import3dModel.h"
+#include "ofxAssimpModelLoader.h"
 
 class Renderer
 {
@@ -17,6 +19,7 @@ public:
 	bool is_mouse_button_pressed;
 
 	vector<of3dPrimitive*> objects;
+	vector<ofxAssimpModelLoader*> models3D;
 
 	void setup();
 	void update();
@@ -29,5 +32,8 @@ public:
 	void moveObject(int index, ofVec3f newPosition);
 	void rotateObject(int index, ofVec3f newRotation);
 	void image_export(const string name, const string extension) const;
+
+	//Hugo
+	void addModel3D();
 
 };

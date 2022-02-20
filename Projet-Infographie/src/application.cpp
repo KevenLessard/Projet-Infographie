@@ -37,8 +37,11 @@ void ofApp::setup(){
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
 	guiHierarchy.add(newCubeButton.setup("New sphere"));
+	guiHierarchy.add(newTeapotButton.setup("Teapot.obj"));
 	newObjectButton.addListener(this, &ofApp::addNewObject);
 	newCubeButton.addListener(this, &ofApp::addNewSphere);
+	newTeapotButton.addListener(this, &ofApp::addTeapot);
+
 
 	//panneau de contrôle de formes. 
 	//Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
@@ -285,4 +288,8 @@ void ofApp::addNewObject() {
 
 void ofApp::addNewSphere() {
 	renderer.addNewSphere();
+}
+//Hugo
+void ofApp::addTeapot() {
+	renderer.addModel3D();
 }

@@ -46,6 +46,8 @@ class ofApp : public ofBaseApp{
 		ofxButton button;
 		ofxButton newObjectButton;
 		ofxButton newCubeButton;
+		//Hugo
+		ofxButton newTeapotButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
@@ -72,6 +74,8 @@ class ofApp : public ofBaseApp{
 private:
 	void addNewObject();
 	void addNewSphere();
+	//Hugo
+	void addTeapot();
 		
 		
 		void openFileSelection(ofFileDialogResult openFileResult);

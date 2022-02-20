@@ -55,11 +55,21 @@ void Renderer::draw()
     ofPushMatrix();
     ofTranslate(center_x, center_y, 0);
     ofEnableDepthTest();
+
+
     for (of3dPrimitive* object : objects) {
         ofPushMatrix();
         ofFill();
         ofSetColor(61, 61, 205);
         object->drawAxes(100);
+        object->draw(OF_MESH_WIREFRAME);
+        ofPopMatrix();
+    }
+
+    for (ofxAssimpModelLoader* object : models3D) {
+        ofPushMatrix();
+        ofFill();
+        ofSetColor(61, 61, 205);
         object->draw(OF_MESH_WIREFRAME);
         ofPopMatrix();
     }
@@ -85,18 +95,52 @@ void Renderer::addNewSphere() {
     objects.push_back(sphere);
 }
 
+//Hugo
+
+void Renderer::addModel3D() {
+    //import3dModel* model3D = new import3dModel();
+    //objects.push_back(model3D);
+   // model3D = new ofxAssimpModelLoader();
+    //import3dModel* model3D = new import3dModel();
+    //objects.push_back(model3D);
+
+
+    ofxAssimpModelLoader* model3D1 = new ofxAssimpModelLoader();
+    model3D1->loadModel("teapot.obj");
+
+    if (models3D.size() == 0)
+        model3D1->setScale(3, 3, 3);
+            
+    if (models3D.size() >= 1) {
+        model3D1->setScale(1, 1, 1);
+    }
+    models3D.push_back(model3D1);
+    cout << "Yolo2";
+}
+
 void Renderer::proportionateObject(int index, ofVec3f newProportion) {
-    if (index >= objects.size()) {
+//    if (index >= objects.size()) {
+//        return;
+//    }
+//    objects[index]->setScale(newProportion);
+    
+    if (index >= models3D.size()) {
         return;
     }
-    objects[index]->setScale(newProportion);
+    models3D[index]->setScale(newProportion);
+
 }
 
 void Renderer::moveObject(int index, ofVec3f newPosition) {
-    if (index >= objects.size()) {
+    //if (index >= objects.size()) {
+    //    return;
+    //}
+    //objects[index]->setPosition(newPosition);
+
+    if (index >= models3D.size()) {
         return;
     }
-    objects[index]->setPosition(newPosition);
+    models3D[index]->setPosition(newPosition);
 }
 
 void Renderer::rotateObject(int index, ofVec3f newRotation) {
