@@ -58,7 +58,7 @@ void Renderer::draw()
     for (of3dPrimitive* object : objects) {
         ofPushMatrix();
         ofFill();
-        ofSetColor(61, 61, 205);
+        ofSetColor(colorPicker);
         object->drawAxes(100);
         object->draw(OF_MESH_WIREFRAME);
         ofPopMatrix();

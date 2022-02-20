@@ -16,8 +16,15 @@ public:
 
 	bool is_mouse_button_pressed;
 
+
+	
+	//Vecteur d'objet 3D
 	vector<of3dPrimitive*> objects;
 
+	ofParameter<ofColor> colorPicker;
+
+	
+	
 	void setup();
 	void update();
 	void draw();

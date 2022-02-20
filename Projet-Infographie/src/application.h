@@ -38,6 +38,9 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
+		void getHsb();
+
+
 		ofxIntSlider intSlider;
 		ofxFloatSlider floatSlider;
 		ofxIntSlider intSliderTakes;
@@ -45,6 +48,7 @@ class ofApp : public ofBaseApp{
 		ofxToggle toggle;
 		ofxButton button;
 		ofxButton newObjectButton;
+		ofxButton HSBDisplayButton;
 		ofxButton newCubeButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
@@ -67,7 +71,7 @@ class ofApp : public ofBaseApp{
 		float timePassed;
 
 		ofParameterGroup colorGroup;
-		ofParameter<ofColor> colorPicker;
+		
 
 private:
 	void addNewObject();
