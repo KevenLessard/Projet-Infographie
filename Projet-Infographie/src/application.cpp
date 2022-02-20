@@ -17,11 +17,12 @@ void ofApp::setup(){
 	guiProperties.setPosition(ofGetWindowWidth() - guiProperties.getWidth(), 0);
 	guiProperties.add(labelProperties.setup("Panneau", "Propriete"));
 	
-	guiProperties.add(intField.setup("index objet", 0, 0, 100));
+	indexField.addListener(this, &ofApp::switchCurrentObject);
+	guiProperties.add(indexField.setup("index objet", 0, 0, 100));
 	proportionGroup.setName("Proportion");
-	proportionGroup.add(proportionX.set("X", 1, 0, 1000));
-	proportionGroup.add(proportionY.set("Y", 1, 0, 1000));
-	proportionGroup.add(proportionZ.set("Z", 1, 0, 1000));
+	proportionGroup.add(proportionX.set("x", 1, 0, 100));
+	proportionGroup.add(proportionY.set("y", 1, 0, 100));
+	proportionGroup.add(proportionZ.set("z", 1, 0, 100));
 	guiProperties.add(proportionGroup);
 	guiProperties.add(positionSlider.setup("Position", ofVec3f(0, 0,0), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
 	guiProperties.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360,360, 360)));
@@ -40,6 +41,8 @@ void ofApp::setup(){
 	guiHierarchy.add(newTeapotButton.setup("Teapot.obj"));
 	guiHierarchy.add(newGlassesButton.setup("glasses.3DS"));
 	guiHierarchy.add(newTVButton.setup("tv.fbx"));
+	guiHierarchy.add(newSphereButton.setup("New sphere"));
+	guiHierarchy.add(deleteButton.setup("Delete object"));
 	newObjectButton.addListener(this, &ofApp::addNewObject);
 	newCubeButton.addListener(this, &ofApp::addNewSphere);
 	newTeapotButton.addListener(this, &ofApp::addNewTeapot);
@@ -61,13 +64,12 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	int index = intField;
 	ofVec3f newProportion(proportionX, proportionY, proportionZ);
-	renderer.proportionateObject(index, newProportion);
+	renderer.proportionateObject(indexField, newProportion);
 	ofVec3f newPosition(positionSlider);
-	renderer.moveObject(index, newPosition);
+	renderer.moveObject(indexField, newPosition);
 	ofVec3f newRotation(rotationSlider);
-	renderer.rotateObject(index, newRotation);
+	renderer.rotateObject(indexField, newRotation);
 	renderer.update();
 	//gestionImages.update();
 }
@@ -87,7 +89,6 @@ void ofApp::draw(){
 	for (unsigned int i = 0; i < loadedImages.size(); i++) {
 		loadedImages[i].draw(0, 20);
 	}
-	
 }
 
 //---------------------------------------------------------------
@@ -126,7 +127,6 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 			}
 			loadedImages.push_back(image);
 			ofLog() << "loading completed";
-			
 		}
 	}
 }
@@ -236,6 +236,8 @@ void ofApp::mousePressed(int x, int y, int button){
 	renderer.mouse_press_x = x;
 	renderer.mouse_press_y = y;
 
+	selection(x, y);
+
 	ofLog() << "ofApp::mousePressed   at: ( x :" << x << ", y:" << y << ")";
 
 }
@@ -292,16 +294,4 @@ void ofApp::addNewObject() {
 
 void ofApp::addNewSphere() {
 	renderer.addNewSphere();
-}
-//Hugo
-void ofApp::addNewTeapot() {
-	renderer.import3dModel("teapot.obj");
-}
-
-void ofApp::addNewGlasses() {
-	renderer.import3dModel("glasses.3DS");
-}
-
-void ofApp::addNewTV() {
-	renderer.import3dModel("tv.fbx");
 }

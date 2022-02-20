@@ -23,10 +23,12 @@ public:
 	void setup();
 	void update();
 	void draw();
+	void reset();
 
 	void draw_cursor(float x, float y) const;
 	void addNew3dObject();
 	void addNewSphere();
+	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
 	void rotateObject(int index, ofVec3f newRotation);

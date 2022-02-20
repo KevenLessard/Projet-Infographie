@@ -61,7 +61,7 @@ void Renderer::draw()
         ofPushMatrix();
         ofFill();
         ofSetColor(61, 61, 205);
-        object->drawAxes(100);
+        object->drawAxes(12);
         object->draw(OF_MESH_WIREFRAME);
         ofPopMatrix();
     }
@@ -112,6 +112,13 @@ void Renderer::import3dModel(std::string file_name) {
 }
 
 
+void Renderer::deleteObject(int index) {
+    if (index >= objects.size()) {
+        return;
+    }
+    objects.erase(objects.begin() + index);
+}
+
 void Renderer::proportionateObject(int index, ofVec3f newProportion) {
     if (index >= objects.size()) {
         return;
@@ -144,8 +151,7 @@ void Renderer::rotateObject(int index, ofVec3f newRotation) {
     if (index >= objects.size()) {
         return;
     }
-    ofQuaternion actualRotation(newRotation);
-
+    //ofQuaternion actualRotation(newRotation);
     objects[index]->setOrientation(newRotation);
 
     ////Import3dModel
@@ -166,4 +172,8 @@ void Renderer::image_export(const string name, const string extension) const
     image.save(file_name);
 
     ofLog() << "export image:" << file_name;
+}
+
+void Renderer::reset() {
+
 }
