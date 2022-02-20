@@ -33,10 +33,6 @@ public:
 	void image_export(const string name, const string extension) const;
 
 	//Hugo
-
-	void addNewTeapot();
-	void addNewGlasses();
-
 	void import3dModel(std::string file_name);
 
 };

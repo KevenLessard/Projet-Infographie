@@ -119,11 +119,11 @@ void Renderer::proportionateObject(int index, ofVec3f newProportion) {
     objects[index]->setScale(newProportion);
     
 
-    //Import model3D
-    if (index >= models3D.size()) {
-        return;
-    }
-    models3D[index]->setScale(newProportion.x, newProportion.y, newProportion.z);
+    ////Import model3D
+    //if (index >= models3D.size()) {
+    //    return;
+    //}
+    //models3D[index]->setScale(newProportion.x, newProportion.y, newProportion.z);
 
 }
 
@@ -133,11 +133,11 @@ void Renderer::moveObject(int index, ofVec3f newPosition) {
     }
     objects[index]->setPosition(newPosition);
 
-    //Import3dModel
-    if (index >= models3D.size()) {
-        return;
-    }
-    models3D[index]->setPosition(newPosition.x, newPosition.y, newPosition.z);
+    ////Import3dModel
+    //if (index >= models3D.size()) {
+    //    return;
+    //}
+    //models3D[index]->setPosition(newPosition.x, newPosition.y, newPosition.z);
 }
 
 void Renderer::rotateObject(int index, ofVec3f newRotation) {
@@ -148,10 +148,10 @@ void Renderer::rotateObject(int index, ofVec3f newRotation) {
 
     objects[index]->setOrientation(newRotation);
 
-    //Import3dModel
-    if (index >= models3D.size()) {
-        return;
-    }
+    ////Import3dModel
+    //if (index >= models3D.size()) {
+    //    return;
+    //}
     //Pas capable de faire de rotation
 }
 
