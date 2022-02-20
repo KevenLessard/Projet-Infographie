@@ -37,39 +37,39 @@ void ofApp::setup(){
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
-	guiHierarchy.add(newCubeButton.setup("New sphere"));
+	guiHierarchy.add(newSphereButton.setup("New sphere"));
 	guiHierarchy.add(newTeapotButton.setup("Teapot.obj"));
 	guiHierarchy.add(newGlassesButton.setup("glasses.3DS"));
 	guiHierarchy.add(newTVButton.setup("tv.fbx"));
-	guiHierarchy.add(newSphereButton.setup("New sphere"));
 	guiHierarchy.add(deleteButton.setup("Delete object"));
 	newObjectButton.addListener(this, &ofApp::addNewObject);
-	newCubeButton.addListener(this, &ofApp::addNewSphere);
+	newSphereButton.addListener(this, &ofApp::addNewSphere);
 	newTeapotButton.addListener(this, &ofApp::addNewTeapot);
 	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
 	newTVButton.addListener(this, &ofApp::addNewTV);
+	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
 	//panneau de contrôle de formes. 
 	//Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
 	//Certaines choses se recoupent entre les deux sections (panneau de propriété) mais nous ferons des choix.
-	
 
-	circleGroup.setup();
-	parameterGroup.add(circleGroup.circleParameters);
-
-	guiForms.setup(parameterGroup);
-	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
+	guiCamera.setup();
+	guiCamera.setPosition(0, ofGetWindowHeight() - guiCamera.getHeight());
+	guiCamera.add(cameraObjectIndex.setup("Camera pointe vers: ", 0, 0, 100));
+	cameraObjectIndex.addListener(this, &ofApp::cameraLookAt);
+	guiCamera.add(projectionModeButton.setup("Switch projection mode"));
+	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
 	ofVec3f newProportion(proportionX, proportionY, proportionZ);
-	renderer.proportionateObject(indexField, newProportion);
+	renderer.proportionateObject(indexField - 1, newProportion);
 	ofVec3f newPosition(positionSlider);
-	renderer.moveObject(indexField, newPosition);
+	renderer.moveObject(indexField - 1, newPosition);
 	ofVec3f newRotation(rotationSlider);
-	renderer.rotateObject(indexField, newRotation);
+	renderer.rotateObject(indexField - 1, newRotation);
 	renderer.update();
 	//gestionImages.update();
 }
@@ -81,7 +81,7 @@ void ofApp::draw(){
 	//Apparition des fenêtres de l'interface
 	guiProperties.draw();
 	guiHierarchy.draw();
-	guiForms.draw();
+	guiCamera.draw();
 	//gestionImages.draw();
 
 	//dessin de l'image chargée dans le buffer loadedImages.
@@ -275,7 +275,7 @@ void ofApp::mouseExited(int x, int y){
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
 	guiProperties.setPosition(ofGetWindowWidth() - guiProperties.getWidth(), 0);
-	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
+	guiCamera.setPosition(0, ofGetWindowHeight() - guiCamera.getHeight());
 }
 
 //--------------------------------------------------------------
@@ -294,4 +294,33 @@ void ofApp::addNewObject() {
 
 void ofApp::addNewSphere() {
 	renderer.addNewSphere();
+}
+void ofApp::deleteObject() {
+	renderer.deleteObject(indexField - 1);
+}
+void ofApp::switchCurrentObject(int& index) {
+	
+}
+void ofApp::selection(int x, int y) {
+
+}
+//Hugo
+void ofApp::addNewTeapot() {
+	renderer.import3dModel("teapot.obj");
+}
+
+void ofApp::addNewGlasses() {
+	renderer.import3dModel("glasses.3DS");
+}
+
+void ofApp::addNewTV() {
+	renderer.import3dModel("tv.fbx");
+}
+
+void ofApp::cameraLookAt(int& index) {
+	renderer.cameraLookAt(index - 1);
+}
+
+void ofApp::switchProjectionMode() {
+	renderer.switchProjectionMode();
 }
