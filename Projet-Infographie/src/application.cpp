@@ -17,11 +17,12 @@ void ofApp::setup(){
 	guiProperties.setPosition(ofGetWindowWidth() - guiProperties.getWidth(), 0);
 	guiProperties.add(labelProperties.setup("Panneau", "Propriete"));
 	
-	guiProperties.add(intField.setup("index objet", 0, 0, 100));
+	indexField.addListener(this, &ofApp::switchCurrentObject);
+	guiProperties.add(indexField.setup("index objet", 0, 0, 100));
 	proportionGroup.setName("Proportion");
-	proportionGroup.add(proportionX.set("X", 1, 0, 1000));
-	proportionGroup.add(proportionY.set("Y", 1, 0, 1000));
-	proportionGroup.add(proportionZ.set("Z", 1, 0, 1000));
+	proportionGroup.add(proportionX.set("x", 1, 0, 100));
+	proportionGroup.add(proportionY.set("y", 1, 0, 100));
+	proportionGroup.add(proportionZ.set("z", 1, 0, 100));
 	guiProperties.add(proportionGroup);
 	guiProperties.add(positionSlider.setup("Position", ofVec3f(0, 0,0), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
 	guiProperties.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360,360, 360)));
@@ -36,31 +37,21 @@ void ofApp::setup(){
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
-	guiHierarchy.add(newCubeButton.setup("New sphere"));
+	guiHierarchy.add(newSphereButton.setup("New sphere"));
+	guiHierarchy.add(deleteButton.setup("Delete object"));
 	newObjectButton.addListener(this, &ofApp::addNewObject);
-	newCubeButton.addListener(this, &ofApp::addNewSphere);
-
-	//panneau de contrôle de formes. 
-	//Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
-	//Certaines choses se recoupent entre les deux sections (panneau de propriété) mais nous ferons des choix.
-	
-
-	circleGroup.setup();
-	parameterGroup.add(circleGroup.circleParameters);
-
-	guiForms.setup(parameterGroup);
-	guiForms.setPosition(0, ofGetWindowHeight() - guiForms.getHeight());
+	newSphereButton.addListener(this, &ofApp::addNewSphere);
+	deleteButton.addListener(this, &ofApp::deleteObject);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	int index = intField;
 	ofVec3f newProportion(proportionX, proportionY, proportionZ);
-	renderer.proportionateObject(index, newProportion);
+	renderer.proportionateObject(indexField, newProportion);
 	ofVec3f newPosition(positionSlider);
-	renderer.moveObject(index, newPosition);
+	renderer.moveObject(indexField, newPosition);
 	ofVec3f newRotation(rotationSlider);
-	renderer.rotateObject(index, newRotation);
+	//renderer.rotateObject(indexField, newRotation);
 	renderer.update();
 	//gestionImages.update();
 }
@@ -80,7 +71,6 @@ void ofApp::draw(){
 	for (unsigned int i = 0; i < loadedImages.size(); i++) {
 		loadedImages[i].draw(0, 20);
 	}
-	
 }
 
 //---------------------------------------------------------------
@@ -119,7 +109,6 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 			}
 			loadedImages.push_back(image);
 			ofLog() << "loading completed";
-			
 		}
 	}
 }
@@ -229,6 +218,8 @@ void ofApp::mousePressed(int x, int y, int button){
 	renderer.mouse_press_x = x;
 	renderer.mouse_press_y = y;
 
+	selection(x, y);
+
 	ofLog() << "ofApp::mousePressed   at: ( x :" << x << ", y:" << y << ")";
 
 }
@@ -285,4 +276,28 @@ void ofApp::addNewObject() {
 
 void ofApp::addNewSphere() {
 	renderer.addNewSphere();
+}
+
+void ofApp::deleteObject() {
+	renderer.deleteObject(indexField);
+}
+
+void ofApp::switchCurrentObject(int & index) {
+	ofLog() << "index listener";
+	if (index >= renderer.objects.size()) {
+		return;
+	}
+	ofVec3f pos = renderer.objects[index]->getPosition();
+	ofVec3f rot = renderer.objects[index]->getOrientationEuler();
+	ofVec3f pro = renderer.objects[index]->getScale();
+	proportionX.set(pro.x);
+	proportionY.set(pro.y);
+	proportionZ.set(pro.z);
+
+	positionSlider = pos;
+	rotationSlider = rot;
+}
+
+void ofApp::selection(int x, int y) {
+	ofLog() << x << " " << y;
 }

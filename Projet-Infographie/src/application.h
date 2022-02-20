@@ -7,7 +7,7 @@
 #include "form.h"
 //#include "gestionImages.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 
 	Renderer renderer;
 	//GestionImages gestionImages;
@@ -45,13 +45,12 @@ class ofApp : public ofBaseApp{
 		ofxToggle toggle;
 		ofxButton button;
 		ofxButton newObjectButton;
-		ofxButton newCubeButton;
+		ofxButton newSphereButton;
+		ofxButton deleteButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
-		ofxFloatField floatField;
-		ofxIntField intField;
-		ofxTextField textField;
+		ofxIntField indexField;
 
 		ofParameterGroup proportionGroup;
 		ofParameter<float> proportionX;
@@ -66,13 +65,14 @@ class ofApp : public ofBaseApp{
 		int nbTakes;
 		float timePassed;
 
-		ofParameterGroup colorGroup;
 		ofParameter<ofColor> colorPicker;
 
-private:
-	void addNewObject();
-	void addNewSphere();
-		
+	private:
+		void addNewObject();
+		void addNewSphere();
+		void deleteObject();
+		void switchCurrentObject(int & index);
+		void selection(int x, int y);
 		
 		void openFileSelection(ofFileDialogResult openFileResult);
 
@@ -81,5 +81,7 @@ private:
 		vector<ofImage>loadedImages;
 		vector<ofImage>processedImages;
 		string originalFileExtension;
+
+		vector<int> selectedObject;
 		
 };
