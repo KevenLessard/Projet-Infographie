@@ -51,7 +51,7 @@ void ofApp::update(){
 	ofVec3f newPosition(positionSlider);
 	renderer.moveObject(indexField, newPosition);
 	ofVec3f newRotation(rotationSlider);
-	//renderer.rotateObject(indexField, newRotation);
+	renderer.rotateObject(indexField, newRotation);
 	renderer.update();
 	//gestionImages.update();
 }
