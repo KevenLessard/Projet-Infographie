@@ -41,10 +41,11 @@ void Renderer::draw_CrossCursor(int x, int y)
 
 void Renderer::draw_CircleCursor(float x, float y) const
 {  
+    ofNoFill();
     ofDrawCircle(x, y, 20);
     ofDrawCircle(x, y, 1);
     ofColor(0);
-    ofNoFill();
+    
 }
 
 void Renderer::draw_ArrowCursor(float x, float y) const
