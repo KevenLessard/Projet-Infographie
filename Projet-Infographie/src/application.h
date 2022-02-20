@@ -19,6 +19,7 @@ class ofApp : public ofBaseApp{
 	Form circleGroup;
 
 	bool is_verbose;
+	bool cursor_enabled;
 
 	public:
 		

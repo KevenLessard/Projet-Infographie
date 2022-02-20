@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "form.h"
 
 class Renderer
 {
@@ -15,11 +16,22 @@ public:
 	float center_y;
 
 	bool is_mouse_button_pressed;
+	bool crossCursor_enabled;
+	bool circleCursor_enabled;
+	bool arrowCursor_enabled;
+	bool handCursor_enabled;
+	bool resizeCursor_enabled;
+
+	int cursor_width;
+	int cursor_height;
 
 
-	
+
 	//Vecteur d'objet 3D
 	vector<of3dPrimitive*> objects;
+	
+	//Vecteur d'objet 2D
+	//vector<Form*> shapes;
 
 	ofParameter<ofColor> colorPicker;
 
@@ -29,8 +41,13 @@ public:
 	void update();
 	void draw();
 
-	void draw_cursor(float x, float y) const;
+	void draw_CrossCursor(int x, int y);
+	void draw_CircleCursor(float x, float y) const;
+	void draw_ArrowCursor(float x, float y) const;
+	void draw_ResizeCursor(float x, float y) const;
+	void draw_HandCursor(float x, float y) const;
 	void addNew3dObject();
+	//void addNew2DObject();
 	void addNewSphere();
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);

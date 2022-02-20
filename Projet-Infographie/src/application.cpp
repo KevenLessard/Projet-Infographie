@@ -155,7 +155,56 @@ void ofApp::keyReleased(int key){
 
 	switch (key)
 	{
+	case 49://curseur en croix
+		renderer.crossCursor_enabled = true;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = false;
+		
+		ofLog() << "curseur en croix";
 
+		break;
+
+	case 50://curseur en cercle
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = true;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = false;
+		
+		ofLog() << "curseur en cercle";
+		
+		break;
+
+	case 51://curseur en main
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = true;
+		renderer.resizeCursor_enabled = false;
+
+		ofLog() << "curseur en main";
+		break;
+
+	case 52://curseur en fleche
+		renderer.arrowCursor_enabled = true;
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = false;
+		ofLog() << "curseur en fleche";
+		break;
+	
+	case 53://resize horizontal
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = true;
+		ofLog() << "curseur de resize";
+		
+		break;
 		
 	case 114: // touche r pour rechercher une image
 		

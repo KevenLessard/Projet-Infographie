@@ -3,14 +3,15 @@
 
 void Renderer::setup()
 {
-	{
+	
         ofSetFrameRate(60);
         
 		mouse_press_x = mouse_press_y = mouse_current_x = mouse_current_y = 0;
 
 		is_mouse_button_pressed = false;
 
-	}
+        ofDisableArbTex();
+	
 }
 
 void Renderer::update()
@@ -20,12 +21,11 @@ void Renderer::update()
 }
 
 // fonction de dessin du curseur
-void Renderer::draw_cursor(float x, float y) const
+void Renderer::draw_CrossCursor(int x, int y)
 {
     // paramètres de dessin
     float length = 10.0f;
     float offset = 5.0f;
-    
 
     // dessiner le curseur en vert si un des boutons du périphérique de pointage est appuyé
     if (is_mouse_button_pressed)
@@ -33,25 +33,60 @@ void Renderer::draw_cursor(float x, float y) const
     else
         ofSetColor(255);
 
-    // dessiner la forme vectorielle
-    // Proposition d'une autre forme:
-    //Curseur Circulaire. Cependant, le No Fill enleve le remplissage partout. Comment faire pour qu'il n'agisse que sur le curseur est-ce avec un begin() et un end()?
-
-    ofDrawCircle(x, y, 20);
-    ofDrawCircle(x, y, 1);
-    ofNoFill();
-//ofNoFill();
-    
-/*
     ofDrawLine(x + offset, y, x + offset + length, y);
     ofDrawLine(x - offset, y, x - offset - length, y);
     ofDrawLine(x, y + offset, x, y + offset + length);
     ofDrawLine(x, y - offset, x, y - offset - length);
-    */
+}
+
+void Renderer::draw_CircleCursor(float x, float y) const
+{  
+    ofDrawCircle(x, y, 20);
+    ofDrawCircle(x, y, 1);
+    ofColor(0);
+    ofNoFill();
+}
+
+void Renderer::draw_ArrowCursor(float x, float y) const
+{
+   int cursor_width = 32;
+   int cursor_height = 32;
+
+
+   ofImage arrowCursor;
+   arrowCursor.load("arrowCursor.png");
+
+   arrowCursor.draw(x, y, cursor_width, cursor_height);
+
+}
+
+void Renderer::draw_ResizeCursor(float x, float y) const
+{
+    int cursor_width = 32;
+    int cursor_height = 32;
+
+    ofImage resizeCursor;
+    resizeCursor.load("resizeCursor.png");
+
+    resizeCursor.draw(x, y, cursor_width, cursor_height);
+}
+
+void Renderer::draw_HandCursor(float x, float y) const
+{
+    int cursor_width = 32;
+    int cursor_height = 32;
+
+
+    ofImage handCursor;
+    handCursor.load("handCursor.png");
+
+    handCursor.draw(x, y, cursor_width, cursor_height);
+
 }
 
 void Renderer::draw()
 {
+    //Ajouter une section pour le draw du 2D
     ofPushMatrix();
     ofTranslate(center_x, center_y, 0);
     ofEnableDepthTest();
@@ -65,7 +100,25 @@ void Renderer::draw()
     }
     ofDisableDepthTest();
     ofPopMatrix();
+
+    //Dessin des curseurs en fonction de l'état:
+    if (crossCursor_enabled)
+        draw_CrossCursor(mouse_current_x, mouse_current_y );
+    if (circleCursor_enabled)
+        draw_CircleCursor(mouse_current_x, mouse_current_y);
+    if (arrowCursor_enabled)
+        draw_ArrowCursor(mouse_current_x, mouse_current_y);
+    if (handCursor_enabled)
+        draw_HandCursor(mouse_current_x, mouse_current_y);
+    if (resizeCursor_enabled)
+        draw_ResizeCursor(mouse_current_x, mouse_current_y);
+
+
+        
+
 }
+
+
 
 void Renderer::addNew3dObject() {
     of3dPrimitive* object = new of3dPrimitive();
@@ -78,6 +131,8 @@ void Renderer::addNew3dObject() {
     object->setPosition(ofRandom(0, ofGetWidth()), ofRandom(0, ofGetHeight()), 0);
     objects.push_back(object);
 }
+
+
 
 void Renderer::addNewSphere() {
     ofSpherePrimitive* sphere = new ofSpherePrimitive();
