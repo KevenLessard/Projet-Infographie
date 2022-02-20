@@ -7,7 +7,7 @@ void ofApp::setup(){
 	ofLog() << "<app::setup>";
 
 	renderer.setup();
-	//gestionImages.setup();
+	
 
 	is_verbose = false;
 	
@@ -26,7 +26,9 @@ void ofApp::setup(){
 	guiProperties.add(proportionGroup);
 	guiProperties.add(positionSlider.setup("Position", ofVec3f(0, 0,0), ofVec3f(-1920, -1080,0), ofVec3f(1920,1080,1000)));
 	guiProperties.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360,360, 360)));
-	guiProperties.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
+	guiProperties.add(renderer.colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
+	guiProperties.add(HSBDisplayButton.setup("HSB"));
+	HSBDisplayButton.addListener(this, &ofApp::getHsb);
 
 	//Informations de sauvegarde dynamique
 	guiProperties.add(intSliderTakes.setup("nombre de prises", 1, 1, 24));
@@ -71,7 +73,7 @@ void ofApp::update(){
 	ofVec3f newRotation(rotationSlider);
 	renderer.rotateObject(indexField - 1, newRotation);
 	renderer.update();
-	//gestionImages.update();
+	
 }
 
 //--------------------------------------------------------------
@@ -85,7 +87,7 @@ void ofApp::draw(){
 	//gestionImages.draw();
 
 	//dessin de l'image chargée dans le buffer loadedImages.
-	ofDrawBitmapString("Press r to open an image, v to switch verbose mode", ofGetWidth()/2, ofGetHeight() -10);
+	ofDrawBitmapString("Press r to open an image, s to save, v to switch verbose mode", ofGetWidth()/2, ofGetHeight() -10);
 	for (unsigned int i = 0; i < loadedImages.size(); i++) {
 		loadedImages[i].draw(0, 20);
 	}
@@ -160,7 +162,56 @@ void ofApp::keyReleased(int key){
 
 	switch (key)
 	{
+	case 49://curseur en croix
+		renderer.crossCursor_enabled = true;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = false;
+		
+		ofLog() << "curseur en croix";
 
+		break;
+
+	case 50://curseur en cercle
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = true;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = false;
+		
+		ofLog() << "curseur en cercle";
+		
+		break;
+
+	case 51://curseur en main
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = true;
+		renderer.resizeCursor_enabled = false;
+
+		ofLog() << "curseur en main";
+		break;
+
+	case 52://curseur en fleche
+		renderer.arrowCursor_enabled = true;
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = false;
+		ofLog() << "curseur en fleche";
+		break;
+	
+	case 53://resize horizontal
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = true;
+		ofLog() << "curseur de resize";
+		
+		break;
 		
 	case 114: // touche r pour rechercher une image
 		
@@ -280,6 +331,20 @@ void ofApp::windowResized(int w, int h){
 
 //--------------------------------------------------------------
 void ofApp::gotMessage(ofMessage msg){
+
+}
+//--------------------------------------------------------------
+void ofApp::getHsb()
+{
+	ofColor myRGBColor;
+	myRGBColor.set(renderer.colorPicker);
+	ofLog() << "Couleur active" << myRGBColor;
+
+	ofColor h = myRGBColor.getHue();
+	ofColor s = myRGBColor.getSaturation();
+	ofColor b = myRGBColor.getBrightness();
+
+	ofLog() << "HSB :" << "Hue :" << h << "Saturation :" << s << "Brightness :"<< b;
 
 }
 

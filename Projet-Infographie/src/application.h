@@ -18,6 +18,7 @@ class ofApp : public ofBaseApp {
 	ofParameterGroup parameterGroup;
 
 	bool is_verbose;
+	bool cursor_enabled;
 
 	public:
 		
@@ -37,6 +38,11 @@ class ofApp : public ofBaseApp {
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
+		void getHsb();
+
+
+		ofxIntSlider intSlider;
+		ofxFloatSlider floatSlider;
 		ofxIntSlider intSliderTakes;
 		ofxFloatSlider floatSliderTime;
 
@@ -47,6 +53,8 @@ class ofApp : public ofBaseApp {
 		ofxButton newGlassesButton;
 		ofxButton newTVButton;
 
+		ofxButton HSBDisplayButton;
+		ofxButton newCubeButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
