@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
+#include "primitives3D.h"
 
 class Renderer
 {

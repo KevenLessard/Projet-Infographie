@@ -92,7 +92,7 @@ void Renderer::addNew3dObject() {
 }
 
 void Renderer::addNewSphere() {
-    ofSpherePrimitive* sphere = new ofSpherePrimitive();
+    spherePrimitive* sphere = new spherePrimitive();
     sphere->setRadius(10);
     objects.push_back(sphere);
 }
