@@ -38,9 +38,13 @@ void ofApp::setup(){
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
 	guiHierarchy.add(newCubeButton.setup("New sphere"));
 	guiHierarchy.add(newTeapotButton.setup("Teapot.obj"));
+	guiHierarchy.add(newGlassesButton.setup("glasses.3DS"));
+	guiHierarchy.add(newTVButton.setup("tv.fbx"));
 	newObjectButton.addListener(this, &ofApp::addNewObject);
 	newCubeButton.addListener(this, &ofApp::addNewSphere);
-	newTeapotButton.addListener(this, &ofApp::addTeapot);
+	newTeapotButton.addListener(this, &ofApp::addNewTeapot);
+	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
+	newTVButton.addListener(this, &ofApp::addNewTV);
 
 
 	//panneau de contrôle de formes. 
@@ -290,6 +294,14 @@ void ofApp::addNewSphere() {
 	renderer.addNewSphere();
 }
 //Hugo
-void ofApp::addTeapot() {
-	renderer.addModel3D();
+void ofApp::addNewTeapot() {
+	renderer.import3dModel("teapot.obj");
+}
+
+void ofApp::addNewGlasses() {
+	renderer.import3dModel("glasses.3DS");
+}
+
+void ofApp::addNewTV() {
+	renderer.import3dModel("tv.fbx");
 }

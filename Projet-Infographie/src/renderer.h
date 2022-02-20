@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "import3dModel.h"
 #include "ofxAssimpModelLoader.h"
 
 class Renderer
@@ -34,6 +33,10 @@ public:
 	void image_export(const string name, const string extension) const;
 
 	//Hugo
-	void addModel3D();
+
+	void addNewTeapot();
+	void addNewGlasses();
+
+	void import3dModel(std::string file_name);
 
 };
