@@ -4,19 +4,18 @@
 #include "ofxGui.h"
 
 #include "renderer.h"
-#include "form.h"
+
 //#include "gestionImages.h"
 
-class ofApp : public ofBaseApp{
+class ofApp : public ofBaseApp {
 
 	Renderer renderer;
 	//GestionImages gestionImages;
 	ofxPanel guiProperties;
 	ofxPanel guiHierarchy;
-	ofxPanel guiForms;
+	ofxPanel guiCamera;
 
 	ofParameterGroup parameterGroup;
-	Form circleGroup;
 
 	bool is_verbose;
 	bool cursor_enabled;
@@ -46,17 +45,20 @@ class ofApp : public ofBaseApp{
 		ofxFloatSlider floatSlider;
 		ofxIntSlider intSliderTakes;
 		ofxFloatSlider floatSliderTime;
-		ofxToggle toggle;
-		ofxButton button;
+
 		ofxButton newObjectButton;
+		ofxButton newSphereButton;
+		ofxButton deleteButton;
+		ofxButton newTeapotButton;
+		ofxButton newGlassesButton;
+		ofxButton newTVButton;
+
 		ofxButton HSBDisplayButton;
 		ofxButton newCubeButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
-		ofxFloatField floatField;
-		ofxIntField intField;
-		ofxTextField textField;
+		ofxIntField indexField;
 
 		ofParameterGroup proportionGroup;
 		ofParameter<float> proportionX;
@@ -71,13 +73,23 @@ class ofApp : public ofBaseApp{
 		int nbTakes;
 		float timePassed;
 
-		ofParameterGroup colorGroup;
-		
+		ofParameter<ofColor> colorPicker;
+
+		ofxIntField cameraObjectIndex;
+		ofxButton projectionModeButton;
 
 private:
 	void addNewObject();
 	void addNewSphere();
-		
+	//Hugo
+	void addNewTeapot();
+	void addNewGlasses();
+	void addNewTV();
+	void deleteObject();
+	void switchCurrentObject(int& index);
+	void selection(int x, int y);
+	void cameraLookAt(int& index);
+	void switchProjectionMode();
 		
 		void openFileSelection(ofFileDialogResult openFileResult);
 
@@ -86,5 +98,7 @@ private:
 		vector<ofImage>loadedImages;
 		vector<ofImage>processedImages;
 		string originalFileExtension;
+
+		vector<int> selectedObject;
 		
 };

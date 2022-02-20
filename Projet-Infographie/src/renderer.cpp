@@ -9,9 +9,8 @@ void Renderer::setup()
 		mouse_press_x = mouse_press_y = mouse_current_x = mouse_current_y = 0;
 
 		is_mouse_button_pressed = false;
-
-        ofDisableArbTex();
-	
+        mainCamera.setPosition(0, 0, 100);
+	}
 }
 
 void Renderer::update()
@@ -89,8 +88,11 @@ void Renderer::draw()
 {
     //Ajouter une section pour le draw du 2D
     ofPushMatrix();
-    ofTranslate(center_x, center_y, 0);
+    mainCamera.begin();
+    //ofTranslate(center_x, center_y, 0);
     ofEnableDepthTest();
+
+
     for (of3dPrimitive* object : objects) {
         ofPushMatrix();
         ofFill();
@@ -99,7 +101,16 @@ void Renderer::draw()
         object->draw(OF_MESH_WIREFRAME);
         ofPopMatrix();
     }
+
+    for (ofxAssimpModelLoader* object : models3D) {
+        ofPushMatrix();
+        ofFill();
+        ofSetColor(61, 61, 205);
+        object->draw(OF_MESH_WIREFRAME);
+        ofPopMatrix();
+    }
     ofDisableDepthTest();
+    mainCamera.end();
     ofPopMatrix();
 
     //Dessin des curseurs en fonction de l'état:
@@ -133,35 +144,76 @@ void Renderer::addNew3dObject() {
     objects.push_back(object);
 }
 
-
-
 void Renderer::addNewSphere() {
     ofSpherePrimitive* sphere = new ofSpherePrimitive();
     sphere->setRadius(10);
     objects.push_back(sphere);
 }
 
+//Hugo
+
+
+void Renderer::import3dModel(std::string file_name) {
+    ofxAssimpModelLoader* model3D = new ofxAssimpModelLoader();
+    model3D->loadModel(file_name);
+
+    if (models3D.size() == 0)
+        model3D->setScale(1, 1, 1);
+
+    if (models3D.size() >= 1) {
+        model3D->setScale(0.2, 0.2, 0.2);
+    }
+    models3D.push_back(model3D);
+}
+
+
+void Renderer::deleteObject(int index) {
+    if (index >= objects.size() || index == -1) {
+        return;
+    }
+    objects.erase(objects.begin() + index);
+}
+
 void Renderer::proportionateObject(int index, ofVec3f newProportion) {
-    if (index >= objects.size()) {
+    if (index >= objects.size() || index == -1) {
         return;
     }
     objects[index]->setScale(newProportion);
+    
+
+    ////Import model3D
+    //if (index >= models3D.size()) {
+    //    return;
+    //}
+    //models3D[index]->setScale(newProportion.x, newProportion.y, newProportion.z);
+
 }
 
 void Renderer::moveObject(int index, ofVec3f newPosition) {
-    if (index >= objects.size()) {
+    if (index >= objects.size() || index == -1) {
         return;
     }
     objects[index]->setPosition(newPosition);
+
+    ////Import3dModel
+    //if (index >= models3D.size()) {
+    //    return;
+    //}
+    //models3D[index]->setPosition(newPosition.x, newPosition.y, newPosition.z);
 }
 
 void Renderer::rotateObject(int index, ofVec3f newRotation) {
-    if (index >= objects.size()) {
+    if (index >= objects.size() || index == -1) {
         return;
     }
-    ofQuaternion actualRotation(newRotation);
-
+    //ofQuaternion actualRotation(newRotation);
     objects[index]->setOrientation(newRotation);
+
+    ////Import3dModel
+    //if (index >= models3D.size()) {
+    //    return;
+    //}
+    //Pas capable de faire de rotation
 }
 
 void Renderer::image_export(const string name, const string extension) const
@@ -175,4 +227,25 @@ void Renderer::image_export(const string name, const string extension) const
     image.save(file_name);
 
     ofLog() << "export image:" << file_name;
+}
+
+void Renderer::reset() {
+
+}
+
+void Renderer::cameraLookAt(int index) {
+    if (index >= objects.size() || index == -1) {
+        return;
+    }
+}
+
+void Renderer::switchProjectionMode() {
+    if (is_camera_ortho) {
+        mainCamera.disableOrtho();
+        is_camera_ortho = false;
+    }
+    else {
+        mainCamera.enableOrtho();
+        is_camera_ortho = true;
+    }
 }

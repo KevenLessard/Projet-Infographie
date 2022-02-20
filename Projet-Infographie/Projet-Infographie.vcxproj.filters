@@ -7,9 +7,6 @@
     <ClCompile Include="src\application.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\form.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\gestionImages.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -105,9 +102,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\form.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\gestionImages.h">

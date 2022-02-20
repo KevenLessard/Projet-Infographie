@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "form.h"
+#include "ofxAssimpModelLoader.h"
 
 class Renderer
 {
@@ -29,6 +29,8 @@ public:
 
 	//Vecteur d'objet 3D
 	vector<of3dPrimitive*> objects;
+	vector<ofxAssimpModelLoader*> models3D;
+
 	
 	//Vecteur d'objet 2D
 	//vector<Form*> shapes;
@@ -37,9 +39,13 @@ public:
 
 	
 	
+	ofCamera mainCamera;
+	bool is_camera_ortho = false;
+
 	void setup();
 	void update();
 	void draw();
+	void reset();
 
 	void draw_CrossCursor(int x, int y);
 	void draw_CircleCursor(float x, float y) const;
@@ -49,9 +55,15 @@ public:
 	void addNew3dObject();
 	//void addNew2DObject();
 	void addNewSphere();
+	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
 	void rotateObject(int index, ofVec3f newRotation);
 	void image_export(const string name, const string extension) const;
 
+	//Hugo
+	void import3dModel(std::string file_name);
+
+	void cameraLookAt(int index);
+	void switchProjectionMode();
 };
