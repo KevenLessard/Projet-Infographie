@@ -20,6 +20,9 @@ public:
 	vector<of3dPrimitive*> objects;
 	vector<ofxAssimpModelLoader*> models3D;
 
+	ofCamera mainCamera;
+	bool is_camera_ortho = false;
+
 	void setup();
 	void update();
 	void draw();
@@ -37,4 +40,6 @@ public:
 	//Hugo
 	void import3dModel(std::string file_name);
 
+	void cameraLookAt(int index);
+	void switchProjectionMode();
 };

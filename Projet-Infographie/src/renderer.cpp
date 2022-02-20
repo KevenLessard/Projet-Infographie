@@ -9,7 +9,7 @@ void Renderer::setup()
 		mouse_press_x = mouse_press_y = mouse_current_x = mouse_current_y = 0;
 
 		is_mouse_button_pressed = false;
-
+        mainCamera.setPosition(0, 0, 100);
 	}
 }
 
@@ -35,7 +35,7 @@ void Renderer::draw_cursor(float x, float y) const
 
     // dessiner la forme vectorielle
     // Proposition d'une autre forme:
-    //Curseur Circulaire. Cependant, le No Fill enleve le remplissage partout. Comment faire pour qu'il n'agisse que sur le curseur est-ce avec un begin() et un end()?
+    // Curseur Circulaire. Cependant, le No Fill enleve le remplissage partout. Comment faire pour qu'il n'agisse que sur le curseur est-ce avec un begin() et un end()?
 
     ofDrawCircle(x, y, 20);
     ofDrawCircle(x, y, 1);
@@ -53,7 +53,8 @@ void Renderer::draw_cursor(float x, float y) const
 void Renderer::draw()
 {
     ofPushMatrix();
-    ofTranslate(center_x, center_y, 0);
+    mainCamera.begin();
+    //ofTranslate(center_x, center_y, 0);
     ofEnableDepthTest();
 
 
@@ -74,6 +75,7 @@ void Renderer::draw()
         ofPopMatrix();
     }
     ofDisableDepthTest();
+    mainCamera.end();
     ofPopMatrix();
 }
 
@@ -113,14 +115,14 @@ void Renderer::import3dModel(std::string file_name) {
 
 
 void Renderer::deleteObject(int index) {
-    if (index >= objects.size()) {
+    if (index >= objects.size() || index == -1) {
         return;
     }
     objects.erase(objects.begin() + index);
 }
 
 void Renderer::proportionateObject(int index, ofVec3f newProportion) {
-    if (index >= objects.size()) {
+    if (index >= objects.size() || index == -1) {
         return;
     }
     objects[index]->setScale(newProportion);
@@ -135,7 +137,7 @@ void Renderer::proportionateObject(int index, ofVec3f newProportion) {
 }
 
 void Renderer::moveObject(int index, ofVec3f newPosition) {
-    if (index >= objects.size()) {
+    if (index >= objects.size() || index == -1) {
         return;
     }
     objects[index]->setPosition(newPosition);
@@ -148,7 +150,7 @@ void Renderer::moveObject(int index, ofVec3f newPosition) {
 }
 
 void Renderer::rotateObject(int index, ofVec3f newRotation) {
-    if (index >= objects.size()) {
+    if (index >= objects.size() || index == -1) {
         return;
     }
     //ofQuaternion actualRotation(newRotation);
@@ -176,4 +178,21 @@ void Renderer::image_export(const string name, const string extension) const
 
 void Renderer::reset() {
 
+}
+
+void Renderer::cameraLookAt(int index) {
+    if (index >= objects.size() || index == -1) {
+        return;
+    }
+}
+
+void Renderer::switchProjectionMode() {
+    if (is_camera_ortho) {
+        mainCamera.disableOrtho();
+        is_camera_ortho = false;
+    }
+    else {
+        mainCamera.enableOrtho();
+        is_camera_ortho = true;
+    }
 }

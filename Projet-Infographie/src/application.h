@@ -4,7 +4,7 @@
 #include "ofxGui.h"
 
 #include "renderer.h"
-#include "form.h"
+
 //#include "gestionImages.h"
 
 class ofApp : public ofBaseApp {
@@ -13,10 +13,9 @@ class ofApp : public ofBaseApp {
 	//GestionImages gestionImages;
 	ofxPanel guiProperties;
 	ofxPanel guiHierarchy;
-	ofxPanel guiForms;
+	ofxPanel guiCamera;
 
 	ofParameterGroup parameterGroup;
-	Form circleGroup;
 
 	bool is_verbose;
 
@@ -38,15 +37,12 @@ class ofApp : public ofBaseApp {
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 
-		ofxIntSlider intSlider;
-		ofxFloatSlider floatSlider;
 		ofxIntSlider intSliderTakes;
 		ofxFloatSlider floatSliderTime;
-		ofxToggle toggle;
-		ofxButton button;
+
 		ofxButton newObjectButton;
-		ofxButton newCubeButton;
-		//Hugo
+		ofxButton newSphereButton;
+		ofxButton deleteButton;
 		ofxButton newTeapotButton;
 		ofxButton newGlassesButton;
 		ofxButton newTVButton;
@@ -71,6 +67,9 @@ class ofApp : public ofBaseApp {
 
 		ofParameter<ofColor> colorPicker;
 
+		ofxIntField cameraObjectIndex;
+		ofxButton projectionModeButton;
+
 private:
 	void addNewObject();
 	void addNewSphere();
@@ -81,6 +80,8 @@ private:
 	void deleteObject();
 	void switchCurrentObject(int& index);
 	void selection(int x, int y);
+	void cameraLookAt(int& index);
+	void switchProjectionMode();
 		
 		void openFileSelection(ofFileDialogResult openFileResult);
 
