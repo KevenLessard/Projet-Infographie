@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	ofSetWindowTitle("Moteur de rendu 3d");
+	ofSetWindowTitle("Moteur de rendu 2d/3d");
 	ofLog() << "<app::setup>";
 
 	renderer.setup();
@@ -62,6 +62,13 @@ void ofApp::setup(){
 	cameraObjectIndex.addListener(this, &ofApp::cameraLookAt);
 	guiCamera.add(projectionModeButton.setup("Switch projection mode"));
 	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
+
+	is_key_press_up = false;
+	is_key_press_down = false;
+	is_key_press_left = false;
+	is_key_press_right = false;
+	is_key_press_e = false;
+	is_key_press_q = false;
 }
 
 //--------------------------------------------------------------
@@ -74,14 +81,12 @@ void ofApp::update(){
 
 	renderer.is_camera_move_up = is_key_press_q;
 	renderer.is_camera_move_down = is_key_press_e;
-
 	ofVec3f newProportion(proportionX, proportionY, proportionZ);
 	renderer.proportionateObject(indexField - 1, newProportion);
 	ofVec3f newPosition(positionSlider);
 	renderer.moveObject(indexField - 1, newPosition);
 	ofVec3f newRotation(rotationSlider);
 	renderer.rotateObject(indexField - 1, newRotation);
-
 	renderer.update();
 	
 }
@@ -95,9 +100,9 @@ void ofApp::draw(){
 	guiHierarchy.draw();
 	guiCamera.draw();
 	//gestionImages.draw();
-	ofDrawBitmapString("Camera movement: ↑ ↓ ← → q e", ofGetWidth() / 2, 15);
+
 	//dessin de l'image chargée dans le buffer loadedImages.
-	ofDrawBitmapString("Press r to open an image, v to switch verbose mode", ofGetWidth()/2, ofGetHeight() -10);
+	ofDrawBitmapString("Press r to open an image, s to save, v to switch verbose mode", ofGetWidth()/2, ofGetHeight() -10);
 	for (unsigned int i = 0; i < loadedImages.size(); i++) {
 		loadedImages[i].draw(0, 20);
 	}
@@ -169,24 +174,27 @@ void ofApp::keyPressed(int key){
 	case 101: // touche e
 		is_key_press_e = true;
 		break;
+
 	case 113: // touche q
 		is_key_press_q = true;
 		break;
+
 	case OF_KEY_LEFT: // touche ←
-		renderer.cameraTruck(-1);
+		is_key_press_left = true;
 		break;
 
 	case OF_KEY_UP: // touche ↑
-		renderer.cameraDolly(1);
+		is_key_press_up = true;
 		break;
 
 	case OF_KEY_RIGHT: // touche →
-		renderer.cameraTruck(1);
+		is_key_press_right = true;
 		break;
 
 	case OF_KEY_DOWN: // touche ↓
-		renderer.cameraDolly(-1);
+		is_key_press_down = true;
 		break;
+
 	default:
 		break;
 	}
@@ -288,7 +296,6 @@ void ofApp::keyReleased(int key){
 		is_verbose = !is_verbose;
 		ofLog() << "<verbose mode: " << is_verbose << ">";
 		break;
-
 	case OF_KEY_LEFT: // touche ←
 		is_key_press_left = false;
 		break;

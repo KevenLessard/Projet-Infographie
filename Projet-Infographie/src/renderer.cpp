@@ -18,6 +18,7 @@ void Renderer::setup()
         is_camera_move_down = false;
         is_camera_move_forward = false;
         is_camera_move_backward = false;
+        speed_delta = 250.0f;
 	
 }
 
@@ -282,12 +283,4 @@ void Renderer::switchProjectionMode() {
 
 void Renderer::cameraZoom() {
 
-}
-
-void Renderer::cameraTruck(int direction) {
-    mainCamera.truck(10 * direction);
-}
-
-void Renderer::cameraDolly(int direction) {
-    mainCamera.dolly(10 * direction);
 }
