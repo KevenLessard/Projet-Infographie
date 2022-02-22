@@ -49,12 +49,14 @@ class ofApp : public ofBaseApp {
 		ofxButton newObjectButton;
 		ofxButton newSphereButton;
 		ofxButton deleteButton;
+		ofxButton newBoxButton;
+		ofxButton newCylinderButton;
+		ofxButton newConeButton;
 		ofxButton newTeapotButton;
 		ofxButton newGlassesButton;
 		ofxButton newTVButton;
 
 		ofxButton HSBDisplayButton;
-		ofxButton newCubeButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
@@ -81,7 +83,9 @@ class ofApp : public ofBaseApp {
 private:
 	void addNewObject();
 	void addNewSphere();
-	//Hugo
+	void addNewBox();
+	void addNewCylinder();
+	void addNewCone();
 	void addNewTeapot();
 	void addNewGlasses();
 	void addNewTV();

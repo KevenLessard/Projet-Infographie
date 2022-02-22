@@ -1,4 +1,4 @@
-#include "primitives3D.h"
+#include "sphere.h"
 
 spherePrimitive::spherePrimitive() {
     texCoords = { 0.f, 0.f, 1.f, 1.f };
