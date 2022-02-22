@@ -2,7 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
-#include "primitives3D.h"
+#include "sphere.h"
 
 class Renderer
 {
@@ -69,13 +69,15 @@ public:
 	void addNew3dObject();
 	//void addNew2DObject();
 	void addNewSphere();
+	void addNewBox();
+	void addNewCylinder();
+	void addNewCone();
 	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
 	void rotateObject(int index, ofVec3f newRotation);
 	void image_export(const string name, const string extension) const;
 
-	//Hugo
 	void import3dModel(std::string file_name);
 
 	void cameraLookAt(int index);

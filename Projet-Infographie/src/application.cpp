@@ -40,12 +40,19 @@ void ofApp::setup(){
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
 	guiHierarchy.add(newSphereButton.setup("New sphere"));
+	guiHierarchy.add(newBoxButton.setup("New Box"));
+	guiHierarchy.add(newConeButton.setup("New Cone"));
+	guiHierarchy.add(newCylinderButton.setup("New Cylinder"));
 	guiHierarchy.add(newTeapotButton.setup("Teapot.obj"));
 	guiHierarchy.add(newGlassesButton.setup("glasses.3DS"));
 	guiHierarchy.add(newTVButton.setup("tv.fbx"));
 	guiHierarchy.add(deleteButton.setup("Delete object"));
+
 	newObjectButton.addListener(this, &ofApp::addNewObject);
 	newSphereButton.addListener(this, &ofApp::addNewSphere);
+	newBoxButton.addListener(this, &ofApp::addNewBox);
+	newConeButton.addListener(this, &ofApp::addNewCone);
+	newCylinderButton.addListener(this, &ofApp::addNewCylinder);
 	newTeapotButton.addListener(this, &ofApp::addNewTeapot);
 	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
 	newTVButton.addListener(this, &ofApp::addNewTV);
@@ -424,16 +431,31 @@ void ofApp::addNewObject() {
 void ofApp::addNewSphere() {
 	renderer.addNewSphere();
 }
+
+void ofApp::addNewBox() {
+	renderer.addNewBox();
+}
+
+void ofApp::addNewCone() {
+	renderer.addNewCone();
+}
+
+void ofApp::addNewCylinder() {
+	renderer.addNewCylinder();
+}
+
 void ofApp::deleteObject() {
 	renderer.deleteObject(indexField - 1);
 }
+
 void ofApp::switchCurrentObject(int& index) {
 	
 }
+
 void ofApp::selection(int x, int y) {
 
 }
-//Hugo
+
 void ofApp::addNewTeapot() {
 	renderer.import3dModel("teapot.obj");
 }

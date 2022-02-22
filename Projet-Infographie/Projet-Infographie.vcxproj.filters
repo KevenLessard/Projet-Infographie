@@ -58,7 +58,7 @@
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\primitives3D.cpp">
+    <ClCompile Include="src\sphere.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -287,7 +287,7 @@
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
-    <ClInclude Include="src\primitives3D.h">
+    <ClInclude Include="src\sphere.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

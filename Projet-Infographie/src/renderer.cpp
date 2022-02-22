@@ -3,7 +3,6 @@
 
 void Renderer::setup()
 {
-	
         ofSetFrameRate(60);
         
 		mouse_press_x = mouse_press_y = mouse_current_x = mouse_current_y = 0;
@@ -117,6 +116,7 @@ void Renderer::draw_HandCursor(float x, float y) const
 
 void Renderer::draw()
 {
+
     //Ajouter une section pour le draw du 2D
     ofPushMatrix();
     mainCamera.begin();
@@ -181,7 +181,20 @@ void Renderer::addNewSphere() {
     objects.push_back(sphere);
 }
 
-//Hugo
+void Renderer::addNewBox() {
+    ofBoxPrimitive* box = new ofBoxPrimitive();
+    objects.push_back(box);
+}
+
+void Renderer::addNewCylinder() {
+    ofCylinderPrimitive* cylinder = new ofCylinderPrimitive();
+    objects.push_back(cylinder);
+}
+
+void Renderer::addNewCone() {
+    ofConePrimitive* cone = new ofConePrimitive();
+    objects.push_back(cone);
+}
 
 
 void Renderer::import3dModel(std::string file_name) {
