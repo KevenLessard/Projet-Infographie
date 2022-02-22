@@ -42,7 +42,6 @@ public:
 	
 	ofCamera mainCamera;
 	bool is_camera_ortho = false;
-
 	bool is_camera_move_left;
 	bool is_camera_move_right;
 	bool is_camera_move_up;
@@ -57,7 +56,6 @@ public:
 	float time_current;
 	float time_last;
 	float time_elapsed;
-
 	void setup();
 	void update();
 	void draw();
@@ -83,6 +81,4 @@ public:
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void cameraZoom();
-	void cameraTruck(int direction);
-	void cameraDolly(int direction);
 };
