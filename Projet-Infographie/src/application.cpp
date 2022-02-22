@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	ofSetWindowTitle("Moteur de rendu 2d/3d");
+	ofSetWindowTitle("Moteur de rendu 3d");
 	ofLog() << "<app::setup>";
 
 	renderer.setup();

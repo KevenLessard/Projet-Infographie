@@ -18,7 +18,7 @@ void Renderer::setup()
         is_camera_move_down = false;
         is_camera_move_forward = false;
         is_camera_move_backward = false;
-	}
+	
 }
 
 void Renderer::update()
