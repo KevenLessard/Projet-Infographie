@@ -40,12 +40,19 @@ void ofApp::setup(){
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
 	guiHierarchy.add(newSphereButton.setup("New sphere"));
+	guiHierarchy.add(newBoxButton.setup("New Box"));
+	guiHierarchy.add(newConeButton.setup("New Cone"));
+	guiHierarchy.add(newCylinderButton.setup("New Cylinder"));
 	guiHierarchy.add(newTeapotButton.setup("Teapot.obj"));
 	guiHierarchy.add(newGlassesButton.setup("glasses.3DS"));
 	guiHierarchy.add(newTVButton.setup("tv.fbx"));
 	guiHierarchy.add(deleteButton.setup("Delete object"));
+
 	newObjectButton.addListener(this, &ofApp::addNewObject);
 	newSphereButton.addListener(this, &ofApp::addNewSphere);
+	newBoxButton.addListener(this, &ofApp::addNewBox);
+	newConeButton.addListener(this, &ofApp::addNewCone);
+	newCylinderButton.addListener(this, &ofApp::addNewCylinder);
 	newTeapotButton.addListener(this, &ofApp::addNewTeapot);
 	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
 	newTVButton.addListener(this, &ofApp::addNewTV);
@@ -62,10 +69,25 @@ void ofApp::setup(){
 	cameraObjectIndex.addListener(this, &ofApp::cameraLookAt);
 	guiCamera.add(projectionModeButton.setup("Switch projection mode"));
 	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
+
+	is_key_press_up = false;
+	is_key_press_down = false;
+	is_key_press_left = false;
+	is_key_press_right = false;
+	is_key_press_e = false;
+	is_key_press_q = false;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	renderer.is_camera_move_forward = is_key_press_up;
+	renderer.is_camera_move_backward = is_key_press_down;
+
+	renderer.is_camera_move_left = is_key_press_left;
+	renderer.is_camera_move_right = is_key_press_right;
+
+	renderer.is_camera_move_up = is_key_press_q;
+	renderer.is_camera_move_down = is_key_press_e;
 	ofVec3f newProportion(proportionX, proportionY, proportionZ);
 	renderer.proportionateObject(indexField - 1, newProportion);
 	ofVec3f newPosition(positionSlider);
@@ -154,7 +176,35 @@ void ofApp::actionResearchImages() {
 }
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
+	switch (key)
+	{
+	case 101: // touche e
+		is_key_press_e = true;
+		break;
 
+	case 113: // touche q
+		is_key_press_q = true;
+		break;
+
+	case OF_KEY_LEFT: // touche ←
+		is_key_press_left = true;
+		break;
+
+	case OF_KEY_UP: // touche ↑
+		is_key_press_up = true;
+		break;
+
+	case OF_KEY_RIGHT: // touche →
+		is_key_press_right = true;
+		break;
+
+	case OF_KEY_DOWN: // touche ↓
+		is_key_press_down = true;
+		break;
+
+	default:
+		break;
+	}
 }
 
 //--------------------------------------------------------------
@@ -212,6 +262,12 @@ void ofApp::keyReleased(int key){
 		ofLog() << "curseur de resize";
 		
 		break;
+	case 101: // touche e
+		is_key_press_e = false;
+		break;
+	case 113: // touche q
+		is_key_press_q = false;
+		break;
 		
 	case 114: // touche r pour rechercher une image
 		
@@ -246,6 +302,21 @@ void ofApp::keyReleased(int key){
 	case 118: // touche v pour verbose
 		is_verbose = !is_verbose;
 		ofLog() << "<verbose mode: " << is_verbose << ">";
+		break;
+	case OF_KEY_LEFT: // touche ←
+		is_key_press_left = false;
+		break;
+
+	case OF_KEY_UP: // touche ↑
+		is_key_press_up = false;
+		break;
+
+	case OF_KEY_RIGHT: // touche →
+		is_key_press_right = false;
+		break;
+
+	case OF_KEY_DOWN: // touche ↓
+		is_key_press_down = false;
 		break;
 
 	default:
@@ -360,16 +431,31 @@ void ofApp::addNewObject() {
 void ofApp::addNewSphere() {
 	renderer.addNewSphere();
 }
+
+void ofApp::addNewBox() {
+	renderer.addNewBox();
+}
+
+void ofApp::addNewCone() {
+	renderer.addNewCone();
+}
+
+void ofApp::addNewCylinder() {
+	renderer.addNewCylinder();
+}
+
 void ofApp::deleteObject() {
 	renderer.deleteObject(indexField - 1);
 }
+
 void ofApp::switchCurrentObject(int& index) {
 	
 }
+
 void ofApp::selection(int x, int y) {
 
 }
-//Hugo
+
 void ofApp::addNewTeapot() {
 	renderer.import3dModel("teapot.obj");
 }

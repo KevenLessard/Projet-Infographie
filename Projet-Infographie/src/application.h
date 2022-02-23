@@ -49,12 +49,14 @@ class ofApp : public ofBaseApp {
 		ofxButton newObjectButton;
 		ofxButton newSphereButton;
 		ofxButton deleteButton;
+		ofxButton newBoxButton;
+		ofxButton newCylinderButton;
+		ofxButton newConeButton;
 		ofxButton newTeapotButton;
 		ofxButton newGlassesButton;
 		ofxButton newTVButton;
 
 		ofxButton HSBDisplayButton;
-		ofxButton newCubeButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
 
@@ -77,11 +79,18 @@ class ofApp : public ofBaseApp {
 
 		ofxIntField cameraObjectIndex;
 		ofxButton projectionModeButton;
-
+		bool is_key_press_up;
+		bool is_key_press_down;
+		bool is_key_press_left;
+		bool is_key_press_right;
+		bool is_key_press_e;
+		bool is_key_press_q;
 private:
 	void addNewObject();
 	void addNewSphere();
-	//Hugo
+	void addNewBox();
+	void addNewCylinder();
+	void addNewCone();
 	void addNewTeapot();
 	void addNewGlasses();
 	void addNewTV();
