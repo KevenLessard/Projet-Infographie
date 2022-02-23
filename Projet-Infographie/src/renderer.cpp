@@ -10,7 +10,7 @@ void Renderer::setup()
 
 		is_mouse_button_pressed = false;
         mainCamera.setPosition(0, 0, 100);
-	}
+
 }
 
 void Renderer::update()
