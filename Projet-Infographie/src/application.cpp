@@ -8,7 +8,7 @@ void ofApp::setup(){
 
 	renderer.setup();
 	
-
+	
 	is_verbose = false;
 	
 	//Panneau de propriete des objets     

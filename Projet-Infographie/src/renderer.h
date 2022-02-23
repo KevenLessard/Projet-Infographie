@@ -34,7 +34,8 @@ public:
 
 	
 	//Vecteur d'objet 2D
-	//vector<Form*> shapes;
+	
+
 
 	ofParameter<ofColor> colorPicker;
 

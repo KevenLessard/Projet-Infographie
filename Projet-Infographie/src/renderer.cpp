@@ -156,9 +156,6 @@ void Renderer::draw()
     if (resizeCursor_enabled)
         draw_ResizeCursor(mouse_current_x, mouse_current_y);
 
-
-        
-
 }
 
 
