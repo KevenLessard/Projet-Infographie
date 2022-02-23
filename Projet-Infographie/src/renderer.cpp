@@ -18,11 +18,13 @@ void Renderer::setup()
         is_camera_move_forward = false;
         is_camera_move_backward = false;
         speed_delta = 250.0f;
-	
+
 }
 
 void Renderer::update()
 {
+
+
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
 
@@ -47,6 +49,10 @@ void Renderer::update()
         mainCamera.dolly(-speed_translation);
     if (is_camera_move_backward)
         mainCamera.dolly(speed_translation);
+
+    for (ofxAssimpModelLoader* object : models3D) {
+        object->update();
+    }
 }
 
 // fonction de dessin du curseur
@@ -137,7 +143,7 @@ void Renderer::draw()
         ofPushMatrix();
         ofFill();
         ofSetColor(61, 61, 205);
-        object->draw(OF_MESH_WIREFRAME);
+        object->drawFaces();
         ofPopMatrix();
     }
     ofDisableDepthTest();
@@ -201,12 +207,17 @@ void Renderer::import3dModel(std::string file_name) {
     ofxAssimpModelLoader* model3D = new ofxAssimpModelLoader();
     model3D->loadModel(file_name);
 
+    model3D->setLoopStateForAllAnimations(OF_LOOP_NORMAL);
+    model3D->playAllAnimations();
+
     if (models3D.size() == 0)
         model3D->setScale(1, 1, 1);
 
     if (models3D.size() >= 1) {
         model3D->setScale(0.2, 0.2, 0.2);
     }
+
+
     models3D.push_back(model3D);
 }
 
@@ -297,3 +308,4 @@ void Renderer::switchProjectionMode() {
 void Renderer::cameraZoom() {
 
 }
+

@@ -55,6 +55,7 @@ class ofApp : public ofBaseApp {
 		ofxButton newTeapotButton;
 		ofxButton newGlassesButton;
 		ofxButton newTVButton;
+		ofxButton newWolfButton;
 
 		ofxButton HSBDisplayButton;
 		ofxLabel labelProperties;
@@ -94,6 +95,7 @@ private:
 	void addNewTeapot();
 	void addNewGlasses();
 	void addNewTV();
+	void addAnimatedWolf();
 	void deleteObject();
 	void switchCurrentObject(int& index);
 	void selection(int x, int y);
