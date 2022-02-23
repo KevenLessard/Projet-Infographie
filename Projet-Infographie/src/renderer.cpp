@@ -146,6 +146,20 @@ void Renderer::draw()
         object->drawFaces();
         ofPopMatrix();
     }
+    
+    for (ofxVectorGraphics* object : objects2D) {
+        ofPushMatrix();
+        ofFill();
+        ofSetColor(61, 61, 205);
+        object->enableDraw();
+        for (int i = 0; i < objects2D.size(); i++)
+        {
+            ofLog() << "objets du vecteur objects2D" << objects2D[i];
+        }
+            ofPopMatrix();
+    }
+
+
     ofDisableDepthTest();
     mainCamera.end();
     ofPopMatrix();
@@ -199,6 +213,43 @@ void Renderer::addNewCone() {
     objects.push_back(cone);
 }
 
+// Fonctions d'ajout de nouveaux objects 2D
+void Renderer::addNewCircle()
+{
+    ofxVectorGraphics* circle = new ofxVectorGraphics(); circle; 
+    objects2D.push_back(circle); 
+}
+/*
+void Renderer::addNewRectangle()
+{
+    objects2D.setColor(255);
+    objects2D.rect(ofGetWidth() / 2, ofGetHeight() / 2, 60, 60);
+}
+
+void Renderer::addNewTriangle()
+{
+    objects2D.setColor(255);
+    objects2D.triangle(ofGetWidth() / 2, ofGetHeight() / 2, 110, 50, 140, 110);
+}
+
+void Renderer::addNewLine()
+{
+    objects2D.setColor(255);
+    objects2D.line(ofGetWidth() / 2, ofGetHeight() / 2, ofGetWidth() / 2 + 100, ofGetHeight() / 2);
+}
+
+void Renderer::addNewBezierCurve()
+{
+    objects2D.setColor(255);
+    objects2D.bezier(70, 270, 100, 200, 120, 260, 180, 270);
+}
+
+void Renderer::addNewEllipse()
+{
+    objects2D.setColor(255);
+    objects2D.ellipse(ofGetWidth() / 2, ofGetHeight() / 2, 30, 40);
+}
+*/
 
 void Renderer::import3dModel(std::string file_name) {
     ofxAssimpModelLoader* model3D = new ofxAssimpModelLoader();

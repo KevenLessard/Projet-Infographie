@@ -57,9 +57,19 @@ class ofApp : public ofBaseApp {
 		ofxButton newTVButton;
 		ofxButton newWolfButton;
 
+		ofParameterGroup objects2Dgroup;
+		ofxButton newCircleButton;
+		ofxButton newRectangleButton;
+		ofxButton newTriangleButton;
+		ofxButton newLineButton;
+		ofxButton newBezierButton;
+		ofxButton newEllipseButton;
+
 		ofxButton HSBDisplayButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
+		ofxLabel labelobjects3D;
+		ofxLabel labelobjects2D;
 
 		ofxIntField indexField;
 
@@ -87,6 +97,7 @@ class ofApp : public ofBaseApp {
 		bool is_key_press_e;
 		bool is_key_press_q;
 private:
+	// Ajout des objects 3D
 	void addNewObject();
 	void addNewSphere();
 	void addNewBox();
@@ -96,6 +107,16 @@ private:
 	void addNewGlasses();
 	void addNewTV();
 	void addAnimatedWolf();
+
+	// Ajout des objects 2D
+	void addNewCircle();
+	/*void addNewRectangle();
+	void addNewTriangle();
+	void addNewLine();
+	void addNewBezierCurve();
+	void addNewEllipse();
+	*/
+	//Fonctions utilitaires
 	void deleteObject();
 	void switchCurrentObject(int& index);
 	void selection(int x, int y);

@@ -7,6 +7,9 @@
     <ClCompile Include="src\application.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\box.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\gestionImages.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -14,6 +17,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sphere.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp">
@@ -58,8 +64,11 @@
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxToggle.cpp">
       <Filter>addons\ofxGui\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\sphere.cpp">
-      <Filter>src</Filter>
+    <ClCompile Include="..\..\..\..\addons\ofxVectorGraphics\src\ofxVectorGraphics.cpp">
+      <Filter>addons\ofxVectorGraphics\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS.cpp">
+      <Filter>addons\ofxVectorGraphics\libs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -102,15 +111,30 @@
     <Filter Include="addons\ofxGui\src">
       <UniqueIdentifier>{645E9533-4DCD-6179-1CDF-CB65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="addons\ofxVectorGraphics">
+      <UniqueIdentifier>{5A7F3658-B06B-DB97-F4E1-DD19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxVectorGraphics\src">
+      <UniqueIdentifier>{F615F000-D48C-B1D6-F1C2-6EDD}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxVectorGraphics\libs">
+      <UniqueIdentifier>{B341F552-35C4-7EB6-B3C9-9D96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\box.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\gestionImages.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sphere.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h">
@@ -287,8 +311,14 @@
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
-    <ClInclude Include="src\sphere.h">
-      <Filter>src</Filter>
+    <ClInclude Include="..\..\..\..\addons\ofxVectorGraphics\src\ofxVectorGraphics.h">
+      <Filter>addons\ofxVectorGraphics\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS.hpp">
+      <Filter>addons\ofxVectorGraphics\libs</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS_Types.hpp">
+      <Filter>addons\ofxVectorGraphics\libs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

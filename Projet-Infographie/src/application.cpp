@@ -38,6 +38,8 @@ void ofApp::setup(){
 	guiHierarchy.setup();
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panneau", "Hierarchie"));
+	guiHierarchy.add(labelobjects3D.setup("Panneau", "Models 3D"));
+
 	guiHierarchy.add(newObjectButton.setup("New 3DObject"));
 	guiHierarchy.add(newSphereButton.setup("New sphere"));
 	guiHierarchy.add(newBoxButton.setup("New Box"));
@@ -49,6 +51,16 @@ void ofApp::setup(){
 	guiHierarchy.add(newWolfButton.setup("Animated Wolf"));
 	guiHierarchy.add(deleteButton.setup("Delete object"));
 
+	//objects2Dgroup.setName("2D objects");
+	//guiHierarchy.add(objects2Dgroup);
+	guiHierarchy.add(labelobjects2D.setup("Panneau", "Models 2D"));
+	guiHierarchy.add(newCircleButton.setup("New Circle"));
+	guiHierarchy.add(newRectangleButton.setup("New Rectangle"));
+	guiHierarchy.add(newTriangleButton.setup("New Triangle"));
+	guiHierarchy.add(newLineButton.setup("New Line"));
+	guiHierarchy.add(newBezierButton.setup("New Bezier"));
+	guiHierarchy.add(newEllipseButton.setup("New Ellipse"));
+
 	newObjectButton.addListener(this, &ofApp::addNewObject);
 	newSphereButton.addListener(this, &ofApp::addNewSphere);
 	newBoxButton.addListener(this, &ofApp::addNewBox);
@@ -59,6 +71,15 @@ void ofApp::setup(){
 	newTVButton.addListener(this, &ofApp::addNewTV);
 	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
 	deleteButton.addListener(this, &ofApp::deleteObject);
+
+	newCircleButton.addListener(this, &ofApp::addNewCircle);
+/*	newRectangleButton.addListener(this, &ofApp::addNewRectangle);
+	newTriangleButton.addListener(this, &ofApp::addNewTriangle);
+	newLineButton.addListener(this, &ofApp::addNewLine);
+	newBezierButton.addListener(this, &ofApp::addNewBezierCurve);
+	newEllipseButton.addListener(this, &ofApp::addNewEllipse);
+	*/
+
 
 
 	//panneau de contrôle de formes. 
@@ -446,6 +467,9 @@ void ofApp::addNewCylinder() {
 	renderer.addNewCylinder();
 }
 
+
+
+
 void ofApp::deleteObject() {
 	renderer.deleteObject(indexField - 1);
 }
@@ -474,6 +498,30 @@ void ofApp::addAnimatedWolf() {
 	renderer.import3dModel("Wolf_dae.dae");
 }
 
+void ofApp::addNewCircle(){
+	renderer.addNewCircle();
+}
+/*
+void ofApp::addNewRectangle(){
+	renderer.addNewRectangle();
+}
+
+void ofApp::addNewTriangle(){
+	renderer.addNewTriangle();
+}
+
+void ofApp::addNewLine(){
+	renderer.addNewLine();
+}
+
+void ofApp::addNewBezierCurve(){
+	renderer.addNewBezierCurve();
+}
+
+void ofApp::addNewEllipse(){
+	renderer.addNewEllipse();
+}
+*/
 void ofApp::cameraLookAt(int& index) {
 	renderer.cameraLookAt(index - 1);
 }

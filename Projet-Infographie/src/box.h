@@ -24,7 +24,7 @@ public:
     boxPrimitive();
     boxPrimitive(float width, float height, float depth, int resWidth = 2,
         int resHeight = 2, int resDepth = 2);
-    
+
 
     void set(float width, float height, float depth, int resWidth,
         int resHeight, int resDepth);
@@ -67,3 +67,4 @@ protected:
     // indices strides for faces //
     int strides[6][2];
     int vertices[6][2];
+};

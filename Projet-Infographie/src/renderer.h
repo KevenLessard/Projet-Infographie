@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
+#include "ofxVectorGraphics.h"
 #include "sphere.h"
 
 class Renderer
@@ -32,9 +33,10 @@ public:
 	vector<of3dPrimitive*> objects;
 	vector<ofxAssimpModelLoader*> models3D;
 
+
 	
 	//Vecteur d'objet 2D
-	
+	vector<ofxVectorGraphics*> objects2D;
 
 
 	ofParameter<ofColor> colorPicker;
@@ -68,11 +70,22 @@ public:
 	void draw_ResizeCursor(float x, float y) const;
 	void draw_HandCursor(float x, float y) const;
 	void addNew3dObject();
-	//void addNew2DObject();
+	
 	void addNewSphere();
 	void addNewBox();
 	void addNewCylinder();
 	void addNewCone();
+
+	//void addNew2DObjects
+	void addNewCircle();
+	/*void addNewRectangle();
+	void addNewTriangle();
+	void addNewLine();
+	void addNewBezierCurve();
+	void addNewEllipse();
+	*/
+
+
 	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
