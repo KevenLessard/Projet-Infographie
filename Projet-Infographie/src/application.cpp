@@ -46,6 +46,7 @@ void ofApp::setup(){
 	guiHierarchy.add(newTeapotButton.setup("Teapot.obj"));
 	guiHierarchy.add(newGlassesButton.setup("glasses.3DS"));
 	guiHierarchy.add(newTVButton.setup("tv.fbx"));
+	guiHierarchy.add(newWolfButton.setup("Animated Wolf"));
 	guiHierarchy.add(deleteButton.setup("Delete object"));
 
 	newObjectButton.addListener(this, &ofApp::addNewObject);
@@ -56,6 +57,7 @@ void ofApp::setup(){
 	newTeapotButton.addListener(this, &ofApp::addNewTeapot);
 	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
 	newTVButton.addListener(this, &ofApp::addNewTV);
+	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
 	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
@@ -466,6 +468,10 @@ void ofApp::addNewGlasses() {
 
 void ofApp::addNewTV() {
 	renderer.import3dModel("tv.fbx");
+}
+
+void ofApp::addAnimatedWolf() {
+	renderer.import3dModel("Wolf_dae.dae");
 }
 
 void ofApp::cameraLookAt(int& index) {

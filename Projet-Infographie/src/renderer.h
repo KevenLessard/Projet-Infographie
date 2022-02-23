@@ -79,9 +79,13 @@ public:
 	void rotateObject(int index, ofVec3f newRotation);
 	void image_export(const string name, const string extension) const;
 
+	void stopAnimation();
+
+
 	void import3dModel(std::string file_name);
 
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void cameraZoom();
+
 };
