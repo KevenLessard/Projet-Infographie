@@ -11,9 +11,35 @@ class ofApp : public ofBaseApp {
 
 	Renderer renderer;
 	//GestionImages gestionImages;
-	ofxPanel guiProperties;
-	ofxPanel guiHierarchy;
-	ofxPanel guiCamera;
+
+	//3D
+	ofxPanel guiProperties3D;
+	ofxPanel guiObjects3D;
+	ofxPanel guiCamera3D;
+
+	ofxButton newObjectButton;
+	ofxButton newSphereButton;
+	ofxButton deleteButton;
+	ofxButton newBoxButton;
+	ofxButton newCylinderButton;
+	ofxButton newConeButton;
+	ofxButton newTeapotButton;
+	ofxButton newGlassesButton;
+	ofxButton newTVButton;
+	ofxButton newWolfButton;
+
+	//___________________________
+
+	//2D
+	ofxPanel guiProperties2D;
+	ofxPanel guiObjects2D;
+	ofxPanel guiCamera2D;
+
+	ofxButton newCircleButton;
+	ofxButton newSquareButton;
+	ofxButton newTriangleButton;
+	//___________________________
+
 
 	ofParameterGroup parameterGroup;
 
@@ -46,16 +72,7 @@ class ofApp : public ofBaseApp {
 		ofxIntSlider intSliderTakes;
 		ofxFloatSlider floatSliderTime;
 
-		ofxButton newObjectButton;
-		ofxButton newSphereButton;
-		ofxButton deleteButton;
-		ofxButton newBoxButton;
-		ofxButton newCylinderButton;
-		ofxButton newConeButton;
-		ofxButton newTeapotButton;
-		ofxButton newGlassesButton;
-		ofxButton newTVButton;
-		ofxButton newWolfButton;
+
 
 		ofxButton HSBDisplayButton;
 		ofxLabel labelProperties;
@@ -86,7 +103,13 @@ class ofApp : public ofBaseApp {
 		bool is_key_press_right;
 		bool is_key_press_e;
 		bool is_key_press_q;
+
+		bool mode3D = true;
+
+
 private:
+
+	//3D
 	void addNewObject();
 	void addNewSphere();
 	void addNewBox();
@@ -101,6 +124,11 @@ private:
 	void selection(int x, int y);
 	void cameraLookAt(int& index);
 	void switchProjectionMode();
+
+	//2D
+	void addNewSquare();
+	void addNewTriangle();
+	void addNewCircle();
 		
 		void openFileSelection(ofFileDialogResult openFileResult);
 
@@ -111,5 +139,7 @@ private:
 		string originalFileExtension;
 
 		vector<int> selectedObject;
+
+
 		
 };

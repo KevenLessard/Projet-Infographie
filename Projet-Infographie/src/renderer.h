@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
 #include "sphere.h"
+#include "ofxVectorGraphics.h"
 
 class Renderer
 {
@@ -31,13 +32,11 @@ public:
 	//Vecteur d'objet 3D
 	vector<of3dPrimitive*> objects;
 	vector<ofxAssimpModelLoader*> models3D;
-
+	//__________________________
 	
-	//Vecteur d'objet 2D
-	//vector<Form*> shapes;
+
 
 	ofParameter<ofColor> colorPicker;
-
 	
 	
 	ofCamera mainCamera;
@@ -66,8 +65,9 @@ public:
 	void draw_ArrowCursor(float x, float y) const;
 	void draw_ResizeCursor(float x, float y) const;
 	void draw_HandCursor(float x, float y) const;
+
+	//3D
 	void addNew3dObject();
-	//void addNew2DObject();
 	void addNewSphere();
 	void addNewBox();
 	void addNewCylinder();
@@ -77,14 +77,14 @@ public:
 	void moveObject(int index, ofVec3f newPosition);
 	void rotateObject(int index, ofVec3f newRotation);
 	void image_export(const string name, const string extension) const;
-
-	void stopAnimation();
-
-
 	void import3dModel(std::string file_name);
-
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void cameraZoom();
+
+	//2D
+	ofxVectorGraphics  objects2D;
+	void addNewSquare();
+	bool squareDraw = false;
 
 };
