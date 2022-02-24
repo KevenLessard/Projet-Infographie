@@ -161,8 +161,12 @@ void Renderer::draw()
         draw_HandCursor(mouse_current_x, mouse_current_y);
     if (resizeCursor_enabled)
         draw_ResizeCursor(mouse_current_x, mouse_current_y);
-
-
+    //2D
+    if (squareDraw) {
+        objects2D.setColor(0x00FFFF);
+        objects2D.disableCenterRect();
+        objects2D.rect(240, 50, 60, 60);
+    }
         
 
 }
@@ -309,3 +313,17 @@ void Renderer::cameraZoom() {
 
 }
 
+//2D
+
+void Renderer::addNewSquare() {
+    cout << "square";
+
+    if (squareDraw==false) {
+        cout << "true";
+        squareDraw = true;
+    }
+    else {
+        cout << "false";
+        squareDraw = false;
+    }
+}
