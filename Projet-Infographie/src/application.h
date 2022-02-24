@@ -2,7 +2,6 @@
 
 #include "ofMain.h"
 #include "ofxGui.h"
-
 #include "renderer.h"
 
 //#include "gestionImages.h"
