@@ -31,8 +31,6 @@ public:
 
 
 	//Vecteur d'objet 3D
-	vector<of3dPrimitive*> objects;
-	vector<ofxAssimpModelLoader*> models3D;
 	vector<object3D*> objects3d;
 
 	
@@ -84,6 +82,7 @@ public:
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void cameraZoom();
+	void setObjectColor(int index);
 
 	//2D
 	ofxVectorGraphics  objects2D;

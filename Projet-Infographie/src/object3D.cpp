@@ -22,6 +22,15 @@ object3D::object3D(int type) {
 	case 3:
 		box = ofBoxPrimitive();
 		objectType = box3d;
+		break;
+	case 4:
+		cylinder = ofCylinderPrimitive();
+		objectType = cylinder3d;
+		break;
+	case 5:
+		cone = ofConePrimitive();
+		objectType = cone3d;
+		break;
 	default:
 		ofLog() << "Invalid type.";
 	}
@@ -122,7 +131,13 @@ void object3D::setRadius(float newRadius) {
 	sphere.setRadius(newRadius);
 }
 
+void object3D::setColor(ofColor newColor) {
+	color = newColor;
+}
+
 void object3D::draw() {
+	ofPushMatrix();
+	ofSetColor(color);
 	if (objectType == primitive3d) {
 		ofSetColor(61, 61, 205);
 		primitive.draw(OF_MESH_WIREFRAME);
@@ -135,4 +150,5 @@ void object3D::draw() {
 	else {
 		objectImport.drawFaces();
 	}
+	ofPopMatrix();
 }

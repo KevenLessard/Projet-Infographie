@@ -8,7 +8,7 @@ void Renderer::setup()
 		mouse_press_x = mouse_press_y = mouse_current_x = mouse_current_y = 0;
 
 		is_mouse_button_pressed = false;
-        mainCamera.setPosition(0, 0, 100);
+        mainCamera.setPosition(0, 0, 500);
         mainCamera.setFov(60.0f);
 
         is_camera_move_left = false;
@@ -18,13 +18,10 @@ void Renderer::setup()
         is_camera_move_forward = false;
         is_camera_move_backward = false;
         speed_delta = 250.0f;
-
 }
 
 void Renderer::update()
 {
-
-
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
 
@@ -49,10 +46,6 @@ void Renderer::update()
         mainCamera.dolly(-speed_translation);
     if (is_camera_move_backward)
         mainCamera.dolly(speed_translation);
-
-    for (ofxAssimpModelLoader* object : models3D) {
-        object->update();
-    }
 }
 
 // fonction de dessin du curseur
@@ -122,13 +115,10 @@ void Renderer::draw_HandCursor(float x, float y) const
 
 void Renderer::draw()
 {
-
     //Ajouter une section pour le draw du 2D
     ofPushMatrix();
     mainCamera.begin();
-    //ofTranslate(center_x, center_y, 0);
     ofEnableDepthTest();
-
 
     for (object3D* object : objects3d) {
         ofPushMatrix();
@@ -137,13 +127,6 @@ void Renderer::draw()
         ofPopMatrix();
     }
 
-    for (ofxAssimpModelLoader* object : models3D) {
-        ofPushMatrix();
-        ofFill();
-        ofSetColor(61, 61, 205);
-        object->drawFaces();
-        ofPopMatrix();
-    }
     ofDisableDepthTest();
     mainCamera.end();
     ofPopMatrix();
@@ -165,22 +148,9 @@ void Renderer::draw()
         objects2D.disableCenterRect();
         objects2D.rect(240, 50, 60, 60);
     }
-        
-
 }
 
-
-
 void Renderer::addNew3dObject() {
-    //of3dPrimitive* object = new of3dPrimitive();
-    //if (objects.size() == 0)
-    //    object->setScale(3, 3, 3);
-    //if (objects.size() >= 1) {
-    //    object->setParent(*objects[objects.size() - 1]);
-    //    object->setScale(1, 1, 1);
-    //}
-    //object->setPosition(ofRandom(0, ofGetWidth()), ofRandom(0, ofGetHeight()), 0);
-    //objects.push_back(object);
     object3D* object = new object3D();
     object->setPosition(ofVec3f(0, 0, 0));
     object->setProportion(ofVec3f(1, 1, 1));
@@ -188,56 +158,34 @@ void Renderer::addNew3dObject() {
 }
 
 void Renderer::addNewSphere() {
-    //spherePrimitive* sphere = new spherePrimitive();
-    //sphere->setRadius(10);
-    //objects.push_back(sphere);
     object3D* sphere = new object3D(2);
     sphere->setRadius(10);
     objects3d.push_back(sphere);
 }
 
 void Renderer::addNewBox() {
-    ofBoxPrimitive* box = new ofBoxPrimitive();
-    objects.push_back(box);
+    object3D* box = new object3D(3);
+    objects3d.push_back(box);
 }
 
 void Renderer::addNewCylinder() {
-    ofCylinderPrimitive* cylinder = new ofCylinderPrimitive();
-    objects.push_back(cylinder);
+    object3D* cylinder = new object3D(4);
+    objects3d.push_back(cylinder);
 }
 
 void Renderer::addNewCone() {
-    ofConePrimitive* cone = new ofConePrimitive();
-    objects.push_back(cone);
+    object3D* cone = new object3D(5);
+    objects3d.push_back(cone);
 }
 
 
 void Renderer::import3dModel(std::string file_name) {
-    //ofxAssimpModelLoader* model3D = new ofxAssimpModelLoader();
-    //model3D->loadModel(file_name);
-
-    //model3D->setLoopStateForAllAnimations(OF_LOOP_NORMAL);
-    //model3D->playAllAnimations();
-
-    //if (models3D.size() == 0)
-    //    model3D->setScale(1, 1, 1);
-
-    //if (models3D.size() >= 1) {
-    //    model3D->setScale(0.2, 0.2, 0.2);
-    //}
-
-
-    //models3D.push_back(model3D);
     object3D* model3D = new object3D(file_name);
     objects3d.push_back(model3D);
 }
 
-
 void Renderer::deleteObject(int index) {
-    //if (index >= objects.size() || index == -1) {
-    //    return;
-    //}
-    //objects.erase(objects.begin() + index);
+
     if (index >= objects3d.size() || index == -1) {
         return;
     }
@@ -245,18 +193,6 @@ void Renderer::deleteObject(int index) {
 }
 
 void Renderer::proportionateObject(int index, ofVec3f newProportion) {
-    //if (index >= objects.size() || index == -1) {
-    //    return;
-    //}
-    //objects[index]->setScale(newProportion);
-    
-
-    ////Import model3D
-    //if (index >= models3D.size()) {
-    //    return;
-    //}
-    //models3D[index]->setScale(newProportion.x, newProportion.y, newProportion.z);
-
     if (index >= objects3d.size() || index == -1) {
         return;
     }
@@ -264,17 +200,6 @@ void Renderer::proportionateObject(int index, ofVec3f newProportion) {
 }
 
 void Renderer::moveObject(int index, ofVec3f newPosition) {
-    /*if (index >= objects.size() || index == -1) {
-        return;
-    }
-    objects[index]->setPosition(newPosition);*/
-
-    ////Import3dModel
-    //if (index >= models3D.size()) {
-    //    return;
-    //}
-    //models3D[index]->setPosition(newPosition.x, newPosition.y, newPosition.z);
-
     if (index >= objects3d.size() || index == -1) {
         return;
     }
@@ -282,23 +207,19 @@ void Renderer::moveObject(int index, ofVec3f newPosition) {
 }
 
 void Renderer::rotateObject(int index, ofVec3f newRotation) {
-    //if (index >= objects.size() || index == -1) {
-    //    return;
-    //}
-    ////ofQuaternion actualRotation(newRotation);
-    //objects[index]->setOrientation(newRotation);
-
-    ////Import3dModel
-    //if (index >= models3D.size()) {
-    //    return;
-    //}
-    //Pas capable de faire de rotation
-
     if (index >= objects3d.size() || index == -1) {
         return;
     }
     //ofQuaternion actualRotation(newRotation);
     objects3d[index]->setRotation(newRotation);
+}
+
+void Renderer::setObjectColor(int index) {
+    if (index >= objects3d.size() || index == -1) {
+        return;
+    }
+    ofColor newColor(colorPicker);
+    objects3d[index]->setColor(newColor);
 }
 
 void Renderer::image_export(const string name, const string extension) const
@@ -319,7 +240,7 @@ void Renderer::reset() {
 }
 
 void Renderer::cameraLookAt(int index) {
-    if (index >= objects.size() || index == -1) {
+    if (index >= objects3d.size() || index == -1) {
         return;
     }
 }
