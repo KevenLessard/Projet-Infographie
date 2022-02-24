@@ -85,6 +85,21 @@ public:
 	//2D
 	ofxVectorGraphics  objects2D;
 	void addNewSquare();
+	void addNewCircle();
+	void addNewRectangle();
+	void addNewTriangle();
+	void addNewLine();
+	void addNewBezierCurve();
+	void addNewEllipse();
+
 	bool squareDraw = false;
+	bool circleDraw = false;
+	bool RectangleDraw = false;
+	bool TriangleDraw = false;
+	bool LineDraw = false;
+	bool BezierCurveDraw = false;
+	bool EllipseDraw = false;
+
+
 
 };

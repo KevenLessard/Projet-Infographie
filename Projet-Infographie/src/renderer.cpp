@@ -167,6 +167,32 @@ void Renderer::draw()
         objects2D.disableCenterRect();
         objects2D.rect(240, 50, 60, 60);
     }
+    if(RectangleDraw)
+    {
+        objects2D.setColor(255);
+        objects2D.rect(ofGetWidth() / 2, ofGetHeight() / 2, 40, 60);
+    }
+    
+    if(TriangleDraw)
+    {
+        objects2D.setColor(255);
+        objects2D.triangle(ofGetWidth() / 2, ofGetHeight() / 2, 110, 50, 140, 110);
+    }
+    if(LineDraw)
+    {
+        objects2D.setColor(255);
+        objects2D.line(ofGetWidth() / 2, ofGetHeight() / 2, ofGetWidth() / 2 + 100, ofGetHeight() / 2);
+    }
+    if (BezierCurveDraw)
+    {
+        objects2D.setColor(255);
+        objects2D.bezier(70, 270, 100, 200, 120, 260, 180, 270);
+    }
+    if (EllipseDraw)
+    {
+        objects2D.setColor(255);
+        objects2D.ellipse(ofGetWidth() / 2, ofGetHeight() / 2, 30, 40);
+    }
         
 
 }
@@ -325,5 +351,18 @@ void Renderer::addNewSquare() {
     else {
         cout << "false";
         squareDraw = false;
+    }
+}
+
+void Renderer::addNewCircle() {
+    cout << "circle";
+
+    if (circleDraw == false) {
+        cout << "true";
+        circleDraw = true;
+    }
+    else {
+        cout << "false";
+        circleDraw = false;
     }
 }
