@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
+#include "object3D.h"
 #include "sphere.h"
 #include "ofxVectorGraphics.h"
 
@@ -32,9 +33,11 @@ public:
 	//Vecteur d'objet 3D
 	vector<of3dPrimitive*> objects;
 	vector<ofxAssimpModelLoader*> models3D;
-	//__________________________
-	
+	vector<object3D*> objects3d;
 
+	
+	//Vecteur d'objet 2D
+	//vector<Form*> shapes;
 
 	ofParameter<ofColor> colorPicker;
 	
