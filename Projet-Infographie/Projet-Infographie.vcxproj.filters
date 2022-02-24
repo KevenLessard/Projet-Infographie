@@ -61,6 +61,9 @@
     <ClCompile Include="src\sphere.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\object3D.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -288,6 +291,9 @@
       <Filter>addons\ofxGui\src</Filter>
     </ClInclude>
     <ClInclude Include="src\sphere.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object3D.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

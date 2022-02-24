@@ -130,12 +130,10 @@ void Renderer::draw()
     ofEnableDepthTest();
 
 
-    for (of3dPrimitive* object : objects) {
+    for (object3D* object : objects3d) {
         ofPushMatrix();
-        ofFill();
-        ofSetColor(colorPicker);
-        object->drawAxes(100);
-        object->draw(OF_MESH_WIREFRAME);
+        ofLog() << "getProportion " << object->getProportion();
+        object->draw();
         ofPopMatrix();
     }
 
@@ -170,21 +168,28 @@ void Renderer::draw()
 
 
 void Renderer::addNew3dObject() {
-    of3dPrimitive* object = new of3dPrimitive();
-    if (objects.size() == 0)
-        object->setScale(3, 3, 3);
-    if (objects.size() >= 1) {
-        object->setParent(*objects[objects.size() - 1]);
-        object->setScale(1, 1, 1);
-    }
-    object->setPosition(ofRandom(0, ofGetWidth()), ofRandom(0, ofGetHeight()), 0);
-    objects.push_back(object);
+    //of3dPrimitive* object = new of3dPrimitive();
+    //if (objects.size() == 0)
+    //    object->setScale(3, 3, 3);
+    //if (objects.size() >= 1) {
+    //    object->setParent(*objects[objects.size() - 1]);
+    //    object->setScale(1, 1, 1);
+    //}
+    //object->setPosition(ofRandom(0, ofGetWidth()), ofRandom(0, ofGetHeight()), 0);
+    //objects.push_back(object);
+    object3D* object = new object3D();
+    object->setPosition(ofVec3f(0, 0, 0));
+    object->setProportion(ofVec3f(1, 1, 1));
+    objects3d.push_back(object);
 }
 
 void Renderer::addNewSphere() {
-    spherePrimitive* sphere = new spherePrimitive();
+    //spherePrimitive* sphere = new spherePrimitive();
+    //sphere->setRadius(10);
+    //objects.push_back(sphere);
+    object3D* sphere = new object3D(2);
     sphere->setRadius(10);
-    objects.push_back(sphere);
+    objects3d.push_back(sphere);
 }
 
 void Renderer::addNewBox() {
@@ -204,36 +209,42 @@ void Renderer::addNewCone() {
 
 
 void Renderer::import3dModel(std::string file_name) {
-    ofxAssimpModelLoader* model3D = new ofxAssimpModelLoader();
-    model3D->loadModel(file_name);
+    //ofxAssimpModelLoader* model3D = new ofxAssimpModelLoader();
+    //model3D->loadModel(file_name);
 
-    model3D->setLoopStateForAllAnimations(OF_LOOP_NORMAL);
-    model3D->playAllAnimations();
+    //model3D->setLoopStateForAllAnimations(OF_LOOP_NORMAL);
+    //model3D->playAllAnimations();
 
-    if (models3D.size() == 0)
-        model3D->setScale(1, 1, 1);
+    //if (models3D.size() == 0)
+    //    model3D->setScale(1, 1, 1);
 
-    if (models3D.size() >= 1) {
-        model3D->setScale(0.2, 0.2, 0.2);
-    }
+    //if (models3D.size() >= 1) {
+    //    model3D->setScale(0.2, 0.2, 0.2);
+    //}
 
 
-    models3D.push_back(model3D);
+    //models3D.push_back(model3D);
+    object3D* model3D = new object3D(file_name);
+    objects3d.push_back(model3D);
 }
 
 
 void Renderer::deleteObject(int index) {
-    if (index >= objects.size() || index == -1) {
+    //if (index >= objects.size() || index == -1) {
+    //    return;
+    //}
+    //objects.erase(objects.begin() + index);
+    if (index >= objects3d.size() || index == -1) {
         return;
     }
-    objects.erase(objects.begin() + index);
+    objects3d.erase(objects3d.begin() + index);
 }
 
 void Renderer::proportionateObject(int index, ofVec3f newProportion) {
-    if (index >= objects.size() || index == -1) {
-        return;
-    }
-    objects[index]->setScale(newProportion);
+    //if (index >= objects.size() || index == -1) {
+    //    return;
+    //}
+    //objects[index]->setScale(newProportion);
     
 
     ////Import model3D
@@ -242,33 +253,48 @@ void Renderer::proportionateObject(int index, ofVec3f newProportion) {
     //}
     //models3D[index]->setScale(newProportion.x, newProportion.y, newProportion.z);
 
+    if (index >= objects3d.size() || index == -1) {
+        return;
+    }
+    objects3d[index]->setProportion(newProportion);
 }
 
 void Renderer::moveObject(int index, ofVec3f newPosition) {
-    if (index >= objects.size() || index == -1) {
+    /*if (index >= objects.size() || index == -1) {
         return;
     }
-    objects[index]->setPosition(newPosition);
+    objects[index]->setPosition(newPosition);*/
 
     ////Import3dModel
     //if (index >= models3D.size()) {
     //    return;
     //}
     //models3D[index]->setPosition(newPosition.x, newPosition.y, newPosition.z);
+
+    if (index >= objects3d.size() || index == -1) {
+        return;
+    }
+    objects3d[index]->setPosition(newPosition);
 }
 
 void Renderer::rotateObject(int index, ofVec3f newRotation) {
-    if (index >= objects.size() || index == -1) {
-        return;
-    }
-    //ofQuaternion actualRotation(newRotation);
-    objects[index]->setOrientation(newRotation);
+    //if (index >= objects.size() || index == -1) {
+    //    return;
+    //}
+    ////ofQuaternion actualRotation(newRotation);
+    //objects[index]->setOrientation(newRotation);
 
     ////Import3dModel
     //if (index >= models3D.size()) {
     //    return;
     //}
     //Pas capable de faire de rotation
+
+    if (index >= objects3d.size() || index == -1) {
+        return;
+    }
+    //ofQuaternion actualRotation(newRotation);
+    objects3d[index]->setRotation(newRotation);
 }
 
 void Renderer::image_export(const string name, const string extension) const
