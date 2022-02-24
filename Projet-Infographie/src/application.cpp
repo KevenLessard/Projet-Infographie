@@ -353,7 +353,7 @@ void ofApp::keyReleased(int key){
 		break;
 
 	default:
-		ofSetBackgroundAuto(!ofGetBackgroundAuto());
+		//ofSetBackgroundAuto(!ofGetBackgroundAuto());
 		break;
 	}
 }
