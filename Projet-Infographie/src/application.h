@@ -37,6 +37,9 @@ class ofApp : public ofBaseApp {
 	ofxButton newCircleButton;
 	ofxButton newSquareButton;
 	ofxButton newTriangleButton;
+	ofxButton newRectangleButton;
+	ofxButton newEllipseButton;
+	ofxButton newLineButton;
 	//___________________________
 
 
@@ -125,9 +128,11 @@ private:
 	void switchProjectionMode();
 
 	//2D
-	void addNewSquare();
+	void addNewRectangle();
 	void addNewTriangle();
 	void addNewCircle();
+	void addNewEllipse();
+	void addNewLine();
 		
 		void openFileSelection(ofFileDialogResult openFileResult);
 
