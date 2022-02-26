@@ -68,11 +68,11 @@ public:
 	void draw_HandCursor(float x, float y) const;
 
 	//3D
-	void addNew3dObject();
-	void addNewSphere();
-	void addNewBox();
-	void addNewCylinder();
-	void addNewCone();
+	void addNew3dObject(string name);
+	void addNewSphere(string name);
+	void addNewBox(string name);
+	void addNewCylinder(string name);
+	void addNewCone(string name);
 	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
@@ -83,10 +83,14 @@ public:
 	void switchProjectionMode();
 	void cameraZoom();
 	void setObjectColor(int index);
+	string getObjectName(int index);
 
 	//2D
 	ofxVectorGraphics  objects2D;
 	void addNewSquare();
 	bool squareDraw = false;
+
+private:
+	bool nameAlreadyExists(string name);
 
 };

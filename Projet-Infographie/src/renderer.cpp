@@ -122,7 +122,6 @@ void Renderer::draw()
 
     for (object3D* object : objects3d) {
         ofPushMatrix();
-        ofLog() << "getProportion " << object->getProportion();
         object->draw();
         ofPopMatrix();
     }
@@ -150,31 +149,61 @@ void Renderer::draw()
     }
 }
 
-void Renderer::addNew3dObject() {
-    object3D* object = new object3D();
+void Renderer::addNew3dObject(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Object " + to_string(objects3d.size());
+    }
+    object3D* object = new object3D(name);
     object->setPosition(ofVec3f(0, 0, 0));
     object->setProportion(ofVec3f(1, 1, 1));
     objects3d.push_back(object);
 }
 
-void Renderer::addNewSphere() {
-    object3D* sphere = new object3D(2);
+void Renderer::addNewSphere(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Sphere " + to_string(objects3d.size());
+    }
+    object3D* sphere = new object3D(name, 2);
     sphere->setRadius(10);
     objects3d.push_back(sphere);
 }
 
-void Renderer::addNewBox() {
-    object3D* box = new object3D(3);
+void Renderer::addNewBox(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Box " + to_string(objects3d.size());
+    }
+    object3D* box = new object3D(name, 3);
     objects3d.push_back(box);
 }
 
-void Renderer::addNewCylinder() {
-    object3D* cylinder = new object3D(4);
+void Renderer::addNewCylinder(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Cylinder " + to_string(objects3d.size());
+    }
+    object3D* cylinder = new object3D(name, 4);
     objects3d.push_back(cylinder);
 }
 
-void Renderer::addNewCone() {
-    object3D* cone = new object3D(5);
+void Renderer::addNewCone(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Cone " + to_string(objects3d.size());
+    }
+    object3D* cone = new object3D(name, 5);
     objects3d.push_back(cone);
 }
 
@@ -185,7 +214,6 @@ void Renderer::import3dModel(std::string file_name) {
 }
 
 void Renderer::deleteObject(int index) {
-
     if (index >= objects3d.size() || index == -1) {
         return;
     }
@@ -235,9 +263,18 @@ void Renderer::image_export(const string name, const string extension) const
     ofLog() << "export image:" << file_name;
 }
 
+string Renderer::getObjectName(int index) {
+    if (index >= objects3d.size() || index == -1) {
+        return "";
+    }
+    return objects3d[index]->getName();
+}
+
 void Renderer::reset() {
 
 }
+
+//Camera
 
 void Renderer::cameraLookAt(int index) {
     if (index >= objects3d.size() || index == -1) {
@@ -273,4 +310,16 @@ void Renderer::addNewSquare() {
         cout << "false";
         squareDraw = false;
     }
+}
+
+//util
+
+bool Renderer::nameAlreadyExists(string name) {
+    for (object3D* o : objects3d) {
+        if (o->getName() == name) {
+            ofLog() << "Name already exists.";
+            return true;
+        }
+    }
+    return false;
 }
