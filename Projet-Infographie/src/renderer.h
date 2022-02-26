@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
 #include "object3D.h"
+#include "object2D.h"
 #include "sphere.h"
 #include "ofxVectorGraphics.h"
 
@@ -35,6 +36,7 @@ public:
 
 	
 	//Vecteur d'objet 2D
+	vector<Object2D*> objects2D;
 	//vector<Form*> shapes;
 
 	ofParameter<ofColor> colorPicker;
@@ -69,6 +71,7 @@ public:
 
 	//3D
 	void addNew3dObject();
+	
 	void addNewSphere();
 	void addNewBox();
 	void addNewCylinder();
@@ -85,7 +88,8 @@ public:
 	void setObjectColor(int index);
 
 	//2D
-	ofxVectorGraphics  objects2D;
+	void addNew2dObject();
+
 	void addNewSquare();
 	void addNewCircle();
 	void addNewRectangle();

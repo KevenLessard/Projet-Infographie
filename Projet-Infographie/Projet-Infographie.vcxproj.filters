@@ -70,6 +70,9 @@
     <ClCompile Include="src\object3D.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\object2D.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -318,6 +321,9 @@
       <Filter>addons\ofxVectorGraphics\libs</Filter>
     </ClInclude>
     <ClInclude Include="src\object3D.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object2D.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

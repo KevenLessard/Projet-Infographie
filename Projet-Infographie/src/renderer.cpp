@@ -274,3 +274,16 @@ void Renderer::addNewSquare() {
         squareDraw = false;
     }
 }
+
+void Renderer::addNewCircle() {
+    cout << "circle";
+
+    if (circleDraw == false) {
+        cout << "true";
+        circleDraw = true;
+    }
+    else {
+        cout << "false";
+        circleDraw = false;
+    }
+}
