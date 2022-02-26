@@ -8,9 +8,9 @@ enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d 
 class object3D
 {
 public:
-	object3D();
-	object3D(int type);
-	object3D(string fileName);
+	object3D(string name);
+	object3D(string name, int type);
+	object3D(string name, string fileName);
 
 	void loadModel();
 
@@ -19,6 +19,7 @@ public:
 	ofVec3f getRotation();
 	ofVec3f getProportion();
 	float getRadius();
+	string getName();
 
 	void setPosition(ofVec3f newPosition);
 	//Take a quaternion??
@@ -26,10 +27,12 @@ public:
 	void setProportion(ofVec3f newProportion);
 	void setRadius(float newRadius);
 	void setColor(ofColor newColor);
+	void setName(string newName);
 
 	void draw();
 
 private:
+	string name;
 	ObjectType objectType;
 	ofVec3f position;
 	ofVec3f rotation;
