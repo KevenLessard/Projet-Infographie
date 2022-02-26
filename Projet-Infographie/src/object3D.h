@@ -3,7 +3,7 @@
 
 #pragma once
 
-enum ObjectType { importation, primitive3d, sphere3d, box3d };
+enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d };
 
 class object3D
 {
@@ -25,9 +25,9 @@ public:
 	void setRotation(ofVec3f newRotation);
 	void setProportion(ofVec3f newProportion);
 	void setRadius(float newRadius);
-	
-	void draw();
+	void setColor(ofColor newColor);
 
+	void draw();
 
 private:
 	ObjectType objectType;
@@ -35,9 +35,13 @@ private:
 	ofVec3f rotation;
 	ofVec3f proportion;
 
+	ofColor color;
+
 	ofxAssimpModelLoader objectImport;
 	of3dPrimitive primitive;
 	ofSpherePrimitive sphere;
 	ofBoxPrimitive box;
+	ofCylinderPrimitive cylinder;
+	ofConePrimitive cone;
 };
 

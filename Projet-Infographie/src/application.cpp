@@ -109,6 +109,7 @@ void ofApp::update(){
 	renderer.moveObject(indexField - 1, newPosition);
 	ofVec3f newRotation(rotationSlider);
 	renderer.rotateObject(indexField - 1, newRotation);
+	renderer.setObjectColor(indexField - 1);
 	renderer.update();
 	
 }
@@ -127,7 +128,6 @@ void ofApp::draw(){
 		guiProperties2D.draw();
 		guiObjects2D.draw();
 	}
-
 
 	//dessin de l'image chargée dans le buffer loadedImages.
 	ofDrawBitmapString("Press r to open an image, s to save, t for 3d interface and u for 2d interface.", ofGetWidth()/2, ofGetHeight() -10);
@@ -353,7 +353,6 @@ void ofApp::keyReleased(int key){
 		break;
 
 	default:
-		//ofSetBackgroundAuto(!ofGetBackgroundAuto());
 		break;
 	}
 }
@@ -449,7 +448,7 @@ void ofApp::getHsb()
 {
 	ofColor myRGBColor;
 	myRGBColor.set(renderer.colorPicker);
-	ofLog() << "Couleur active" << myRGBColor;
+	ofLog() << "Couleur active " << myRGBColor;
 
 	ofColor h = myRGBColor.getHue();
 	ofColor s = myRGBColor.getSaturation();
