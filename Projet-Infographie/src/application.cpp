@@ -137,7 +137,7 @@ void ofApp::draw(){
 	}
 
 	//dessin de l'image chargée dans le buffer loadedImages.
-	ofDrawBitmapString("Press r to open an image, s to save, t for 3d interface and u for 2d interface.", ofGetWidth()/2, ofGetHeight() -10);
+	ofDrawBitmapString("Press F3 to open an image, F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
 	for (unsigned int i = 0; i < loadedImages.size(); i++) {
 		loadedImages[i].draw(0, 20);
 	}
