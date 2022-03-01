@@ -246,6 +246,7 @@ void Renderer::setObjectColor(int index) {
     if (index >= objects3d.size() || index == -1) {
         return;
     }
+    //if hsb, convert to rbg first
     ofColor newColor(colorPicker);
     objects3d[index]->setColor(newColor);
 }
