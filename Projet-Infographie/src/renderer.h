@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
 #include "object3D.h"
+#include "object2D.h"
 #include "sphere.h"
 #include "ofxVectorGraphics.h"
 
@@ -35,6 +36,7 @@ public:
 
 	
 	//Vecteur d'objet 2D
+	vector<Object2D*> objects2D;
 	//vector<Form*> shapes;
 
 	ofParameter<ofColor> colorPicker;
@@ -86,9 +88,25 @@ public:
 	string getObjectName(int index);
 
 	//2D
-	ofxVectorGraphics  objects2D;
-	void addNewSquare();
+	void addNew2dObject();
+
+	void addNewSquare(string name);
+	void addNewCircle(string name);
+	void addNewRectangle(string name);
+	void addNewTriangle(string name);
+	void addNewLine(string name);
+	void addNewBezierCurve(string name);
+	void addNewEllipse(string name);
+
 	bool squareDraw = false;
+	bool circleDraw = false;
+	bool RectangleDraw = false;
+	bool TriangleDraw = false;
+	bool LineDraw = false;
+	bool BezierCurveDraw = false;
+	bool EllipseDraw = false;
+
+
 
 private:
 	bool nameAlreadyExists(string name);
