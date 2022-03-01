@@ -8,7 +8,7 @@ void ofApp::setup(){
 
 	renderer.setup();
 	
-
+	
 	is_verbose = false;
 
 	//3D
@@ -87,6 +87,20 @@ void ofApp::setup(){
 	guiObjects2D.add(labelHierarchy.setup("Panneau", "Hierarchie"));
 	guiObjects2D.add(newSquareButton.setup("New Square"));
 	newSquareButton.addListener(this, &ofApp::addNewSquare);
+		guiObjects2D.setup();
+		guiObjects2D.setPosition(0, 0);
+		guiObjects2D.add(labelHierarchy.setup("Panneau", "Hierarchie"));
+		guiObjects2D.add(newRectangleButton.setup("New Rectangle"));
+		guiObjects2D.add(newCircleButton.setup("New Circle"));
+		guiObjects2D.add(newTriangleButton.setup("New Triangle"));
+		guiObjects2D.add(newEllipseButton.setup("New Ellipse"));
+		guiObjects2D.add(newLineButton.setup("New Line"));
+		
+		newRectangleButton.addListener(this, &ofApp::addNewRectangle);
+		newCircleButton.addListener(this, &ofApp::addNewCircle);
+		newTriangleButton.addListener(this, &ofApp::addNewTriangle);
+		newEllipseButton.addListener(this, &ofApp::addNewEllipse);
+		newLineButton.addListener(this, &ofApp::addNewLine);
 
 
 	is_key_press_up = false;
@@ -560,6 +574,23 @@ void ofApp::updateHierarchy() {
 
 //2D
 
-void ofApp::addNewSquare() {
-	renderer.addNewSquare();
+void ofApp::addNewRectangle() {
+	renderer.addNewRectangle();
+}
+
+void ofApp::addNewCircle()
+{
+	renderer.addNewCircle();
+}
+
+void ofApp::addNewTriangle() {
+	renderer.addNewTriangle();
+}
+
+void ofApp::addNewEllipse() {
+	renderer.addNewEllipse();
+}
+
+void ofApp::addNewLine() {
+	renderer.addNewLine();
 }
