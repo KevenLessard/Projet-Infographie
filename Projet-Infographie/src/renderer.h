@@ -3,7 +3,6 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
 #include "object3D.h"
-#include "object2D.h"
 #include "sphere.h"
 #include "ofxVectorGraphics.h"
 
@@ -36,7 +35,6 @@ public:
 
 	
 	//Vecteur d'objet 2D
-	vector<Object2D*> objects2D;
 	//vector<Form*> shapes;
 
 	ofParameter<ofColor> colorPicker;
@@ -70,12 +68,11 @@ public:
 	void draw_HandCursor(float x, float y) const;
 
 	//3D
-	void addNew3dObject();
-	
-	void addNewSphere();
-	void addNewBox();
-	void addNewCylinder();
-	void addNewCone();
+	void addNew3dObject(string name);
+	void addNewSphere(string name);
+	void addNewBox(string name);
+	void addNewCylinder(string name);
+	void addNewCone(string name);
 	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
@@ -86,26 +83,14 @@ public:
 	void switchProjectionMode();
 	void cameraZoom();
 	void setObjectColor(int index);
+	string getObjectName(int index);
 
 	//2D
-	void addNew2dObject();
-
+	ofxVectorGraphics  objects2D;
 	void addNewSquare();
-	void addNewCircle();
-	void addNewRectangle();
-	void addNewTriangle();
-	void addNewLine();
-	void addNewBezierCurve();
-	void addNewEllipse();
-
 	bool squareDraw = false;
-	bool circleDraw = false;
-	bool RectangleDraw = false;
-	bool TriangleDraw = false;
-	bool LineDraw = false;
-	bool BezierCurveDraw = false;
-	bool EllipseDraw = false;
 
-
+private:
+	bool nameAlreadyExists(string name);
 
 };

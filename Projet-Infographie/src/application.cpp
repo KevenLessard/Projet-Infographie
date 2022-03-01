@@ -3,12 +3,12 @@
 //--------------------------------------------------------------
 void ofApp::setup(){
 
-	ofSetWindowTitle("Moteur de rendu 2d/3d");
+	ofSetWindowTitle("2D/3D engine");
 	ofLog() << "<app::setup>";
 
 	renderer.setup();
 	
-	
+
 	is_verbose = false;
 
 	//3D
@@ -16,82 +16,77 @@ void ofApp::setup(){
 //Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
 	guiProperties3D.setup();
 	guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
-	guiProperties3D.add(labelProperties.setup("Panneau", "Propriete"));
+	guiProperties3D.add(labelProperties.setup("Panel", "Properties"));
 
-		indexField.addListener(this, &ofApp::switchCurrentObject);
-		guiProperties3D.add(indexField.setup("index objet", 0, 0, 100));
-		proportionGroup.setName("Proportion");
-		proportionGroup.add(proportionX.set("x", 1, 0, 100));
-		proportionGroup.add(proportionY.set("y", 1, 0, 100));
-		proportionGroup.add(proportionZ.set("z", 1, 0, 100));
-		guiProperties3D.add(proportionGroup);
-		guiProperties3D.add(positionSlider.setup("Position", ofVec3f(0, 0, 0), ofVec3f(-1920, -1080, 0), ofVec3f(1920, 1080, 1000)));
-		guiProperties3D.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
-		guiProperties3D.add(renderer.colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
-		guiProperties3D.add(HSBDisplayButton.setup("HSB"));
-		HSBDisplayButton.addListener(this, &ofApp::getHsb);
+	proportionGroup.setName("Proportion");
+	proportionGroup.add(proportionX.set("x", 1, 0, 100));
+	proportionGroup.add(proportionY.set("y", 1, 0, 100));
+	proportionGroup.add(proportionZ.set("z", 1, 0, 100));
+	guiProperties3D.add(proportionGroup);
+	guiProperties3D.add(positionSlider.setup("Position", ofVec3f(0, 0, 0), ofVec3f(-1920, -1080, 0), ofVec3f(1920, 1080, 1000)));
+	guiProperties3D.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
+	guiProperties3D.add(renderer.colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
+	guiProperties3D.add(HSBDisplayButton.setup("HSB"));
+	HSBDisplayButton.addListener(this, &ofApp::getHsb);
 
-		//Informations de sauvegarde dynamique
-		guiProperties3D.add(intSliderTakes.setup("nombre de prises", 1, 1, 24));
-		guiProperties3D.add(floatSliderTime.setup("temps sauvegarde (secondes)", 5.0, 1.0, 30.0));
+	//Informations de sauvegarde dynamique
+	guiProperties3D.add(intSliderTakes.setup("nombre de prises", 1, 1, 24));
+	guiProperties3D.add(floatSliderTime.setup("temps sauvegarde (secondes)", 5.0, 1.0, 30.0));
 
-		//panneau de hierarchie des objets ** À développer **
-		guiObjects3D.setup();
-		guiObjects3D.setPosition(0, 0);
-		guiObjects3D.add(labelHierarchy.setup("Panneau", "Hierarchie"));
-		guiObjects3D.add(newObjectButton.setup("New 3DObject"));
-		guiObjects3D.add(newSphereButton.setup("New sphere"));
-		guiObjects3D.add(newBoxButton.setup("New Box"));
-		guiObjects3D.add(newConeButton.setup("New Cone"));
-		guiObjects3D.add(newCylinderButton.setup("New Cylinder"));
-		guiObjects3D.add(newTeapotButton.setup("Teapot.obj"));
-		guiObjects3D.add(newGlassesButton.setup("glasses.3DS"));
-		guiObjects3D.add(newTVButton.setup("tv.fbx"));
-		guiObjects3D.add(newWolfButton.setup("Animated Wolf"));
-		guiObjects3D.add(deleteButton.setup("Delete object"));
+	//panneau de hierarchie des objets ** À développer **
+	guiHierarchy.setup();
+	guiHierarchy.setPosition(0, 0);
+	guiHierarchy.add(labelHierarchy.setup("Panel", "Hierarchy"));
 
-		newObjectButton.addListener(this, &ofApp::addNewObject);
-		newSphereButton.addListener(this, &ofApp::addNewSphere);
-		newBoxButton.addListener(this, &ofApp::addNewBox);
-		newConeButton.addListener(this, &ofApp::addNewCone);
-		newCylinderButton.addListener(this, &ofApp::addNewCylinder);
-		newTeapotButton.addListener(this, &ofApp::addNewTeapot);
-		newGlassesButton.addListener(this, &ofApp::addNewGlasses);
-		newTVButton.addListener(this, &ofApp::addNewTV);
-		newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
-		deleteButton.addListener(this, &ofApp::deleteObject);
+	guiObjects3D.setup();
+	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
+	guiObjects3D.add(labelNewObject.setup("Panel", "New object"));
+	guiObjects3D.add(newObjectName);
+	guiObjects3D.add(newObjectButton.setup("New 3DObject"));
+	guiObjects3D.add(newSphereButton.setup("New sphere"));
+	guiObjects3D.add(newBoxButton.setup("New Box"));
+	guiObjects3D.add(newConeButton.setup("New Cone"));
+	guiObjects3D.add(newCylinderButton.setup("New Cylinder"));
+	guiObjects3D.add(newTeapotButton.setup("Teapot.obj"));
+	guiObjects3D.add(newGlassesButton.setup("glasses.3DS"));
+	guiObjects3D.add(newTVButton.setup("tv.fbx"));
+	guiObjects3D.add(newWolfButton.setup("Animated Wolf"));
+	guiObjects3D.add(deleteButton.setup("Delete object"));
 
-
-		//panneau de contrôle de formes. 
-		//Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
-		//Certaines choses se recoupent entre les deux sections (panneau de propriété) mais nous ferons des choix.
-
-		guiCamera3D.setup();
-		guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
-		guiCamera3D.add(cameraObjectIndex.setup("Camera pointe vers: ", 0, 0, 100));
-		cameraObjectIndex.addListener(this, &ofApp::cameraLookAt);
-		guiCamera3D.add(projectionModeButton.setup("Switch projection mode"));
-		projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
-		//____________________________________________________________________
+	newObjectName.set("Name: ", "");
+	newObjectButton.addListener(this, &ofApp::addNewObject);
+	newSphereButton.addListener(this, &ofApp::addNewSphere);
+	newBoxButton.addListener(this, &ofApp::addNewBox);
+	newConeButton.addListener(this, &ofApp::addNewCone);
+	newCylinderButton.addListener(this, &ofApp::addNewCylinder);
+	newTeapotButton.addListener(this, &ofApp::addNewTeapot);
+	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
+	newTVButton.addListener(this, &ofApp::addNewTV);
+	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
+	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
+	//panneau de contrôle de formes. 
+	//Avec L'idée de créer une classe forme, nous pouvons avoir des panneaux qui apparaissent en fonction des formes que nous générerons.
+	//Certaines choses se recoupent entre les deux sections (panneau de propriété) mais nous ferons des choix.
 
-		//2D
+	guiCamera3D.setup();
+	guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
+	guiCamera3D.add(cameraObjectIndex.setup("Camera pointe vers: ", 0, 0, 100));
+	cameraObjectIndex.addListener(this, &ofApp::cameraLookAt);
+	guiCamera3D.add(projectionModeButton.setup("Switch projection mode"));
+	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
+	//____________________________________________________________________
 
-		guiObjects2D.setup();
-		guiObjects2D.setPosition(0, 0);
-		guiObjects2D.add(labelHierarchy.setup("Panneau", "Hierarchie"));
-		guiObjects2D.add(newRectangleButton.setup("New Rectangle"));
-		guiObjects2D.add(newCircleButton.setup("New Circle"));
-		guiObjects2D.add(newTriangleButton.setup("New Triangle"));
-		guiObjects2D.add(newEllipseButton.setup("New Ellipse"));
-		guiObjects2D.add(newLineButton.setup("New Line"));
-		
-		newRectangleButton.addListener(this, &ofApp::addNewRectangle);
-		newCircleButton.addListener(this, &ofApp::addNewCircle);
-		newTriangleButton.addListener(this, &ofApp::addNewTriangle);
-		newEllipseButton.addListener(this, &ofApp::addNewEllipse);
-		newLineButton.addListener(this, &ofApp::addNewLine);
+
+
+	//2D
+
+	guiObjects2D.setup();
+	guiObjects2D.setPosition(0, 0);
+	guiObjects2D.add(labelHierarchy.setup("Panneau", "Hierarchie"));
+	guiObjects2D.add(newSquareButton.setup("New Square"));
+	newSquareButton.addListener(this, &ofApp::addNewSquare);
 
 
 	is_key_press_up = false;
@@ -112,15 +107,17 @@ void ofApp::update(){
 
 	renderer.is_camera_move_up = is_key_press_q;
 	renderer.is_camera_move_down = is_key_press_e;
-	ofVec3f newProportion(proportionX, proportionY, proportionZ);
-	renderer.proportionateObject(indexField - 1, newProportion);
-	ofVec3f newPosition(positionSlider);
-	renderer.moveObject(indexField - 1, newPosition);
-	ofVec3f newRotation(rotationSlider);
-	renderer.rotateObject(indexField - 1, newRotation);
-	renderer.setObjectColor(indexField - 1);
+	for (int i : selectedObjects) {
+		ofVec3f newProportion(proportionX, proportionY, proportionZ);
+		renderer.proportionateObject(i, newProportion);
+		ofVec3f newPosition(positionSlider);
+		renderer.moveObject(i, newPosition);
+		ofVec3f newRotation(rotationSlider);
+		renderer.rotateObject(i, newRotation);
+		renderer.setObjectColor(i);
+	}
+	updateHierarchy();
 	renderer.update();
-	
 }
 
 //--------------------------------------------------------------
@@ -131,6 +128,7 @@ void ofApp::draw(){
 		guiProperties3D.draw();
 		guiObjects3D.draw();
 		guiCamera3D.draw();
+		guiHierarchy.draw();
 	}
 
 	if (mode3D==false) {
@@ -233,6 +231,7 @@ void ofApp::keyPressed(int key){
 		break;
 
 	default:
+		ofLog() << "Key pressed: " << key;
 		break;
 	}
 }
@@ -299,14 +298,14 @@ void ofApp::keyReleased(int key){
 		is_key_press_q = false;
 		break;
 		
-	case 114: // touche r pour rechercher une image
+	case 57346: // touche F3 pour rechercher une image
 		
 		ofLog() << " recherche image";
 		actionResearchImages();
 			
 		break;
 
-	case 115: // touche s pour sauvegarde dynamique de la scene
+	case 57345: // touche F2 pour sauvegarde dynamique de la scene
 
 		ofLog() << "Touche S activé et relachee";
 		nbTakes = intSliderTakes;
@@ -329,19 +328,14 @@ void ofApp::keyReleased(int key){
 		}
 		break;
 
-	case 116: // touche t pour changer mode 2d 3d
-
-			mode3D = true;
-
-		break;
-
-	case 117: // touche t pour changer mode 2d 3d
-
+	case 9: // touche TAB pour changer mode 2d 3d
+		if (mode3D)
 			mode3D = false;
-
+		else
+			mode3D = true;
 		break;
 		
-	case 118: // touche v pour verbose
+	case 118: // touche v pour verbose À enlever??
 		is_verbose = !is_verbose;
 		ofLog() << "<verbose mode: " << is_verbose << ">";
 		break;
@@ -399,8 +393,6 @@ void ofApp::mousePressed(int x, int y, int button){
 	renderer.mouse_press_x = x;
 	renderer.mouse_press_y = y;
 
-	selection(x, y);
-
 	ofLog() << "ofApp::mousePressed   at: ( x :" << x << ", y:" << y << ")";
 
 }
@@ -438,8 +430,10 @@ void ofApp::mouseExited(int x, int y){
 //--------------------------------------------------------------
 void ofApp::windowResized(int w, int h){
 	if (mode3D) {
+		guiHierarchy.setPosition(0, 0);
 		guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
 		guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
+		guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight() - guiObjects3D.getHeight());
 	}
 	//2D
 	if (!mode3D) {
@@ -476,35 +470,49 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 //3D
 
 void ofApp::addNewObject() {
-	renderer.addNew3dObject();
+	renderer.addNew3dObject(newObjectName);
+	newToggleObject();
 }
 
 void ofApp::addNewSphere() {
-	renderer.addNewSphere();
+	renderer.addNewSphere(newObjectName);
+	newToggleObject();
 }
 
 void ofApp::addNewBox() {
-	renderer.addNewBox();
+	renderer.addNewBox(newObjectName);
+	newToggleObject();
 }
 
 void ofApp::addNewCone() {
-	renderer.addNewCone();
+	renderer.addNewCone(newObjectName);
+	newToggleObject();
 }
 
 void ofApp::addNewCylinder() {
-	renderer.addNewCylinder();
+	renderer.addNewCylinder(newObjectName);
+	newToggleObject();
 }
 
 void ofApp::deleteObject() {
-	renderer.deleteObject(indexField - 1);
+	for (int i : selectedObject) {
+		renderer.deleteObject(i);
+		objectsToggle.erase(objectsToggle.begin() + i);
+	}
+	updateSelection();
 }
 
-void ofApp::switchCurrentObject(int& index) {
-	
+void ofApp::toggleListener(bool& value) {
+	updateSelection();
 }
 
-void ofApp::selection(int x, int y) {
-
+void ofApp::updateSelection() {
+	selectedObjects.clear();
+	for (int i = 0; i < objectsToggle.size(); i++) {
+		if (objectsToggle[i].get()) {
+			selectedObjects.push_back(i);
+		}
+	}
 }
 
 void ofApp::addNewTeapot() {
@@ -530,28 +538,28 @@ void ofApp::cameraLookAt(int& index) {
 void ofApp::switchProjectionMode() {
 	renderer.switchProjectionMode();
 }
+
+void ofApp::newToggleObject() {
+	ofParameter<bool> toggle;
+	string name = renderer.getObjectName(renderer.objects3d.size() - 1);
+	toggle.set(name, false);
+	toggle.addListener(this, &ofApp::toggleListener);
+	objectsToggle.push_back(toggle);
+}
+
+void ofApp::updateHierarchy() {
+	guiHierarchy.clear();
+	guiHierarchy.add(labelHierarchy.setup("Panel", "Hierarchy"));
+	
+	for (ofParameter<bool> toggle : objectsToggle) {
+		guiHierarchy.add(toggle);
+	}
+}
 //__________________________________________-
 
 
 //2D
 
-void ofApp::addNewRectangle() {
-	renderer.addNewRectangle();
-}
-
-void ofApp::addNewCircle()
-{
-	renderer.addNewCircle();
-}
-
-void ofApp::addNewTriangle() {
-	renderer.addNewTriangle();
-}
-
-void ofApp::addNewEllipse() {
-	renderer.addNewEllipse();
-}
-
-void ofApp::addNewLine() {
-	renderer.addNewLine();
+void ofApp::addNewSquare() {
+	renderer.addNewSquare();
 }

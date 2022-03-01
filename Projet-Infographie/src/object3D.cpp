@@ -1,11 +1,13 @@
 #include "object3D.h"
 
-object3D::object3D() {
+object3D::object3D(string p_name) {
+	name = p_name;
 	objectType = primitive3d;
 	primitive = of3dPrimitive();
 }
 
-object3D::object3D(int type) {
+object3D::object3D(string p_name, int type) {
+	name = p_name;
 	switch (type) {
 	case 0:
 		objectImport = ofxAssimpModelLoader();
@@ -36,9 +38,14 @@ object3D::object3D(int type) {
 	}
 }
 
-object3D::object3D(string fileName) {
+object3D::object3D(string p_name, string fileName) {
+	name = p_name;
 	objectType = importation;
 	objectImport.loadModel(fileName);
+}
+
+string object3D::getName() {
+	return name;
 }
 
 ofVec3f object3D::getPosition() {
@@ -86,6 +93,10 @@ float object3D::getRadius() {
 	return sphere.getRadius();
 }
 
+void object3D::setName(string newName) {
+	name = newName;
+}
+
 void object3D::setPosition(ofVec3f newPosition) {
 	if (objectType == primitive3d) {
 		primitive.setPosition(newPosition);
@@ -112,7 +123,6 @@ void object3D::setRotation(ofVec3f newRotation) {
 }
 
 void object3D::setProportion(ofVec3f newProportion) {
-	ofLog() << "object3D " << newProportion;
 	if (objectType == primitive3d) {
 		primitive.setScale(newProportion);
 	}

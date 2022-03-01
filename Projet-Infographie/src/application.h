@@ -15,7 +15,14 @@ class ofApp : public ofBaseApp {
 	ofxPanel guiProperties3D;
 	ofxPanel guiObjects3D;
 	ofxPanel guiCamera3D;
+	ofxPanel guiHierarchy;
 
+	//Hierarchy
+	vector<ofParameter<bool>> objectsToggle;
+	vector<int> selectedObjects;
+
+	//Newobject
+	ofParameter<string> newObjectName;
 	ofxButton newObjectButton;
 	ofxButton newSphereButton;
 	ofxButton deleteButton;
@@ -79,8 +86,7 @@ class ofApp : public ofBaseApp {
 		ofxButton HSBDisplayButton;
 		ofxLabel labelProperties;
 		ofxLabel labelHierarchy;
-
-		ofxIntField indexField;
+		ofxLabel labelNewObject;
 
 		ofParameterGroup proportionGroup;
 		ofParameter<float> proportionX;
@@ -122,10 +128,12 @@ private:
 	void addNewTV();
 	void addAnimatedWolf();
 	void deleteObject();
-	void switchCurrentObject(int& index);
-	void selection(int x, int y);
 	void cameraLookAt(int& index);
 	void switchProjectionMode();
+	void newToggleObject();
+	void updateHierarchy();
+	void toggleListener(bool& value);
+	void updateSelection();
 
 	//2D
 	void addNewRectangle();
@@ -134,16 +142,14 @@ private:
 	void addNewEllipse();
 	void addNewLine();
 		
-		void openFileSelection(ofFileDialogResult openFileResult);
+	void openFileSelection(ofFileDialogResult openFileResult);
 
-		void actionResearchImages();
+	void actionResearchImages();
 
-		vector<ofImage>loadedImages;
-		vector<ofImage>processedImages;
-		string originalFileExtension;
+	vector<ofImage>loadedImages;
+	vector<ofImage>processedImages;
+	string originalFileExtension;
 
-		vector<int> selectedObject;
-
-
+	vector<int> selectedObject;
 		
 };
