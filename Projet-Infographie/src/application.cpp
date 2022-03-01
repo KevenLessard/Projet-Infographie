@@ -93,20 +93,20 @@ void ofApp::setup(){
 	is_key_press_down = false;
 	is_key_press_left = false;
 	is_key_press_right = false;
+	is_mouse_wheel_up = false;
+	is_mouse_wheel_down = false;
 	is_key_press_e = false;
 	is_key_press_q = false;
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	renderer.is_camera_move_forward = is_key_press_up;
-	renderer.is_camera_move_backward = is_key_press_down;
-
 	renderer.is_camera_move_left = is_key_press_left;
 	renderer.is_camera_move_right = is_key_press_right;
 
-	renderer.is_camera_move_up = is_key_press_q;
-	renderer.is_camera_move_down = is_key_press_e;
+	renderer.is_camera_move_up = is_key_press_up;
+	renderer.is_camera_move_down = is_key_press_down;
+
 	for (int i : selectedObjects) {
 		ofVec3f newProportion(proportionX, proportionY, proportionZ);
 		renderer.proportionateObject(i, newProportion);
@@ -206,14 +206,6 @@ void ofApp::actionResearchImages() {
 void ofApp::keyPressed(int key){
 	switch (key)
 	{
-	case 101: // touche e
-		is_key_press_e = true;
-		break;
-
-	case 113: // touche q
-		is_key_press_q = true;
-		break;
-
 	case OF_KEY_LEFT: // touche ←
 		is_key_press_left = true;
 		break;
@@ -231,7 +223,6 @@ void ofApp::keyPressed(int key){
 		break;
 
 	default:
-		ofLog() << "Key pressed: " << key;
 		break;
 	}
 }
@@ -291,12 +282,6 @@ void ofApp::keyReleased(int key){
 		ofLog() << "curseur de resize";
 		
 		break;
-	case 101: // touche e //scroll wheel
-		is_key_press_e = false;
-		break;
-	case 113: // touche q
-		is_key_press_q = false;
-		break;
 		
 	case 57346: // touche F3 pour rechercher une image
 		
@@ -334,11 +319,6 @@ void ofApp::keyReleased(int key){
 		else
 			mode3D = true;
 		break;
-		
-	case 118: // touche v pour verbose À enlever??
-		is_verbose = !is_verbose;
-		ofLog() << "<verbose mode: " << is_verbose << ">";
-		break;
 	case OF_KEY_LEFT: // touche ←
 		is_key_press_left = false;
 		break;
@@ -356,6 +336,7 @@ void ofApp::keyReleased(int key){
 		break;
 
 	default:
+		ofLog() << key;
 		break;
 	}
 }
@@ -406,6 +387,10 @@ void ofApp::mouseReleased(int x, int y, int button){
 	renderer.mouse_current_y = y;
 
 	ofLog() << "ofApp::mouseReleased   at: ( x :" << x << ", y:" << y << ")";
+}
+
+void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY) {
+	renderer.mainCamera.dolly(-scrollY * 100);
 }
 
 //--------------------------------------------------------------
