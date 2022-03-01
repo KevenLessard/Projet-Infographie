@@ -38,9 +38,10 @@ void ofApp::setup(){
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panel", "Hierarchy"));
 
+	//Panneau d'ajout d'objects 3D
 	guiObjects3D.setup();
 	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
-	guiObjects3D.add(labelNewObject.setup("Panel", "New object"));
+	guiObjects3D.add(labelNewObject.setup("Panel", "New object 3D"));
 	guiObjects3D.add(newObjectName);
 	guiObjects3D.add(newObjectButton.setup("New 3DObject"));
 	guiObjects3D.add(newSphereButton.setup("New sphere"));
@@ -78,29 +79,39 @@ void ofApp::setup(){
 	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
 	//____________________________________________________________________
 
+	//Panneau de proprietes 2D
+	guiProperties2D.setup();
+	guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
+	guiProperties2D.add(labelProperties.setup("Panel", "Properties 2D"));
 
+	proportionGroup.setName("Proportion");
+	proportionGroup.add(proportionX2D.set("x", 1, 0, 100));
+	proportionGroup.add(proportionY2D.set("y", 1, 0, 100));
+	guiProperties2D.add(proportionGroup2D);
+	guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(360,360)));
+	guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+	guiProperties2D.add(renderer.colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
+	guiProperties2D.add(HSBDisplayButton.setup("HSB"));
+	HSBDisplayButton.addListener(this, &ofApp::getHsb);
 
-	//2D
+	//Panneau d'ajout d'objects 2D
 
 	guiObjects2D.setup();
-	guiObjects2D.setPosition(0, 0);
-	guiObjects2D.add(labelHierarchy.setup("Panneau", "Hierarchie"));
-	guiObjects2D.add(newSquareButton.setup("New Square"));
-	newSquareButton.addListener(this, &ofApp::addNewSquare);
-		guiObjects2D.setup();
-		guiObjects2D.setPosition(0, 0);
-		guiObjects2D.add(labelHierarchy.setup("Panneau", "Hierarchie"));
-		guiObjects2D.add(newRectangleButton.setup("New Rectangle"));
-		guiObjects2D.add(newCircleButton.setup("New Circle"));
-		guiObjects2D.add(newTriangleButton.setup("New Triangle"));
-		guiObjects2D.add(newEllipseButton.setup("New Ellipse"));
-		guiObjects2D.add(newLineButton.setup("New Line"));
+	guiObjects2D.setPosition(ofGetWindowWidth() - guiObjects2D.getWidth(), ofGetWindowHeight() - guiObjects2D.getHeight());
+	guiObjects2D.add(newObjectName);
+	guiObjects2D.add(labelNewObject.setup("Panel", "New object 2D"));
+	guiObjects2D.add(newRectangleButton.setup("New Rectangle"));
+	guiObjects2D.add(newCircleButton.setup("New Circle"));
+	guiObjects2D.add(newTriangleButton.setup("New Triangle"));
+	guiObjects2D.add(newEllipseButton.setup("New Ellipse"));
+	guiObjects2D.add(newLineButton.setup("New Line"));
 		
-		newRectangleButton.addListener(this, &ofApp::addNewRectangle);
-		newCircleButton.addListener(this, &ofApp::addNewCircle);
-		newTriangleButton.addListener(this, &ofApp::addNewTriangle);
-		newEllipseButton.addListener(this, &ofApp::addNewEllipse);
-		newLineButton.addListener(this, &ofApp::addNewLine);
+	newObjectName.set("Name: ", "");
+	newRectangleButton.addListener(this, &ofApp::addNewRectangle);
+	newCircleButton.addListener(this, &ofApp::addNewCircle);
+	newTriangleButton.addListener(this, &ofApp::addNewTriangle);
+	newEllipseButton.addListener(this, &ofApp::addNewEllipse);
+	newLineButton.addListener(this, &ofApp::addNewLine);
 
 
 	is_key_press_up = false;
@@ -148,6 +159,7 @@ void ofApp::draw(){
 	if (mode3D==false) {
 		guiProperties2D.draw();
 		guiObjects2D.draw();
+		guiHierarchy.draw();
 	}
 
 	//dessin de l'image chargée dans le buffer loadedImages.
@@ -451,9 +463,12 @@ void ofApp::windowResized(int w, int h){
 	}
 	//2D
 	if (!mode3D) {
-		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
+		guiHierarchy.setPosition(0, 0);
+		//guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
+		//guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
+		guiObjects2D.setPosition(ofGetWindowWidth() - guiObjects2D.getWidth(), ofGetWindowHeight() - guiObjects2D.getHeight());
 	}
-
+	
 }
 
 //--------------------------------------------------------------
@@ -575,22 +590,26 @@ void ofApp::updateHierarchy() {
 //2D
 
 void ofApp::addNewRectangle() {
-	renderer.addNewRectangle();
+	renderer.addNewRectangle(newObjectName);
+	newToggleObject();
 }
 
-void ofApp::addNewCircle()
-{
-	renderer.addNewCircle();
+void ofApp::addNewCircle(){
+	renderer.addNewCircle(newObjectName);
+	newToggleObject();
 }
 
 void ofApp::addNewTriangle() {
-	renderer.addNewTriangle();
+	renderer.addNewTriangle(newObjectName);
+	newToggleObject();
 }
 
 void ofApp::addNewEllipse() {
-	renderer.addNewEllipse();
+	renderer.addNewEllipse(newObjectName);
+	newToggleObject();
 }
 
 void ofApp::addNewLine() {
-	renderer.addNewLine();
+	renderer.addNewLine(newObjectName);
+	newToggleObject();
 }

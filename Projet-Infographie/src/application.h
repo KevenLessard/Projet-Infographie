@@ -93,8 +93,14 @@ class ofApp : public ofBaseApp {
 		ofParameter<float> proportionY;
 		ofParameter<float> proportionZ;
 
+		ofParameterGroup proportionGroup2D;
+		ofParameter<float> proportionX2D;
+		ofParameter<float> proportionY2D;
+
 		ofxVec3Slider positionSlider;
+		ofxVec2Slider positionSlider2D;
 		ofxVec3Slider rotationSlider;
+		ofxVec2Slider rotationSlider2D;
 
 		float timeByTakes;
 		int i = 0;

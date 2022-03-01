@@ -90,13 +90,13 @@ public:
 	//2D
 	void addNew2dObject();
 
-	void addNewSquare();
-	void addNewCircle();
-	void addNewRectangle();
-	void addNewTriangle();
-	void addNewLine();
-	void addNewBezierCurve();
-	void addNewEllipse();
+	void addNewSquare(string name);
+	void addNewCircle(string name);
+	void addNewRectangle(string name);
+	void addNewTriangle(string name);
+	void addNewLine(string name);
+	void addNewBezierCurve(string name);
+	void addNewEllipse(string name);
 
 	bool squareDraw = false;
 	bool circleDraw = false;

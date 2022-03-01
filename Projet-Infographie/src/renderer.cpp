@@ -126,6 +126,12 @@ void Renderer::draw()
         ofPopMatrix();
     }
 
+    for (Object2D* object : objects2D) {
+        ofPushMatrix();
+        object->draw();
+        ofPopMatrix();
+    }
+
     ofDisableDepthTest();
     mainCamera.end();
     ofPopMatrix();
@@ -141,12 +147,100 @@ void Renderer::draw()
         draw_HandCursor(mouse_current_x, mouse_current_y);
     if (resizeCursor_enabled)
         draw_ResizeCursor(mouse_current_x, mouse_current_y);
-    //2D
-    if (squareDraw) {
-        objects2D.setColor(0x00FFFF);
-        objects2D.disableCenterRect();
-        objects2D.rect(240, 50, 60, 60);
+   
+}
+
+//Ajout d'un cercle au vecteur 2D
+void Renderer::addNewCircle(string name) {
+    Circle2D* circle = new Circle2D();
+    if (nameAlreadyExists(name)) {
+        return;
     }
+    if (name == "") {
+        name = "Circle " + to_string(objects2D.size());
+    }
+    circle->setName(name);
+    circle->setPosition(ofVec3f(0, 0, 0));
+    circle->setRadius(35);
+    circle->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(circle);
+}
+
+//Ajout d'un rectangle au vecteur 2D
+
+void Renderer::addNewRectangle(string name) {
+    Rectangle2D* rectangle = new Rectangle2D();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "rectangle" + to_string(objects2D.size());
+    }
+    rectangle->setName(name);
+    rectangle->setPosition(ofVec3f(0, 0, 0));
+    rectangle->setRectangleHeight(100);
+    rectangle->setRectanglewidth(200);
+    rectangle->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(rectangle);
+}
+
+//Ajout d'un triangle au vecteur 2D
+
+void Renderer::addNewTriangle(string name) {
+    Triangle2D* triangle = new Triangle2D();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "triangle" + to_string(objects2D.size());
+    }
+    triangle->setName(name);
+    triangle->setPosition(ofVec3f(0, 0, 0));
+    triangle->setTriangleCoordA(ofVec2f(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2));
+    triangle->setTriangleCoordB(ofVec2f(ofGetWindowWidth() / 2 + 100, ofGetWindowHeight() / 2));
+    triangle->setTriangleCoordC(ofVec2f((ofGetWindowWidth() / 2 + 100) / 2, ofGetWindowHeight() / 2 + 100));
+    triangle->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(triangle);
+    for (int i = 0; i < objects2D.size(); i++)
+    {
+        ofLog() << "object name" << "[" << i << "]" << objects2D[i]->getName();
+    }
+}
+
+//Ajout d'un Ellipse au vecteur 2D
+
+void Renderer::addNewEllipse(string name) {
+    Ellipse2D* ellipse = new Ellipse2D();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "ellipse" + to_string(objects2D.size());
+    }
+    ellipse->setName(name);
+    ellipse->setPosition(ofVec3f(0, 0, 0));
+    ellipse->setEllipseHeight(100);
+    ellipse->setEllipsewidth(200);
+    ellipse->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(ellipse);
+}
+
+//Ajout d'un Ligne au vecteur 2D
+
+void Renderer::addNewLine(string name) {
+    Line2D* line = new Line2D();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "line" + to_string(objects2D.size());
+    }
+    line->setName(name);
+    line->setPosition(ofVec3f(0, 0, 0));
+    line->setLinePtA(100, 500);
+    line->setLinePtB(200, 500);
+    line->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(line);
 }
 
 void Renderer::addNew3dObject(string name) {
@@ -298,7 +392,7 @@ void Renderer::cameraZoom() {
 }
 
 //2D
-
+/*
 void Renderer::addNewSquare() {
     cout << "square";
 
@@ -311,6 +405,7 @@ void Renderer::addNewSquare() {
         squareDraw = false;
     }
 }
+*/
 
 //util
 
