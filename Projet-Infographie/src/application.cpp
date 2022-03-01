@@ -13,7 +13,7 @@ void ofApp::setup(){
 
 	//3D
 		//Panneau de propriete des objets     
-//Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
+	//Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
 	guiProperties3D.setup();
 	guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
 	guiProperties3D.add(labelProperties.setup("Panel", "Properties"));
@@ -317,7 +317,7 @@ void ofApp::keyReleased(int key){
 		ofLog() << "curseur de resize";
 		
 		break;
-	case 101: // touche e
+	case 101: // touche e //scroll wheel
 		is_key_press_e = false;
 		break;
 	case 113: // touche q
@@ -524,9 +524,17 @@ void ofApp::addNewCylinder() {
 }
 
 void ofApp::deleteObject() {
-	for (int i : selectedObject) {
-		renderer.deleteObject(i);
-		objectsToggle.erase(objectsToggle.begin() + i);
+	for (int o : selectedObjects) {
+		renderer.deleteObject(o);
+	}
+	objectsToggle.clear();
+	for (int i = 0; i < renderer.objects3d.size(); i++) {
+		ofParameter<bool> toggle;
+		// if 3d or 2d
+		string name = renderer.getObjectName(i);
+		toggle.set(name, false);
+		toggle.addListener(this, &ofApp::toggleListener);
+		objectsToggle.push_back(toggle);
 	}
 	updateSelection();
 }
@@ -570,6 +578,7 @@ void ofApp::switchProjectionMode() {
 
 void ofApp::newToggleObject() {
 	ofParameter<bool> toggle;
+	// if 3d or 2d
 	string name = renderer.getObjectName(renderer.objects3d.size() - 1);
 	toggle.set(name, false);
 	toggle.addListener(this, &ofApp::toggleListener);
