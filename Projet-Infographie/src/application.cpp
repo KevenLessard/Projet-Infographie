@@ -118,10 +118,6 @@ void ofApp::setup(){
 	is_key_press_down = false;
 	is_key_press_left = false;
 	is_key_press_right = false;
-	is_mouse_wheel_up = false;
-	is_mouse_wheel_down = false;
-	is_key_press_e = false;
-	is_key_press_q = false;
 }
 
 //--------------------------------------------------------------

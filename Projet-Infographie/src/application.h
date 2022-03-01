@@ -116,10 +116,6 @@ class ofApp : public ofBaseApp {
 		bool is_key_press_down;
 		bool is_key_press_left;
 		bool is_key_press_right;
-		bool is_key_press_e;
-		bool is_key_press_q;
-		bool is_mouse_wheel_up;
-		bool is_mouse_wheel_down;
 
 		bool mode3D = true;
 
