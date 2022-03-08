@@ -40,6 +40,7 @@ object3D::object3D(string p_name, int type) {
 
 object3D::object3D(string p_name, string fileName) {
 	name = p_name;
+	cout << name <<"Yo";
 	objectType = importation;
 	objectImport.loadModel(fileName);
 }

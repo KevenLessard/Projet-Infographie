@@ -504,6 +504,26 @@ void ofApp::addNewCylinder() {
 	newToggleObject();
 }
 
+void ofApp::addNewTeapot() {
+	renderer.import3dModel("teapot.obj");
+	newToggleObject();
+}
+
+void ofApp::addNewGlasses() {
+	renderer.import3dModel("glasses.3DS");
+	newToggleObject();
+}
+
+void ofApp::addNewTV() {
+	renderer.import3dModel("tv.fbx");
+	newToggleObject();
+}
+
+void ofApp::addAnimatedWolf() {
+	renderer.import3dModel("Wolf_dae.dae");
+	newToggleObject();
+}
+
 void ofApp::deleteObject() {
 	for (int o : selectedObjects) {
 		renderer.deleteObject(o);
@@ -531,22 +551,6 @@ void ofApp::updateSelection() {
 			selectedObjects.push_back(i);
 		}
 	}
-}
-
-void ofApp::addNewTeapot() {
-	renderer.import3dModel("teapot.obj");
-}
-
-void ofApp::addNewGlasses() {
-	renderer.import3dModel("glasses.3DS");
-}
-
-void ofApp::addNewTV() {
-	renderer.import3dModel("tv.fbx");
-}
-
-void ofApp::addAnimatedWolf() {
-	renderer.import3dModel("Wolf_dae.dae");
 }
 
 void ofApp::cameraLookAt(int& index) {

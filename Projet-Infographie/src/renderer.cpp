@@ -303,7 +303,14 @@ void Renderer::addNewCone(string name) {
 
 
 void Renderer::import3dModel(std::string file_name) {
-    object3D* model3D = new object3D(file_name);
+    string name = file_name;
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (file_name == "") {
+        name = file_name + to_string(objects3d.size());
+    }
+    object3D* model3D = new object3D(name, file_name);
     objects3d.push_back(model3D);
 }
 
