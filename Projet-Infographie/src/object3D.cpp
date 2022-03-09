@@ -175,8 +175,23 @@ void object3D::draw() {
 		sphere.draw(OF_MESH_WIREFRAME);
 		sphere.drawAxes(10);
 	}
-	else {
-		objectImport.drawFaces();
+	else if (objectType == importation) {
+
+		if (animation == true)
+		{
+			objectImport.setLoopStateForAllAnimations(OF_LOOP_NORMAL);
+			objectImport.playAllAnimations();
+			objectImport.update();
+			objectImport.drawFaces();
+		}
+
+		if (animation == false)
+		{
+			objectImport.stopAllAnimations();
+			objectImport.update();
+			objectImport.drawFaces();
+		}
+
 	}
 	ofPopMatrix();
 }

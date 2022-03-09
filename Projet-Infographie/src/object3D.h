@@ -39,7 +39,7 @@ private:
 	ofVec3f rotation;
 	ofVec3f proportion;
 
-	bool animation = true;
+	bool animation = false;
 
 	ofColor color;
 
