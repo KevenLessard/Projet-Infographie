@@ -43,7 +43,9 @@ object3D::object3D(string p_name, string fileName) {
 	objectType = importation;
 	objectImport.loadModel(fileName);
 
-	//TEST SHADER
+	//Évite que le modèle apparaissent à l'envers
+	objectImport.setRotation(0, 180, 1, 0, 0);
+	//Enlève les matériaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
 }
 
@@ -120,8 +122,10 @@ void object3D::setRotation(ofVec3f newRotation) {
 		sphere.setOrientation(newRotation);
 	}
 	else {
-		//À voir
-		objectImport.setRotation(0, 1, newRotation.x, newRotation.y, newRotation.z);
+		//Permet de faire la rotation des modèle 3D
+		objectImport.setRotation(0, newRotation.x + 180, 1, 0, 0);
+		objectImport.setRotation(1, newRotation.y, 0, 1, 0);
+		objectImport.setRotation(2, newRotation.z, 0, 0, 1);
 	}
 }
 
