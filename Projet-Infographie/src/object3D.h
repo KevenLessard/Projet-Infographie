@@ -29,7 +29,7 @@ public:
 	void setColor(ofColor newColor);
 	void setName(string newName);
 	void setAnimation();
-
+	void toggleRotation();
 	void draw();
 
 private:
@@ -40,6 +40,7 @@ private:
 	ofVec3f proportion;
 
 	bool animation = false;
+	bool rotationOn = true;
 
 	ofColor color;
 

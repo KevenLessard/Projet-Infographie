@@ -192,6 +192,15 @@ void object3D::setAnimation() {
 
 }
 
+void object3D::toggleRotation() {
+	if (rotationOn == true) {
+		rotationOn = false;
+	}
+	else if (rotationOn == false) {
+		rotationOn = true;
+	}
+}
+
 void object3D::draw() {
 	ofPushMatrix();
 	ofSetColor(color);
@@ -204,13 +213,20 @@ void object3D::draw() {
 	}
 
 	else if (objectType == sphere3d) {
+
 		sphere.draw(OF_MESH_FILL);
 		sphere.drawAxes(10);
 	}
 	else if (objectType == importation) {
+
+		if (rotationOn == true) {
+			objectImport.setRotation(0, 180, 1, 0, 0);
+			objectImport.setRotation(1, ofGetFrameNum(), 0, 1, 0);
+			objectImport.setRotation(2, 0, 0, 0, 1);
+		}
+
 		if (animation == true)
 		{
-
 			objectImport.setLoopStateForAllAnimations(OF_LOOP_NORMAL);
 			objectImport.playAllAnimations();
 			objectImport.update();
