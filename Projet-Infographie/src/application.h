@@ -115,6 +115,7 @@ class ofApp : public ofBaseApp {
 
 		ofxIntField cameraObjectIndex;
 		ofxButton projectionModeButton;
+		ofxButton setAnimationButton;
 		bool is_key_press_up;
 		bool is_key_press_down;
 		bool is_key_press_left;
@@ -138,6 +139,7 @@ private:
 	void deleteObject();
 	void cameraLookAt(int& index);
 	void switchProjectionMode();
+	void setAnimation();
 	void newToggleObject();
 	void updateHierarchy();
 	void toggleListener(bool& value);

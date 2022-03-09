@@ -86,6 +86,7 @@ public:
 	void cameraZoom();
 	void setObjectColor(int index);
 	string getObjectName(int index);
+	void setAnimation(int index);
 
 	//2D
 	void addNew2dObject();
