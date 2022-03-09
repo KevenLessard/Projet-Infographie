@@ -393,11 +393,19 @@ void Renderer::image_export(const string name, const string extension) const
     ofLog() << "export image:" << file_name;
 }
 
-string Renderer::getObjectName(int index) {
+string Renderer::getObject3dName(int index) {
     if (index >= objects3d.size() || index == -1) {
         return "";
     }
     return objects3d[index]->getName();
+}
+
+string Renderer::getObject2dName(int index)
+{
+    if (index >= objects2D.size() || index == -1) {
+        return "";
+    }
+    return objects2D[index]->getName();
 }
 
 void Renderer::reset() {

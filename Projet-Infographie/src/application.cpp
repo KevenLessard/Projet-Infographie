@@ -535,13 +535,27 @@ void ofApp::deleteObject() {
 		renderer.deleteObject(o);
 	}
 	objectsToggle.clear();
-	for (int i = 0; i < renderer.objects3d.size(); i++) {
-		ofParameter<bool> toggle;
-		// if 3d or 2d
-		string name = renderer.getObjectName(i);
-		toggle.set(name, false);
-		toggle.addListener(this, &ofApp::toggleListener);
-		objectsToggle.push_back(toggle);
+	if (mode3D)
+	{
+		for (int i = 0; i < renderer.objects3d.size(); i++) {
+			ofParameter<bool> toggle;
+			
+			string name = renderer.getObject3dName(i);
+			toggle.set(name, false);
+			toggle.addListener(this, &ofApp::toggleListener);
+			objectsToggle.push_back(toggle);
+		}
+	}
+	else {
+		for (int i = 0; i < renderer.objects2D.size(); i++) {
+			ofParameter<bool> toggle;
+			
+			string name = renderer.getObject2dName(i);
+			toggle.set(name, false);
+			toggle.addListener(this, &ofApp::toggleListener);
+			objectsToggle.push_back(toggle);
+		}
+
 	}
 	updateSelection();
 }
@@ -577,14 +591,14 @@ void ofApp::newToggleObject() {
 	ofParameter<bool> toggle;
 	if (mode3D)
 	{
-		string name = renderer.getObjectName(renderer.objects3d.size() - 1);
+		string name = renderer.getObject3dName(renderer.objects3d.size() - 1);
 		toggle.set(name, false);
 		toggle.addListener(this, &ofApp::toggleListener);
 		objectsToggle.push_back(toggle);
 	}
 	else
 	{
-		string name = renderer.getObjectName(renderer.objects2D.size() - 1);
+		string name = renderer.getObject2dName(renderer.objects2D.size() - 1);
 		toggle.set(name, false);
 		toggle.addListener(this, &ofApp::toggleListener);
 		objectsToggle.push_back(toggle);
