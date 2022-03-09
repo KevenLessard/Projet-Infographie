@@ -42,6 +42,7 @@ private:
 	bool animation = false;
 
 	ofColor color;
+	ofShader shader;
 
 	ofxAssimpModelLoader objectImport;
 	of3dPrimitive primitive;
