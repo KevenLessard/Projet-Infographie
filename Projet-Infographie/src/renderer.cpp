@@ -243,6 +243,34 @@ void Renderer::addNewLine(string name) {
     objects2D.push_back(line);
 }
 
+void Renderer::addNewStar(string name) {
+    Star2D* star = new Star2D();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "star" + to_string(objects2D.size());
+    }
+    star->setName(name);
+    star->setPosition(ofVec3f(0, 0, 0));
+    star->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(star);
+}
+
+void Renderer::addNewHouse(string name) {
+    House2D* house = new House2D();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "house" + to_string(objects2D.size());
+    }
+    house->setName(name);
+    house->setPosition(ofVec3f(0, 0, 0));
+    house->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(house);
+}
+
 void Renderer::addNew3dObject(string name) {
     if (nameAlreadyExists(name)) {
         return;

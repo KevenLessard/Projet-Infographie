@@ -97,6 +97,8 @@ public:
 	void addNewLine(string name);
 	void addNewBezierCurve(string name);
 	void addNewEllipse(string name);
+	void addNewStar(string name);
+	void addNewHouse(string name);
 
 	bool squareDraw = false;
 	bool circleDraw = false;
