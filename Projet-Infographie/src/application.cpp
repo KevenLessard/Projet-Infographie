@@ -77,6 +77,8 @@ void ofApp::setup(){
 	cameraObjectIndex.addListener(this, &ofApp::cameraLookAt);
 	guiCamera3D.add(projectionModeButton.setup("Switch projection mode"));
 	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
+	guiCamera3D.add(setAnimationButton.setup("Animation"));
+	setAnimationButton.addListener(this, &ofApp::setAnimation);
 	//____________________________________________________________________
 
 	//Panneau de proprietes 2D
@@ -559,6 +561,12 @@ void ofApp::cameraLookAt(int& index) {
 
 void ofApp::switchProjectionMode() {
 	renderer.switchProjectionMode();
+}
+
+void ofApp::setAnimation() {
+	for (int o : selectedObjects) {
+		renderer.setAnimation(o);
+	}
 }
 
 void ofApp::newToggleObject() {

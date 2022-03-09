@@ -28,6 +28,7 @@ public:
 	void setRadius(float newRadius);
 	void setColor(ofColor newColor);
 	void setName(string newName);
+	void setAnimation();
 
 	void draw();
 
@@ -37,6 +38,8 @@ private:
 	ofVec3f position;
 	ofVec3f rotation;
 	ofVec3f proportion;
+
+	bool animation = true;
 
 	ofColor color;
 

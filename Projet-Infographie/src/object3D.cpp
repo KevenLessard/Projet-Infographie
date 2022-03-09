@@ -40,7 +40,6 @@ object3D::object3D(string p_name, int type) {
 
 object3D::object3D(string p_name, string fileName) {
 	name = p_name;
-	cout << name <<"Yo";
 	objectType = importation;
 	objectImport.loadModel(fileName);
 }
@@ -146,6 +145,23 @@ void object3D::setColor(ofColor newColor) {
 	color = newColor;
 }
 
+void object3D::setAnimation() {
+	if (animation == true){
+		animation = false;
+
+		//MARCHE PAS
+		//objectImport.stopAllAnimations();
+	}
+	else if (animation == false) {
+		animation = true;
+
+		//MARCHE PAS
+		//objectImport.setLoopStateForAllAnimations(OF_LOOP_NORMAL);
+		//objectImport.playAllAnimations();
+	}
+
+}
+
 void object3D::draw() {
 	ofPushMatrix();
 	ofSetColor(color);
@@ -154,6 +170,7 @@ void object3D::draw() {
 		primitive.draw(OF_MESH_WIREFRAME);
 		primitive.drawAxes(10);
 	}
+
 	else if (objectType == sphere3d) {
 		sphere.draw(OF_MESH_WIREFRAME);
 		sphere.drawAxes(10);

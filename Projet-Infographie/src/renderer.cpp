@@ -376,6 +376,10 @@ void Renderer::reset() {
 
 }
 
+void Renderer::setAnimation(int index) {
+    objects3d[index]->setAnimation();
+}
+
 //Camera
 
 void Renderer::cameraLookAt(int index) {
