@@ -60,7 +60,7 @@ ofVec3f object3D::getPosition() {
 	else if (objectType == sphere3d) {
 		return sphere.getPosition();
 	}
-	else {
+	else if (objectType == importation) {
 		return objectImport.getPosition();
 	}
 }
@@ -73,7 +73,7 @@ ofVec3f object3D::getRotation() {
 	else if (objectType == sphere3d) {
 		return sphere.getOrientationEuler();
 	}
-	else {
+	else if (objectType == importation) {
 		ofLog() << objectImport.getRotationAxis(0);
 		return objectImport.getRotationAxis(0);
 	}
@@ -86,7 +86,7 @@ ofVec3f object3D::getProportion() {
 	else if (objectType == sphere3d) {
 		return sphere.getScale();
 	}
-	else {
+	else if(objectType == importation) {
 		return objectImport.getScale();
 	}
 }
@@ -109,8 +109,17 @@ void object3D::setPosition(ofVec3f newPosition) {
 	else if (objectType == sphere3d) {
 		sphere.setPosition(newPosition);
 	}
-	else {
+	else if (objectType == importation) {
 		objectImport.setPosition(newPosition.x, newPosition.y, newPosition.z);
+	}
+	else if (objectType == box3d) {
+		box.setPosition(newPosition);
+	}
+	else if (objectType == cylinder3d) {
+		cylinder.setPosition(newPosition);
+	}
+	else if (objectType == cone3d) {
+		cone.setPosition(newPosition);
 	}
 }
 
@@ -121,11 +130,20 @@ void object3D::setRotation(ofVec3f newRotation) {
 	else if (objectType == sphere3d) {
 		sphere.setOrientation(newRotation);
 	}
-	else {
+	else if(objectType == importation) {
 		//Permet de faire la rotation des modèle 3D
 		objectImport.setRotation(0, newRotation.x + 180, 1, 0, 0);
 		objectImport.setRotation(1, newRotation.y, 0, 1, 0);
 		objectImport.setRotation(2, newRotation.z, 0, 0, 1);
+	}
+	else if (objectType == box3d) {
+		box.setOrientation(newRotation);
+	}
+	else if (objectType == cylinder3d) {
+		cylinder.setOrientation(newRotation);
+	}
+	else if (objectType == cone3d) {
+		cone.setOrientation(newRotation);
 	}
 }
 
@@ -136,8 +154,17 @@ void object3D::setProportion(ofVec3f newProportion) {
 	else if (objectType == sphere3d) {
 		sphere.setScale(newProportion);
 	}
-	else {
+	else if(objectType==importation) {
 		objectImport.setScale(newProportion.x, newProportion.y, newProportion.z);
+	}
+	else if (objectType == box3d) {
+		box.setScale(newProportion);
+	}
+	else if (objectType == cylinder3d) {
+		cylinder.setScale(newProportion);
+	}
+	else if (objectType == cone3d) {
+		cone.setScale(newProportion);
 	}
 }
 
@@ -177,7 +204,7 @@ void object3D::draw() {
 	}
 
 	else if (objectType == sphere3d) {
-		sphere.draw(OF_MESH_WIREFRAME);
+		sphere.draw(OF_MESH_FILL);
 		sphere.drawAxes(10);
 	}
 	else if (objectType == importation) {
@@ -197,7 +224,15 @@ void object3D::draw() {
 			objectImport.update();
 			objectImport.draw(OF_MESH_FILL);
 		}
-
+	}
+	else if (objectType == box3d) {
+		box.draw(OF_MESH_FILL);
+	}
+	else if (objectType == cylinder3d) {
+		cylinder.draw(OF_MESH_FILL);
+	}
+	else if (objectType == cone3d) {
+		cone.draw(OF_MESH_FILL);
 	}
 	ofPopMatrix();
 }
