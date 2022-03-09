@@ -47,6 +47,8 @@ class ofApp : public ofBaseApp {
 	ofxButton newRectangleButton;
 	ofxButton newEllipseButton;
 	ofxButton newLineButton;
+	ofxButton newStarButton;
+	ofxButton newHouseButton;
 	//___________________________
 
 
@@ -85,7 +87,8 @@ class ofApp : public ofBaseApp {
 
 
 		ofxButton HSBDisplayButton;
-		ofxLabel labelProperties;
+		ofxLabel labelProperties3D;
+		ofxLabel labelProperties2D;
 		ofxLabel labelHierarchy;
 		ofxLabel labelNewObject;
 
@@ -148,6 +151,8 @@ private:
 	void addNewCircle();
 	void addNewEllipse();
 	void addNewLine();
+	void addNewStar();
+	void addNewHouse();
 		
 	void openFileSelection(ofFileDialogResult openFileResult);
 

@@ -265,3 +265,63 @@ void Line2D::draw() {
 	ofColor(255, 0, 76);
 	ofDrawLine(getLinePtA(), getLinePtB());
 }
+// Classe Star
+//----------------------------------------------------------------------
+
+Star2D::Star2D()
+{
+}
+
+void Star2D::setName(string newStarName)
+{
+	m_name = newStarName;
+}
+
+string Star2D::getName()
+{
+	return m_name;
+}
+
+void Star2D::draw()
+{
+	ofSetColor(255);
+	ofSetPolyMode(OF_POLY_WINDING_NONZERO);
+
+	ofBeginShape();
+	ofVertex(400, 135);
+	ofVertex(215, 135);
+	ofVertex(365, 25);
+	ofVertex(305, 200);
+	ofVertex(250, 25);
+	ofEndShape();
+}
+
+// Classe House
+//----------------------------------------------------------------------
+
+House2D::House2D()
+{
+}
+
+void House2D::setName(string newHouseName)
+{
+	m_name = newHouseName;
+}
+
+string House2D::getName()
+{
+	return m_name;
+}
+
+void House2D::draw()
+{
+	ofSetColor(255);
+	ofSetPolyMode(OF_POLY_WINDING_ODD);
+	ofBeginShape();
+	ofVertex(250, 25);
+	ofVertex(365, 25);
+	ofVertex(365, 135);
+	ofVertex(305, 200);
+	ofVertex(250, 135);
+	ofEndShape();
+}

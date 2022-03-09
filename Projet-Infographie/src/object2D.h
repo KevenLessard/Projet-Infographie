@@ -156,3 +156,39 @@ private:
 	string m_name;
 
 };
+
+class Star2D : public Object2D
+{
+public:
+
+	Star2D();
+	
+	string getName();
+
+	void setName(string newTriangleName);
+
+	void draw();
+
+private:
+
+	string m_name;
+
+};
+
+class House2D : public Object2D
+{
+public:
+
+	House2D();
+
+	string getName();
+
+	void setName(string newTriangleName);
+
+	void draw();
+
+private:
+
+	string m_name;
+
+};

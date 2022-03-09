@@ -85,7 +85,8 @@ public:
 	void switchProjectionMode();
 	void cameraZoom();
 	void setObjectColor(int index);
-	string getObjectName(int index);
+	string getObject3dName(int index);
+	string getObject2dName(int index);
 	void setAnimation(int index);
 
 	//2D
@@ -98,6 +99,8 @@ public:
 	void addNewLine(string name);
 	void addNewBezierCurve(string name);
 	void addNewEllipse(string name);
+	void addNewStar(string name);
+	void addNewHouse(string name);
 
 	bool squareDraw = false;
 	bool circleDraw = false;

@@ -259,6 +259,34 @@ void Renderer::addNewLine(string name) {
     objects2D.push_back(line);
 }
 
+void Renderer::addNewStar(string name) {
+    Star2D* star = new Star2D();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "star" + to_string(objects2D.size());
+    }
+    star->setName(name);
+    star->setPosition(ofVec3f(0, 0, 0));
+    star->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(star);
+}
+
+void Renderer::addNewHouse(string name) {
+    House2D* house = new House2D();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "house" + to_string(objects2D.size());
+    }
+    house->setName(name);
+    house->setPosition(ofVec3f(0, 0, 0));
+    house->setProportion(ofVec3f(1, 1, 1));
+    objects2D.push_back(house);
+}
+
 void Renderer::addNew3dObject(string name) {
     if (nameAlreadyExists(name)) {
         return;
@@ -381,11 +409,19 @@ void Renderer::image_export(const string name, const string extension) const
     ofLog() << "export image:" << file_name;
 }
 
-string Renderer::getObjectName(int index) {
+string Renderer::getObject3dName(int index) {
     if (index >= objects3d.size() || index == -1) {
         return "";
     }
     return objects3d[index]->getName();
+}
+
+string Renderer::getObject2dName(int index)
+{
+    if (index >= objects2D.size() || index == -1) {
+        return "";
+    }
+    return objects2D[index]->getName();
 }
 
 void Renderer::reset() {

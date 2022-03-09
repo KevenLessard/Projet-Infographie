@@ -16,7 +16,7 @@ void ofApp::setup(){
 	//Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
 	guiProperties3D.setup();
 	guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
-	guiProperties3D.add(labelProperties.setup("Panel", "Properties"));
+	guiProperties3D.add(labelProperties3D.setup("Panel", "Properties"));
 
 	proportionGroup.setName("Proportion");
 	proportionGroup.add(proportionX.set("x", 1, 0, 100));
@@ -84,7 +84,7 @@ void ofApp::setup(){
 	//Panneau de proprietes 2D
 	guiProperties2D.setup();
 	guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
-	guiProperties2D.add(labelProperties.setup("Panel", "Properties 2D"));
+	guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
 
 	proportionGroup.setName("Proportion");
 	proportionGroup.add(proportionX2D.set("x", 1, 0, 100));
@@ -107,6 +107,8 @@ void ofApp::setup(){
 	guiObjects2D.add(newTriangleButton.setup("New Triangle"));
 	guiObjects2D.add(newEllipseButton.setup("New Ellipse"));
 	guiObjects2D.add(newLineButton.setup("New Line"));
+	guiObjects2D.add(newStarButton.setup("New Star"));
+	guiObjects2D.add(newHouseButton.setup("New House"));
 		
 	newObjectName.set("Name: ", "");
 	newRectangleButton.addListener(this, &ofApp::addNewRectangle);
@@ -114,6 +116,8 @@ void ofApp::setup(){
 	newTriangleButton.addListener(this, &ofApp::addNewTriangle);
 	newEllipseButton.addListener(this, &ofApp::addNewEllipse);
 	newLineButton.addListener(this, &ofApp::addNewLine);
+	newStarButton.addListener(this, &ofApp::addNewStar);
+	newHouseButton.addListener(this, &ofApp::addNewHouse);
 
 
 	is_key_press_up = false;
@@ -447,7 +451,7 @@ void ofApp::windowResized(int w, int h){
 	//2D
 	if (!mode3D) {
 		guiHierarchy.setPosition(0, 0);
-		//guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
+		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
 		//guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
 		guiObjects2D.setPosition(ofGetWindowWidth() - guiObjects2D.getWidth(), ofGetWindowHeight() - guiObjects2D.getHeight());
 	}
@@ -531,13 +535,27 @@ void ofApp::deleteObject() {
 		renderer.deleteObject(o);
 	}
 	objectsToggle.clear();
-	for (int i = 0; i < renderer.objects3d.size(); i++) {
-		ofParameter<bool> toggle;
-		// if 3d or 2d
-		string name = renderer.getObjectName(i);
-		toggle.set(name, false);
-		toggle.addListener(this, &ofApp::toggleListener);
-		objectsToggle.push_back(toggle);
+	if (mode3D)
+	{
+		for (int i = 0; i < renderer.objects3d.size(); i++) {
+			ofParameter<bool> toggle;
+			
+			string name = renderer.getObject3dName(i);
+			toggle.set(name, false);
+			toggle.addListener(this, &ofApp::toggleListener);
+			objectsToggle.push_back(toggle);
+		}
+	}
+	else {
+		for (int i = 0; i < renderer.objects2D.size(); i++) {
+			ofParameter<bool> toggle;
+			
+			string name = renderer.getObject2dName(i);
+			toggle.set(name, false);
+			toggle.addListener(this, &ofApp::toggleListener);
+			objectsToggle.push_back(toggle);
+		}
+
 	}
 	updateSelection();
 }
@@ -571,11 +589,21 @@ void ofApp::setAnimation() {
 
 void ofApp::newToggleObject() {
 	ofParameter<bool> toggle;
-	// if 3d or 2d
-	string name = renderer.getObjectName(renderer.objects3d.size() - 1);
-	toggle.set(name, false);
-	toggle.addListener(this, &ofApp::toggleListener);
-	objectsToggle.push_back(toggle);
+	if (mode3D)
+	{
+		string name = renderer.getObject3dName(renderer.objects3d.size() - 1);
+		toggle.set(name, false);
+		toggle.addListener(this, &ofApp::toggleListener);
+		objectsToggle.push_back(toggle);
+	}
+	else
+	{
+		string name = renderer.getObject2dName(renderer.objects2D.size() - 1);
+		toggle.set(name, false);
+		toggle.addListener(this, &ofApp::toggleListener);
+		objectsToggle.push_back(toggle);
+	}
+	
 }
 
 void ofApp::updateHierarchy() {
@@ -613,5 +641,15 @@ void ofApp::addNewEllipse() {
 
 void ofApp::addNewLine() {
 	renderer.addNewLine(newObjectName);
+	newToggleObject();
+}
+
+void ofApp::addNewStar() {
+	renderer.addNewStar(newObjectName);
+	newToggleObject();
+}
+
+void ofApp::addNewHouse() {
+	renderer.addNewHouse(newObjectName);
 	newToggleObject();
 }
