@@ -108,6 +108,11 @@ public:
 	bool EllipseDraw = false;
 
 
+	ofShader shader;
+	ofParameter<ofColor> color_picker;
+	ofLight light;
+
+
 
 private:
 	bool nameAlreadyExists(string name);

@@ -42,6 +42,9 @@ object3D::object3D(string p_name, string fileName) {
 	name = p_name;
 	objectType = importation;
 	objectImport.loadModel(fileName);
+
+	//TEST SHADER
+	objectImport.disableMaterials();
 }
 
 string object3D::getName() {
@@ -149,15 +152,11 @@ void object3D::setAnimation() {
 	if (animation == true){
 		animation = false;
 
-		//MARCHE PAS
-		//objectImport.stopAllAnimations();
+
 	}
 	else if (animation == false) {
 		animation = true;
 
-		//MARCHE PAS
-		//objectImport.setLoopStateForAllAnimations(OF_LOOP_NORMAL);
-		//objectImport.playAllAnimations();
 	}
 
 }
@@ -165,6 +164,8 @@ void object3D::setAnimation() {
 void object3D::draw() {
 	ofPushMatrix();
 	ofSetColor(color);
+
+
 	if (objectType == primitive3d) {
 		ofSetColor(61, 61, 205);
 		primitive.draw(OF_MESH_WIREFRAME);
@@ -176,20 +177,21 @@ void object3D::draw() {
 		sphere.drawAxes(10);
 	}
 	else if (objectType == importation) {
-
 		if (animation == true)
 		{
+
 			objectImport.setLoopStateForAllAnimations(OF_LOOP_NORMAL);
 			objectImport.playAllAnimations();
 			objectImport.update();
-			objectImport.drawFaces();
+			objectImport.draw(OF_MESH_FILL);
+
 		}
 
 		if (animation == false)
 		{
 			objectImport.stopAllAnimations();
 			objectImport.update();
-			objectImport.drawFaces();
+			objectImport.draw(OF_MESH_FILL);
 		}
 
 	}

@@ -18,10 +18,15 @@ void Renderer::setup()
         is_camera_move_forward = false;
         is_camera_move_backward = false;
         speed_delta = 250.0f;
+
+        //Chargement du shader
+        shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
 }
 
 void Renderer::update()
 {
+
+
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
 
@@ -46,6 +51,12 @@ void Renderer::update()
         mainCamera.dolly(-speed_translation);
     if (is_camera_move_backward)
         mainCamera.dolly(speed_translation);
+
+    // Attribut uniformes du shader
+    shader.begin();
+    shader.setUniform3f("color_diffuse", color_picker->r / 255.0f, color_picker->g / 255.0f, color_picker->b / 255.0f);
+    shader.end();
+
 }
 
 // fonction de dessin du curseur
@@ -120,11 +131,16 @@ void Renderer::draw()
     mainCamera.begin();
     ofEnableDepthTest();
 
+
     for (object3D* object : objects3d) {
         ofPushMatrix();
+        //Applique le shader au model 3D
+        shader.begin();
         object->draw();
+        shader.end();
         ofPopMatrix();
     }
+
 
     for (Object2D* object : objects2D) {
         ofPushMatrix();
