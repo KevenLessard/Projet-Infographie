@@ -52,7 +52,7 @@ object3D::object3D(string p_name, string fileName) {
 	//Enlève les matériaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
 	//Chargement du shader
-	//shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
+	shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
 }
 
 string object3D::getName() {

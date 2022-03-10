@@ -114,8 +114,6 @@ public:
 	ofParameter<ofColor> color_picker;
 	ofLight light;
 
-
-
 private:
 	bool nameAlreadyExists(string name);
 

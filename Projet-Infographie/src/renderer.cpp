@@ -22,8 +22,6 @@ void Renderer::setup()
 
 void Renderer::update()
 {
-
-
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
 
@@ -56,7 +54,6 @@ void Renderer::update()
     for (object3D* object : objects3d) {
         object->updateShader(light);
     }
-
 }
 
 // fonction de dessin du curseur
