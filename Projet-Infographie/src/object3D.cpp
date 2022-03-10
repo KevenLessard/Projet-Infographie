@@ -210,6 +210,7 @@ void object3D::toggleRotation() {
 
 void object3D::draw() {
 	shader.begin();
+
 	if (objectType == primitive3d) {
 		primitive.draw(OF_MESH_WIREFRAME);
 		primitive.drawAxes(10);
