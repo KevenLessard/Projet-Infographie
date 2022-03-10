@@ -85,10 +85,9 @@ class ofApp : public ofBaseApp {
 		ofxFloatSlider floatSliderTime;
 
 
-
 		ofxButton HSBDisplayButton;
 		ofxLabel labelProperties3D;
-		ofxLabel labelProperties2D;
+		
 		ofxLabel labelHierarchy;
 		ofxLabel labelNewObject;
 
