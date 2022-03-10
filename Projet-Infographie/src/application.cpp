@@ -41,7 +41,7 @@ void ofApp::setup(){
 	//Panneau d'ajout d'objects 3D
 	guiObjects3D.setup();
 	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
-	guiObjects3D.add(labelNewObject.setup("Panel", "New object 3D"));
+	guiObjects3D.add(labelNewObject3D.setup("Panel", "New object 3D"));
 	guiObjects3D.add(newObjectName);
 	guiObjects3D.add(newSphereButton.setup("New sphere"));
 	guiObjects3D.add(newBoxButton.setup("New Box"));
@@ -102,7 +102,7 @@ void ofApp::setup(){
 	guiObjects2D.setup();
 	guiObjects2D.setPosition(ofGetWindowWidth() - guiObjects2D.getWidth(), ofGetWindowHeight() - guiObjects2D.getHeight());
 	guiObjects2D.add(newObjectName);
-	guiObjects2D.add(labelNewObject.setup("Panel", "New object 2D"));
+	guiObjects2D.add(labelNewObject2D.setup("Panel", "New object 2D"));
 	guiObjects2D.add(newRectangleButton.setup("New Rectangle"));
 	guiObjects2D.add(newCircleButton.setup("New Circle"));
 	guiObjects2D.add(newTriangleButton.setup("New Triangle"));
