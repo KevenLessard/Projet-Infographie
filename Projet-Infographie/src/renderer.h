@@ -111,8 +111,6 @@ public:
 	bool BezierCurveDraw = false;
 	bool EllipseDraw = false;
 
-
-	ofShader shader;
 	ofParameter<ofColor> color_picker;
 	ofLight light;
 
