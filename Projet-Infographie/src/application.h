@@ -126,6 +126,8 @@ class ofApp : public ofBaseApp {
 
 private:
 
+	void refreshHierarchy();
+
 	//3D
 	void addNewObject();
 	void addNewSphere();

@@ -25,7 +25,7 @@ void ofApp::setup(){
 	guiProperties3D.add(proportionGroup);
 	guiProperties3D.add(positionSlider.setup("Position", ofVec3f(0, 0, 0), ofVec3f(-1920, -1080, 0), ofVec3f(1920, 1080, 1000)));
 	guiProperties3D.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
-	guiProperties3D.add(renderer.colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
+	guiProperties3D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties3D.add(HSBDisplayButton.setup("HSB"));
 	HSBDisplayButton.addListener(this, &ofApp::getHsb);
 
@@ -91,9 +91,9 @@ void ofApp::setup(){
 	proportionGroup.add(proportionX2D.set("x", 1, 0, 100));
 	proportionGroup.add(proportionY2D.set("y", 1, 0, 100));
 	guiProperties2D.add(proportionGroup2D);
-	guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(360,360)));
+	guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920,1080)));
 	guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
-	guiProperties2D.add(renderer.colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
+	guiProperties2D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 	HSBDisplayButton.addListener(this, &ofApp::getHsb);
 
@@ -136,13 +136,23 @@ void ofApp::update(){
 	renderer.is_camera_move_down = is_key_press_down;
 
 	for (int i : selectedObjects) {
-		ofVec3f newProportion(proportionX, proportionY, proportionZ);
+		ofVec3f newProportion;
+		ofVec3f newPosition;
+		ofVec3f newRotation;
+		if (mode3D) {
+			newProportion = ofVec3f(proportionX, proportionY, proportionZ);
+			newPosition = ofVec3f(positionSlider);
+			newRotation = ofVec3f(rotationSlider);
+		}
+		else {
+			newProportion = ofVec3f(proportionX2D, proportionY2D, 1);
+			newPosition = ofVec3f(positionSlider2D);
+			newRotation = ofVec3f(rotationSlider2D);
+		}
 		renderer.proportionateObject(i, newProportion);
-		ofVec3f newPosition(positionSlider);
 		renderer.moveObject(i, newPosition);
-		ofVec3f newRotation(rotationSlider);
 		renderer.rotateObject(i, newRotation);
-		renderer.setObjectColor(i);
+		renderer.setObjectColor(i, colorPicker);
 		renderer.drawBoundingBox(i);
 	}
 	updateHierarchy();
@@ -346,10 +356,16 @@ void ofApp::keyReleased(int key){
 	case 9: // touche TAB pour changer mode 2d 3d
 		objectsToggle.clear();
 		selectedObjects.clear();
-		if (mode3D)
+		
+		if (mode3D) {
 			mode3D = false;
-		else
+			renderer.isMode3D = false;
+		}
+		else {
 			mode3D = true;
+			renderer.isMode3D = true;
+		}
+		refreshHierarchy();
 		windowResized(ofGetWindowWidth(), ofGetWindowHeight());
 		break;
 	case OF_KEY_LEFT: // touche ←
@@ -449,16 +465,14 @@ void ofApp::mouseExited(int x, int y){
 void ofApp::windowResized(int w, int h){
 	if (mode3D) {
 		guiHierarchy.setPosition(0, 0);
-		guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
-		guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
-		guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight() - guiObjects3D.getHeight());
-	}
-	//2D
-	if (!mode3D) {
+		guiProperties3D.setPosition(w - guiProperties3D.getWidth(), 0);
+		guiCamera3D.setPosition(0, h - guiCamera3D.getHeight());
+		guiObjects3D.setPosition(w - guiObjects3D.getWidth(), h - guiObjects3D.getHeight());
+	} else {
 		guiHierarchy.setPosition(0, 0);
-		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
+		guiProperties2D.setPosition(w - guiProperties2D.getWidth(), 0);
 		//guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
-		guiObjects2D.setPosition(ofGetWindowWidth() - guiObjects2D.getWidth(), ofGetWindowHeight() - guiObjects2D.getHeight());
+		guiObjects2D.setPosition(w - guiObjects2D.getWidth(), h - guiObjects2D.getHeight());
 	}
 	
 }
@@ -471,7 +485,7 @@ void ofApp::gotMessage(ofMessage msg){
 void ofApp::getHsb()
 {
 	ofColor myRGBColor;
-	myRGBColor.set(renderer.colorPicker);
+	myRGBColor.set(colorPicker);
 	ofLog() << "Couleur active " << myRGBColor;
 
 	ofColor h = myRGBColor.getHue();
@@ -623,7 +637,6 @@ void ofApp::newToggleObject() {
 		toggle.addListener(this, &ofApp::toggleListener);
 		objectsToggle.push_back(toggle);
 	}
-	
 }
 
 void ofApp::updateHierarchy() {
@@ -634,42 +647,67 @@ void ofApp::updateHierarchy() {
 		guiHierarchy.add(toggle);
 	}
 }
+
+//Called when switching 2D/3D
+void ofApp::refreshHierarchy() {
+	if (mode3D) {
+		for (object3D* object : renderer.objects3d) {
+			ofParameter<bool> toggle;
+			toggle.set(object->getName(), false);
+			toggle.addListener(this, &ofApp::toggleListener);
+			objectsToggle.push_back(toggle);
+		}
+	}
+	else {
+		for (Object2D* object : renderer.objects2D) {
+			ofParameter<bool> toggle;
+			toggle.set(object->getName(), false);
+			toggle.addListener(this, &ofApp::toggleListener);
+			objectsToggle.push_back(toggle);
+		}
+	}
+}
 //__________________________________________-
-
-
 //2D
 
 void ofApp::addNewRectangle() {
 	renderer.addNewRectangle(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewCircle(){
 	renderer.addNewCircle(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewTriangle() {
 	renderer.addNewTriangle(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewEllipse() {
 	renderer.addNewEllipse(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewLine() {
 	renderer.addNewLine(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewStar() {
 	renderer.addNewStar(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewHouse() {
 	renderer.addNewHouse(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }

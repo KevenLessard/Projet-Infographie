@@ -10,6 +10,7 @@
 class Renderer
 {
 public:
+	bool isMode3D;
 	// declaration des variables pour la fonction du curseur draw_cursor.
 	int mouse_press_x;
 	int mouse_press_y;
@@ -39,7 +40,7 @@ public:
 	vector<Object2D*> objects2D;
 	//vector<Form*> shapes;
 
-	ofParameter<ofColor> colorPicker;
+	
 	
 	
 	ofCamera mainCamera;
@@ -84,7 +85,7 @@ public:
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void cameraZoom();
-	void setObjectColor(int index);
+	void setObjectColor(int index, ofColor newColor);
 	string getObject3dName(int index);
 	string getObject2dName(int index);
 	void setAnimation(int index);

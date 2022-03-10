@@ -44,6 +44,14 @@ void Object2D::setProportion(ofVec3f newProportion)
 	m_proportion = newProportion;
 }
 
+void Object2D::setColor(ofColor newColor) {
+	color = newColor;
+}
+
+ofColor Object2D::getColor() {
+	return color;
+}
+
 Object2D::~Object2D()
 {
 }
@@ -77,7 +85,7 @@ void Circle2D::setName(string newCircleName)
 
 void Circle2D::draw()
 {
-	ofSetColor(255, 255, 255);
+	ofSetColor(getColor());
 	ofDrawCircle(getPosition(), getRadius());
 	
 }
@@ -121,7 +129,7 @@ void Rectangle2D::setName(string newRectangleName)
 
 void Rectangle2D::draw()
 {
-	ofSetColor(145, 145, 145);
+	ofSetColor(getColor());
 	ofDrawRectangle( getPosition(), getRectanglewidth(), getRectangleHeight());
 }
 
@@ -149,7 +157,7 @@ ofVec2f Triangle2D::getTriangleCoordC()
 
 string Triangle2D::getName()
 {
-	return string();
+	return m_name;
 }
 
 void Triangle2D::setTriangleCoordA(ofVec2f newTriangleCoordA)
@@ -174,7 +182,7 @@ void Triangle2D::setName(string newTriangleName)
 
 void Triangle2D::draw()
 {
-	ofColor(50, 0, 125);
+	ofSetColor(getColor());
 	ofDrawTriangle(getTriangleCoordA(), getTriangleCoordB(), getTriangleCoordC());
 }
 
@@ -217,7 +225,7 @@ void Ellipse2D::setName(string newEllipseName)
 
 void Ellipse2D::draw()
 {
-	ofColor(35, 35, 35);
+	ofSetColor(getColor());
 	ofDrawEllipse(getPosition(), getEllipsewidth(), getEllipseHeight());
 }
 
@@ -262,7 +270,7 @@ void Line2D::setName(string newLineName)
 }
 
 void Line2D::draw() {
-	ofColor(255, 0, 76);
+	ofSetColor(getColor());
 	ofDrawLine(getLinePtA(), getLinePtB());
 }
 // Classe Star
@@ -284,7 +292,7 @@ string Star2D::getName()
 
 void Star2D::draw()
 {
-	ofSetColor(255);
+	ofSetColor(getColor());
 	ofSetPolyMode(OF_POLY_WINDING_NONZERO);
 
 	ofBeginShape();
@@ -315,7 +323,7 @@ string House2D::getName()
 
 void House2D::draw()
 {
-	ofSetColor(255);
+	ofSetColor(getColor());
 	ofSetPolyMode(OF_POLY_WINDING_ODD);
 	ofBeginShape();
 	ofVertex(250, 25);

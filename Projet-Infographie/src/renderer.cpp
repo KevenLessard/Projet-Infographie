@@ -4,7 +4,7 @@
 void Renderer::setup()
 {
         ofSetFrameRate(60);
-        
+        isMode3D = true;
 		mouse_press_x = mouse_press_y = mouse_current_x = mouse_current_y = 0;
 
 		is_mouse_button_pressed = false;
@@ -51,9 +51,12 @@ void Renderer::update()
     light.setDiffuseColor(255);
     light.setGlobalPosition(center_x, center_y, 255.0f);
 
-    for (object3D* object : objects3d) {
-        object->updateShader(light);
+    if (isMode3D) {
+        for (object3D* object : objects3d) {
+            object->updateShader(light);
+        }
     }
+    
 }
 
 // fonction de dessin du curseur
@@ -131,18 +134,18 @@ void Renderer::draw()
 
     light.enable();
 
-    for (object3D* object : objects3d) {
-        ofPushMatrix();
-        //Applique le shader au model 3D
-        object->draw();
-        ofPopMatrix();
-    }
-
-
-    for (Object2D* object : objects2D) {
-        ofPushMatrix();
-        object->draw();
-        ofPopMatrix();
+    if (isMode3D) {
+        for (object3D* object : objects3d) {
+            ofPushMatrix();
+            object->draw();
+            ofPopMatrix();
+        }
+    } else {
+        for (Object2D* object : objects2D) {
+            ofPushMatrix();
+            object->draw();
+            ofPopMatrix();
+        }
     }
 
     light.disable();
@@ -190,7 +193,7 @@ void Renderer::addNewRectangle(string name) {
         return;
     }
     if (name == "") {
-        name = "rectangle" + to_string(objects2D.size());
+        name = "Rectangle " + to_string(objects2D.size());
     }
     rectangle->setName(name);
     rectangle->setPosition(ofVec3f(0, 0, 0));
@@ -208,7 +211,7 @@ void Renderer::addNewTriangle(string name) {
         return;
     }
     if (name == "") {
-        name = "triangle" + to_string(objects2D.size());
+        name = "Triangle " + to_string(objects2D.size());
     }
     triangle->setName(name);
     triangle->setPosition(ofVec3f(0, 0, 0));
@@ -217,10 +220,6 @@ void Renderer::addNewTriangle(string name) {
     triangle->setTriangleCoordC(ofVec2f((ofGetWindowWidth() / 2 + 100) / 2, ofGetWindowHeight() / 2 + 100));
     triangle->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(triangle);
-    for (int i = 0; i < objects2D.size(); i++)
-    {
-        ofLog() << "object name" << "[" << i << "]" << objects2D[i]->getName();
-    }
 }
 
 //Ajout d'un Ellipse au vecteur 2D
@@ -231,7 +230,7 @@ void Renderer::addNewEllipse(string name) {
         return;
     }
     if (name == "") {
-        name = "ellipse" + to_string(objects2D.size());
+        name = "Ellipse " + to_string(objects2D.size());
     }
     ellipse->setName(name);
     ellipse->setPosition(ofVec3f(0, 0, 0));
@@ -249,7 +248,7 @@ void Renderer::addNewLine(string name) {
         return;
     }
     if (name == "") {
-        name = "line" + to_string(objects2D.size());
+        name = "Line " + to_string(objects2D.size());
     }
     line->setName(name);
     line->setPosition(ofVec3f(0, 0, 0));
@@ -265,7 +264,7 @@ void Renderer::addNewStar(string name) {
         return;
     }
     if (name == "") {
-        name = "star" + to_string(objects2D.size());
+        name = "Star " + to_string(objects2D.size());
     }
     star->setName(name);
     star->setPosition(ofVec3f(0, 0, 0));
@@ -279,7 +278,7 @@ void Renderer::addNewHouse(string name) {
         return;
     }
     if (name == "") {
-        name = "house" + to_string(objects2D.size());
+        name = "House " + to_string(objects2D.size());
     }
     house->setName(name);
     house->setPosition(ofVec3f(0, 0, 0));
@@ -310,6 +309,7 @@ void Renderer::addNewSphere(string name) {
     object3D* sphere = new object3D(name, 2);
     sphere->setRadius(10);
     objects3d.push_back(sphere);
+
 }
 
 void Renderer::addNewBox(string name) {
@@ -359,41 +359,50 @@ void Renderer::import3dModel(std::string file_name) {
 }
 
 void Renderer::deleteObject(int index) {
-    if (index >= objects3d.size() || index == -1) {
-        return;
+    if (isMode3D) {
+        objects3d.erase(objects3d.begin() + index);
     }
-    objects3d.erase(objects3d.begin() + index);
+    else {
+        objects2D.erase(objects2D.begin() + index);
+    }
 }
 
 void Renderer::proportionateObject(int index, ofVec3f newProportion) {
-    if (index >= objects3d.size() || index == -1) {
-        return;
+    if (isMode3D) {
+        objects3d[index]->setProportion(newProportion);
     }
-    objects3d[index]->setProportion(newProportion);
+    else {
+        objects2D[index]->setProportion(newProportion);
+    }
 }
 
 void Renderer::moveObject(int index, ofVec3f newPosition) {
-    if (index >= objects3d.size() || index == -1) {
-        return;
+    if (isMode3D) {
+        objects3d[index]->setPosition(newPosition);
     }
-    objects3d[index]->setPosition(newPosition);
+    else {
+        objects2D[index]->setPosition(newPosition);
+    }
 }
 
 void Renderer::rotateObject(int index, ofVec3f newRotation) {
-    if (index >= objects3d.size() || index == -1) {
-        return;
+    if (isMode3D) {
+        objects3d[index]->setRotation(newRotation);
+    }
+    else {
+        objects2D[index]->setRotation(newRotation);
     }
     //ofQuaternion actualRotation(newRotation);
-    objects3d[index]->setRotation(newRotation);
 }
 
-void Renderer::setObjectColor(int index) {
-    if (index >= objects3d.size() || index == -1) {
-        return;
-    }
+void Renderer::setObjectColor(int index, ofColor newColor) {
     //if hsb, convert to rbg first
-    ofColor newColor(colorPicker);
-    objects3d[index]->setColor(newColor);
+    if (isMode3D) {
+        objects3d[index]->setColor(newColor);
+    }
+    else {
+        objects2D[index]->setColor(newColor);
+    }
 }
 
 void Renderer::image_export(const string name, const string extension) const
@@ -437,7 +446,12 @@ void Renderer::toggleRotation(int index) {
 }
 
 void Renderer::drawBoundingBox(int index) {
-    objects3d[index]->drawBoundingBox();
+    if (isMode3D) {
+        objects3d[index]->drawBoundingBox();
+    }
+    else {
+        //drawBoundingBox for 2d objects
+    }
 }
 
 //Camera
