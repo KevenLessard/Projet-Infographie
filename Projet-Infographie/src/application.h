@@ -89,7 +89,8 @@ class ofApp : public ofBaseApp {
 		ofxLabel labelProperties3D;
 		
 		ofxLabel labelHierarchy;
-		ofxLabel labelNewObject;
+		ofxLabel labelNewObject3D;
+		ofxLabel labelNewObject2D;
 
 		ofParameterGroup proportionGroup;
 		ofParameter<float> proportionX;

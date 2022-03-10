@@ -18,15 +18,10 @@ void Renderer::setup()
         is_camera_move_forward = false;
         is_camera_move_backward = false;
         speed_delta = 250.0f;
-
-        //Chargement du shader
-        shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
 }
 
 void Renderer::update()
 {
-
-
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
 
@@ -52,11 +47,13 @@ void Renderer::update()
     if (is_camera_move_backward)
         mainCamera.dolly(speed_translation);
 
-    // Attribut uniformes du shader
-    shader.begin();
-    shader.setUniform3f("color_diffuse", color_picker->r / 255.0f, color_picker->g / 255.0f, color_picker->b / 255.0f);
-    shader.end();
+    light.setPointLight();
+    light.setDiffuseColor(255);
+    light.setGlobalPosition(center_x, center_y, 255.0f);
 
+    for (object3D* object : objects3d) {
+        object->updateShader(light);
+    }
 }
 
 // fonction de dessin du curseur
@@ -130,14 +127,14 @@ void Renderer::draw()
     ofPushMatrix();
     mainCamera.begin();
     ofEnableDepthTest();
+    ofEnableLighting();
 
+    light.enable();
 
     for (object3D* object : objects3d) {
         ofPushMatrix();
         //Applique le shader au model 3D
-        shader.begin();
         object->draw();
-        shader.end();
         ofPopMatrix();
     }
 
@@ -148,6 +145,9 @@ void Renderer::draw()
         ofPopMatrix();
     }
 
+    light.disable();
+
+    ofDisableLighting();
     ofDisableDepthTest();
     mainCamera.end();
     ofPopMatrix();
@@ -434,6 +434,10 @@ void Renderer::setAnimation(int index) {
 
 void Renderer::toggleRotation(int index) {
     objects3d[index]->toggleRotation();
+}
+
+void Renderer::drawBoundingBox(int index) {
+    objects3d[index]->drawBoundingBox();
 }
 
 //Camera

@@ -12,7 +12,7 @@ void ofApp::setup(){
 	is_verbose = false;
 
 	//3D
-		//Panneau de propriete des objets     
+	//Panneau de propriete des objets     
 	//Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
 	guiProperties3D.setup();
 	guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
@@ -41,9 +41,8 @@ void ofApp::setup(){
 	//Panneau d'ajout d'objects 3D
 	guiObjects3D.setup();
 	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
-	guiObjects3D.add(labelNewObject.setup("Panel", "New object 3D"));
+	guiObjects3D.add(labelNewObject3D.setup("Panel", "New object 3D"));
 	guiObjects3D.add(newObjectName);
-	guiObjects3D.add(newObjectButton.setup("New 3DObject"));
 	guiObjects3D.add(newSphereButton.setup("New sphere"));
 	guiObjects3D.add(newBoxButton.setup("New Box"));
 	guiObjects3D.add(newConeButton.setup("New Cone"));
@@ -103,7 +102,7 @@ void ofApp::setup(){
 	guiObjects2D.setup();
 	guiObjects2D.setPosition(ofGetWindowWidth() - guiObjects2D.getWidth(), ofGetWindowHeight() - guiObjects2D.getHeight());
 	guiObjects2D.add(newObjectName);
-	guiObjects2D.add(labelNewObject.setup("Panel", "New object 2D"));
+	guiObjects2D.add(labelNewObject2D.setup("Panel", "New object 2D"));
 	guiObjects2D.add(newRectangleButton.setup("New Rectangle"));
 	guiObjects2D.add(newCircleButton.setup("New Circle"));
 	guiObjects2D.add(newTriangleButton.setup("New Triangle"));
@@ -144,6 +143,7 @@ void ofApp::update(){
 		ofVec3f newRotation(rotationSlider);
 		renderer.rotateObject(i, newRotation);
 		renderer.setObjectColor(i);
+		renderer.drawBoundingBox(i);
 	}
 	updateHierarchy();
 	renderer.update();
