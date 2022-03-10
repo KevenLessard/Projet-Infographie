@@ -121,6 +121,8 @@ class ofApp : public ofBaseApp {
 		bool is_key_press_left;
 		bool is_key_press_right;
 
+		bool otherCursorInUse = false;
+
 		bool mode3D = true;
 
 

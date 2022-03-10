@@ -34,6 +34,7 @@ void Renderer::update()
 
     if (is_camera_move_left)
         mainCamera.truck(-speed_translation);
+
     if (is_camera_move_right)
         mainCamera.truck(speed_translation);
 
@@ -111,6 +112,17 @@ void Renderer::draw_ResizeCursor(float x, float y) const
     resizeCursor.draw(x, y, cursor_width, cursor_height);
 }
 
+void Renderer::draw_ResizeCursorUpDown(float x, float y) const
+{
+    int cursor_width = 32;
+    int cursor_height = 32;
+
+    ofImage resizeCursor;
+    resizeCursor.load("resizeCursorUpDown.png");
+
+    resizeCursor.draw(x, y, cursor_width, cursor_height);
+}
+
 void Renderer::draw_HandCursor(float x, float y) const
 {
     int cursor_width = 32;
@@ -121,7 +133,16 @@ void Renderer::draw_HandCursor(float x, float y) const
     handCursor.load("handCursor.png");
 
     handCursor.draw(x, y, cursor_width, cursor_height);
+}
 
+void Renderer::draw_MagnifyingGlass(float x, float y)const {
+    int cursor_width = 32;
+    int cursor_height = 32;
+
+    ofImage resizeCursor;
+    resizeCursor.load("Loupe1.png");
+
+    resizeCursor.draw(x, y, cursor_width, cursor_height);
 }
 
 void Renderer::draw()
@@ -166,6 +187,10 @@ void Renderer::draw()
         draw_HandCursor(mouse_current_x, mouse_current_y);
     if (resizeCursor_enabled)
         draw_ResizeCursor(mouse_current_x, mouse_current_y);
+    if(resizeCursorUpDown_enabled)
+        draw_ResizeCursorUpDown(mouse_current_x, mouse_current_y);
+    if (magnifyingGlassEnabled)
+        draw_MagnifyingGlass(mouse_current_x, mouse_current_y);
    
 }
 
