@@ -157,14 +157,14 @@ void ofApp::draw(){
 		guiProperties3D.draw();
 		guiObjects3D.draw();
 		guiCamera3D.draw();
-		guiHierarchy.draw();
 	}
 
 	if (mode3D==false) {
 		guiProperties2D.draw();
 		guiObjects2D.draw();
-		guiHierarchy.draw();
 	}
+
+	guiHierarchy.draw();
 
 	//dessin de l'image chargée dans le buffer loadedImages.
 	ofDrawBitmapString("Press F3 to open an image, F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
@@ -344,10 +344,13 @@ void ofApp::keyReleased(int key){
 		break;
 
 	case 9: // touche TAB pour changer mode 2d 3d
+		objectsToggle.clear();
+		selectedObjects.clear();
 		if (mode3D)
 			mode3D = false;
 		else
 			mode3D = true;
+		windowResized(ofGetWindowWidth(), ofGetWindowHeight());
 		break;
 	case OF_KEY_LEFT: // touche ←
 		is_key_press_left = false;
@@ -490,46 +493,55 @@ void ofApp::dragEvent(ofDragInfo dragInfo){
 void ofApp::addNewObject() {
 	renderer.addNew3dObject(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewSphere() {
 	renderer.addNewSphere(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewBox() {
 	renderer.addNewBox(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewCone() {
 	renderer.addNewCone(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewCylinder() {
 	renderer.addNewCylinder(newObjectName);
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewTeapot() {
 	renderer.import3dModel("teapot.obj");
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewGlasses() {
 	renderer.import3dModel("glasses.3DS");
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addNewTV() {
 	renderer.import3dModel("tv.fbx");
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::addAnimatedWolf() {
 	renderer.import3dModel("Wolf_dae.dae");
 	newToggleObject();
+	newObjectName.set("");
 }
 
 void ofApp::deleteObject() {
