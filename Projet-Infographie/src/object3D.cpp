@@ -4,6 +4,8 @@ object3D::object3D(string p_name) {
 	name = p_name;
 	objectType = primitive3d;
 	primitive = of3dPrimitive();
+	//Chargement du shader
+	shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
 }
 
 object3D::object3D(string p_name, int type) {
@@ -36,6 +38,8 @@ object3D::object3D(string p_name, int type) {
 	default:
 		ofLog() << "Invalid type.";
 	}
+	//Chargement du shader
+	shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
 }
 
 object3D::object3D(string p_name, string fileName) {
@@ -47,6 +51,8 @@ object3D::object3D(string p_name, string fileName) {
 	objectImport.setRotation(0, 180, 1, 0, 0);
 	//Enlève les matériaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
+	//Chargement du shader
+	//shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
 }
 
 string object3D::getName() {
@@ -182,14 +188,10 @@ void object3D::setColor(ofColor newColor) {
 void object3D::setAnimation() {
 	if (animation == true){
 		animation = false;
-
-
 	}
 	else if (animation == false) {
 		animation = true;
-
 	}
-
 }
 
 void object3D::toggleRotation() {
@@ -202,16 +204,11 @@ void object3D::toggleRotation() {
 }
 
 void object3D::draw() {
-	ofPushMatrix();
-	ofSetColor(color);
-
-
+	shader.begin();
 	if (objectType == primitive3d) {
-		ofSetColor(61, 61, 205);
 		primitive.draw(OF_MESH_WIREFRAME);
 		primitive.drawAxes(10);
 	}
-
 	else if (objectType == sphere3d) {
 
 		sphere.draw(OF_MESH_FILL);
@@ -231,9 +228,7 @@ void object3D::draw() {
 			objectImport.playAllAnimations();
 			objectImport.update();
 			objectImport.draw(OF_MESH_FILL);
-
 		}
-
 		if (animation == false)
 		{
 			objectImport.stopAllAnimations();
@@ -250,5 +245,13 @@ void object3D::draw() {
 	else if (objectType == cone3d) {
 		cone.draw(OF_MESH_FILL);
 	}
-	ofPopMatrix();
+	shader.end();
+}
+
+void object3D::updateShader(ofLight light) {
+	shader.begin();
+	shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
+	shader.setUniform3f("color_diffuse", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+	shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
+	shader.end();
 }

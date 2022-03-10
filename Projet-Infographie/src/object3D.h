@@ -29,6 +29,7 @@ public:
 	void setColor(ofColor newColor);
 	void setName(string newName);
 	void setAnimation();
+	void updateShader(ofLight light);
 	void toggleRotation();
 	void draw();
 
@@ -43,6 +44,7 @@ private:
 	bool rotationOn = true;
 
 	ofColor color;
+	ofShader shader;
 
 	ofxAssimpModelLoader objectImport;
 	of3dPrimitive primitive;
