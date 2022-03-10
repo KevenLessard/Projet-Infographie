@@ -29,6 +29,7 @@ public:
 	void setColor(ofColor newColor);
 	void setName(string newName);
 	void setAnimation();
+	void updateShader(ofLight light);
 	void toggleRotation();
 	void draw();
 	void drawBoundingBox();
@@ -45,6 +46,7 @@ private:
 	bool toggleBoundingBox = false;
 
 	ofColor color;
+	ofShader shader;
 
 	ofxAssimpModelLoader objectImport;
 	of3dPrimitive primitive;
