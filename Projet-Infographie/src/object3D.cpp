@@ -52,7 +52,7 @@ object3D::object3D(string p_name, string fileName) {
 	//Enlève les matériaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
 	//Chargement du shader
-	shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
+	//shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
 }
 
 string object3D::getName() {
@@ -183,8 +183,6 @@ void object3D::setRadius(float newRadius) {
 
 void object3D::setColor(ofColor newColor) {
 	color = newColor;
-	shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
-	shader.setUniform4f("color_diffuse", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
 }
 
 void object3D::setAnimation() {
@@ -214,7 +212,6 @@ void object3D::draw() {
 			objectImport.update();
 			objectImport.draw(OF_MESH_FILL);
 		}
-
 		if (animation == false)
 		{
 			objectImport.stopAllAnimations();
@@ -231,5 +228,13 @@ void object3D::draw() {
 	else if (objectType == cone3d) {
 		cone.draw(OF_MESH_FILL);
 	}
+	shader.end();
+}
+
+void object3D::updateShader(ofLight light) {
+	shader.begin();
+	shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
+	shader.setUniform3f("color_diffuse", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+	shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
 	shader.end();
 }

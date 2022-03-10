@@ -53,6 +53,10 @@ void Renderer::update()
     light.setDiffuseColor(255);
     light.setGlobalPosition(center_x, center_y, 255.0f);
 
+    for (object3D* object : objects3d) {
+        object->updateShader(light);
+    }
+
 }
 
 // fonction de dessin du curseur

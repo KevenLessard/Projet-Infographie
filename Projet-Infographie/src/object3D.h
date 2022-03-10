@@ -29,7 +29,7 @@ public:
 	void setColor(ofColor newColor);
 	void setName(string newName);
 	void setAnimation();
-
+	void updateShader(ofLight light);
 	void draw();
 
 private:
