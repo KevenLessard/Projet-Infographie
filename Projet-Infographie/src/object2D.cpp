@@ -149,7 +149,7 @@ ofVec2f Triangle2D::getTriangleCoordC()
 
 string Triangle2D::getName()
 {
-	return string();
+	return m_name;
 }
 
 void Triangle2D::setTriangleCoordA(ofVec2f newTriangleCoordA)

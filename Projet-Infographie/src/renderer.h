@@ -88,6 +88,7 @@ public:
 	string getObject3dName(int index);
 	string getObject2dName(int index);
 	void setAnimation(int index);
+	void toggleRotation(int index);
 
 	//2D
 	void addNew2dObject();
@@ -109,6 +110,11 @@ public:
 	bool LineDraw = false;
 	bool BezierCurveDraw = false;
 	bool EllipseDraw = false;
+
+
+	ofShader shader;
+	ofParameter<ofColor> color_picker;
+	ofLight light;
 
 
 

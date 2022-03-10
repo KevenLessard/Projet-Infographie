@@ -29,7 +29,8 @@ public:
 	void setColor(ofColor newColor);
 	void setName(string newName);
 	void setAnimation();
-
+	void updateShader(ofLight light);
+	void toggleRotation();
 	void draw();
 
 private:
@@ -40,8 +41,10 @@ private:
 	ofVec3f proportion;
 
 	bool animation = false;
+	bool rotationOn = true;
 
 	ofColor color;
+	ofShader shader;
 
 	ofxAssimpModelLoader objectImport;
 	of3dPrimitive primitive;
@@ -49,5 +52,7 @@ private:
 	ofBoxPrimitive box;
 	ofCylinderPrimitive cylinder;
 	ofConePrimitive cone;
+
+
 };
 
