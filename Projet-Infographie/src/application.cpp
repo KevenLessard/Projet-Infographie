@@ -12,7 +12,7 @@ void ofApp::setup(){
 	is_verbose = false;
 
 	//3D
-		//Panneau de propriete des objets     
+	//Panneau de propriete des objets     
 	//Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
 	guiProperties3D.setup();
 	guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
@@ -43,7 +43,6 @@ void ofApp::setup(){
 	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
 	guiObjects3D.add(labelNewObject.setup("Panel", "New object 3D"));
 	guiObjects3D.add(newObjectName);
-	guiObjects3D.add(newObjectButton.setup("New 3DObject"));
 	guiObjects3D.add(newSphereButton.setup("New sphere"));
 	guiObjects3D.add(newBoxButton.setup("New Box"));
 	guiObjects3D.add(newConeButton.setup("New Cone"));
