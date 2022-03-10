@@ -78,6 +78,8 @@ void ofApp::setup(){
 	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
 	guiCamera3D.add(setAnimationButton.setup("Animation"));
 	setAnimationButton.addListener(this, &ofApp::setAnimation);
+	guiCamera3D.add(toggleRotationButton.setup("Rotate 3D models"));
+	toggleRotationButton.addListener(this, &ofApp::toggleRotation);
 	//____________________________________________________________________
 
 	//Panneau de proprietes 2D
@@ -583,6 +585,12 @@ void ofApp::switchProjectionMode() {
 void ofApp::setAnimation() {
 	for (int o : selectedObjects) {
 		renderer.setAnimation(o);
+	}
+}
+
+void ofApp::toggleRotation() {
+	for (int o : selectedObjects) {
+		renderer.toggleRotation(o);
 	}
 }
 

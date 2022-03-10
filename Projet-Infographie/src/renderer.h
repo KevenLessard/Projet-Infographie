@@ -88,6 +88,7 @@ public:
 	string getObject3dName(int index);
 	string getObject2dName(int index);
 	void setAnimation(int index);
+	void toggleRotation(int index);
 
 	//2D
 	void addNew2dObject();

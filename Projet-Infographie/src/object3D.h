@@ -30,6 +30,7 @@ public:
 	void setName(string newName);
 	void setAnimation();
 	void updateShader(ofLight light);
+	void toggleRotation();
 	void draw();
 
 private:
@@ -40,6 +41,7 @@ private:
 	ofVec3f proportion;
 
 	bool animation = false;
+	bool rotationOn = true;
 
 	ofColor color;
 	ofShader shader;

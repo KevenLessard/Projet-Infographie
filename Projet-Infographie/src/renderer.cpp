@@ -435,6 +435,10 @@ void Renderer::setAnimation(int index) {
     objects3d[index]->setAnimation();
 }
 
+void Renderer::toggleRotation(int index) {
+    objects3d[index]->toggleRotation();
+}
+
 //Camera
 
 void Renderer::cameraLookAt(int index) {
