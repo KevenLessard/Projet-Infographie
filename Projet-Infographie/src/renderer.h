@@ -89,6 +89,7 @@ public:
 	string getObject2dName(int index);
 	void setAnimation(int index);
 	void toggleRotation(int index);
+	void drawBoundingBox(int index);
 
 	//2D
 	void addNew2dObject();

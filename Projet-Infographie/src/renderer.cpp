@@ -436,6 +436,10 @@ void Renderer::toggleRotation(int index) {
     objects3d[index]->toggleRotation();
 }
 
+void Renderer::drawBoundingBox(int index) {
+    objects3d[index]->drawBoundingBox();
+}
+
 //Camera
 
 void Renderer::cameraLookAt(int index) {

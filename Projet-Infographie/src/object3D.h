@@ -31,6 +31,7 @@ public:
 	void setAnimation();
 	void toggleRotation();
 	void draw();
+	void drawBoundingBox();
 
 private:
 	string name;
@@ -40,7 +41,8 @@ private:
 	ofVec3f proportion;
 
 	bool animation = false;
-	bool rotationOn = true;
+	bool rotationOn = false;
+	bool toggleBoundingBox = false;
 
 	ofColor color;
 

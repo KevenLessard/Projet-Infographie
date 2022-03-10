@@ -187,10 +187,13 @@ void object3D::setAnimation() {
 	}
 	else if (animation == false) {
 		animation = true;
+	}
+}
+
+void object3D::drawBoundingBox() {
+	toggleBoundingBox = true;
 
 	}
-
-}
 
 void object3D::toggleRotation() {
 	if (rotationOn == true) {
@@ -216,6 +219,12 @@ void object3D::draw() {
 
 		sphere.draw(OF_MESH_FILL);
 		sphere.drawAxes(10);
+		if (toggleBoundingBox == true) {
+			float sizeBase = sphere.getRadius() * 2 * sphere.getGlobalScale().x;
+			ofNoFill();
+			ofDrawBox(sphere.getPosition(), sizeBase, sizeBase, sizeBase);
+		}
+		toggleBoundingBox = false;
 	}
 	else if (objectType == importation) {
 
@@ -231,7 +240,6 @@ void object3D::draw() {
 			objectImport.playAllAnimations();
 			objectImport.update();
 			objectImport.draw(OF_MESH_FILL);
-
 		}
 
 		if (animation == false)
@@ -243,12 +251,31 @@ void object3D::draw() {
 	}
 	else if (objectType == box3d) {
 		box.draw(OF_MESH_FILL);
+		if (toggleBoundingBox == true)
+		{
+			float size = box.getDepth() * box.getGlobalScale().x;
+			ofNoFill();
+			ofDrawBox(box.getPosition(), size + 10, size+10, size+10);
+		}
+		toggleBoundingBox = false;
 	}
 	else if (objectType == cylinder3d) {
 		cylinder.draw(OF_MESH_FILL);
+		if (toggleBoundingBox == true) {
+			float sizeBase = cylinder.getRadius() * 2 * cylinder.getGlobalScale().x;
+			ofNoFill();
+			ofDrawBox(cylinder.getPosition(), sizeBase, cylinder.getHeight() * cylinder.getGlobalScale().x, sizeBase);
+		}
+		toggleBoundingBox = false;
 	}
 	else if (objectType == cone3d) {
 		cone.draw(OF_MESH_FILL);
+		if(toggleBoundingBox == true){
+			float sizeBase = cone.getRadius() * 2 * cone.getGlobalScale().x;
+			ofNoFill();
+			ofDrawBox(cone.getPosition(), sizeBase, cone.getHeight() * cone.getGlobalScale().x, sizeBase);
+		}
+		toggleBoundingBox = false;
 	}
 	ofPopMatrix();
 }

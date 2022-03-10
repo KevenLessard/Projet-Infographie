@@ -144,6 +144,7 @@ void ofApp::update(){
 		ofVec3f newRotation(rotationSlider);
 		renderer.rotateObject(i, newRotation);
 		renderer.setObjectColor(i);
+		renderer.drawBoundingBox(i);
 	}
 	updateHierarchy();
 	renderer.update();
