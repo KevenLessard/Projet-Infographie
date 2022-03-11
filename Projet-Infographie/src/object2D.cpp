@@ -404,6 +404,8 @@ void GestionImages::loadImage(ofFileDialogResult openFileResult, string keypress
 				}
 				ofLog() << "loading completed";
 			}
+
+			//Permet d'importer l'échantillonage d'une image
 			if (keypressed == "f4") {
 				image.cropFrom(image, image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
 			}
@@ -423,7 +425,3 @@ void GestionImages::loadImage(ofFileDialogResult openFileResult, string keypress
 			}
 		}
 	}
-
-void GestionImages::sampleImage() {
-	image.cropFrom(image, image.getWidth() * 0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
-}

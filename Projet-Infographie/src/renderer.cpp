@@ -188,6 +188,7 @@ void Renderer::draw()
     } else {
         for (Object2D* object : objects2D) {
             ofPushMatrix();
+            ofFill();
             object->draw();
             ofPopMatrix();
         }

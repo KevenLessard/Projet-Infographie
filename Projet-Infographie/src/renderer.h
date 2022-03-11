@@ -97,7 +97,6 @@ public:
 	void import3dModel(std::string file_name);
 	void cameraLookAt(int index);
 	void switchProjectionMode();
-	void cameraZoom();
 	void setObjectColor(int index, ofColor newColor);
 	string getObject3dName(int index);
 	string getObject2dName(int index);
@@ -106,14 +105,11 @@ public:
 	void drawBoundingBox(int index);
 
 	//2D
-	void addNew2dObject();
 
-	void addNewSquare(string name);
 	void addNewCircle(string name);
 	void addNewRectangle(string name);
 	void addNewTriangle(string name);
 	void addNewLine(string name);
-	void addNewBezierCurve(string name);
 	void addNewEllipse(string name);
 	void addNewStar(string name);
 	void addNewHouse(string name);

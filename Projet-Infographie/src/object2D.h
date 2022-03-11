@@ -8,7 +8,6 @@ class Object2D
 
 public:
 
-	//GestionImages gestionimages;
 	
 	Object2D();
 
@@ -16,14 +15,12 @@ public:
 	virtual void setName(string newObjectName);
 	
 	ofVec3f getPosition();
-	//return a quaternion?? 
 	ofVec3f getRotation();
 	ofVec3f getProportion();
 	
 	void setColor(ofColor newColor);
 	ofColor getColor();
 	void setPosition(ofVec3f newPosition);
-	//Take a quaternion??
 	void setRotation(ofVec3f newRotation);
 	void setProportion(ofVec3f newProportion);
 	
@@ -216,7 +213,6 @@ public:
 
 
 	void loadImage(ofFileDialogResult openFileResult, string keypressed);
-	void sampleImage();
 
 
 

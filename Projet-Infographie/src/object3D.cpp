@@ -79,7 +79,6 @@ ofVec3f object3D::getPosition() {
 	}
 }
 
-//return a quaternion?? 
 ofVec3f object3D::getRotation() {
 	if (objectType == primitive3d) {
 		return primitive.getOrientationEuler();
@@ -261,6 +260,7 @@ void object3D::toggleRotation() {
 }
 
 void object3D::draw() {
+	ofPushMatrix();
 	shader.begin();
 
 	if (objectType == primitive3d) {
@@ -293,6 +293,7 @@ void object3D::draw() {
 			objectImport.update();
 			objectImport.draw(OF_MESH_FILL);
 		}
+
 		if (animation == false)
 		{
 			objectImport.stopAllAnimations();
@@ -329,6 +330,7 @@ void object3D::draw() {
 		toggleBoundingBox = false;
 	}
 	shader.end();
+	ofPopMatrix();
 }
 
 void object3D::updateShader(ofLight light) {

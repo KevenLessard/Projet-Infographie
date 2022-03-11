@@ -255,8 +255,6 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 }
 
 //--------------------------------------------------------------
-
-//--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	switch (key)
 	{
