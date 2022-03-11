@@ -46,7 +46,6 @@ object3D::object3D(string p_name, string fileName) {
 	name = p_name;
 	objectType = importation;
 	objectImport.loadModel(fileName);
-
 	//Évite que le modèle apparaissent à l'envers
 	objectImport.setRotation(0, 180, 1, 0, 0);
 	//Enlève les matériaux de base pour faire marcher le shader
@@ -69,6 +68,15 @@ ofVec3f object3D::getPosition() {
 	else if (objectType == importation) {
 		return objectImport.getPosition();
 	}
+	else if (objectType == box3d) {
+		return box.getPosition();
+	}
+	else if (objectType == cylinder3d) {
+		return cylinder.getPosition();
+	}
+	else if (objectType == cone3d) {
+		return cone.getPosition();
+	}
 }
 
 //return a quaternion?? 
@@ -80,8 +88,16 @@ ofVec3f object3D::getRotation() {
 		return sphere.getOrientationEuler();
 	}
 	else if (objectType == importation) {
-		ofLog() << objectImport.getRotationAxis(0);
 		return objectImport.getRotationAxis(0);
+	}
+	else if (objectType == box3d) {
+		return box.getOrientationEuler();
+	}
+	else if (objectType == cylinder3d) {
+		return cylinder.getOrientationEuler();
+	}
+	else if (objectType == cone3d) {
+		return cone.getOrientationEuler();
 	}
 }
 
@@ -94,6 +110,15 @@ ofVec3f object3D::getProportion() {
 	}
 	else if(objectType == importation) {
 		return objectImport.getScale();
+	}
+	else if (objectType == box3d) {
+		return box.getScale();
+	}
+	else if (objectType == cylinder3d) {
+		return cylinder.getScale();
+	}
+	else if (objectType == cone3d) {
+		return cone.getScale();
 	}
 }
 
