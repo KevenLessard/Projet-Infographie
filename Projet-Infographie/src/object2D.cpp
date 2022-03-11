@@ -143,17 +143,17 @@ Triangle2D::Triangle2D()
 {
 }
 
-ofVec2f Triangle2D::getTriangleCoordA()
+ofVec3f Triangle2D::getTriangleCoordA()
 {
 	return m_TriangleCoordA;
 }
 
-ofVec2f Triangle2D::getTriangleCoordB()
+ofVec3f Triangle2D::getTriangleCoordB()
 {
 	return m_TriangleCoordB;
 }
 
-ofVec2f Triangle2D::getTriangleCoordC()
+ofVec3f Triangle2D::getTriangleCoordC()
 {
 	return m_TriangleCoordC;
 }
@@ -163,17 +163,17 @@ string Triangle2D::getName()
 	return m_name;
 }
 
-void Triangle2D::setTriangleCoordA(ofVec2f newTriangleCoordA)
+void Triangle2D::setTriangleCoordA(ofVec3f newTriangleCoordA)
 {
 	m_TriangleCoordA = newTriangleCoordA;
 }
 
-void Triangle2D::setTriangleCoordB(ofVec2f newTriangleCoordB)
+void Triangle2D::setTriangleCoordB(ofVec3f newTriangleCoordB)
 {
 	m_TriangleCoordB = newTriangleCoordB;
 }
 
-void Triangle2D::setTriangleCoordC(ofVec2f newTriangleCoordC)
+void Triangle2D::setTriangleCoordC(ofVec3f newTriangleCoordC)
 {
 	m_TriangleCoordC = newTriangleCoordC;
 }
@@ -186,7 +186,8 @@ void Triangle2D::setName(string newTriangleName)
 void Triangle2D::draw()
 {
 	ofSetColor(getColor());
-	ofDrawTriangle(getTriangleCoordA(), getTriangleCoordB(), getTriangleCoordC());
+	ofVec3f position = getPosition();
+	ofDrawTriangle(getTriangleCoordA() + getPosition(), getTriangleCoordB() + getPosition(), getTriangleCoordC() + getPosition());
 }
 
 
