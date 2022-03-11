@@ -152,6 +152,10 @@ ofNode object3D::getNode() {
 	}
 }
 
+ofColor object3D::getColor() {
+	return color;
+}
+
 void object3D::setName(string newName) {
 	name = newName;
 }

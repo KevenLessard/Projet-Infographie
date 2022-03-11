@@ -21,6 +21,7 @@ public:
 	float getRadius();
 	string getName();
 	ofNode getNode();
+	ofColor getColor();
 
 	void setPosition(ofVec3f newPosition);
 	//Take a quaternion??

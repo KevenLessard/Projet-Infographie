@@ -415,8 +415,8 @@ void ofApp::keyReleased(int key){
 		break;
 
 	case 9: // touche TAB pour changer mode 2d 3d
-		objectsToggle.clear();
 		selectedObjects.clear();
+		objectsToggle.clear();
 		if (mode3D) {
 			mode3D = false;
 			renderer.isMode3D = false;
@@ -737,9 +737,11 @@ void ofApp::toggleListener(bool& value) {
 			ofVec3f proportion(renderer.objects3d[selectedObjects[0]]->getProportion());
 			ofVec3f position(renderer.objects3d[selectedObjects[0]]->getPosition());
 			ofVec3f rotation(renderer.objects3d[selectedObjects[0]]->getRotation());
+			ofColor color = renderer.objects3d[selectedObjects[0]]->getColor();
 			proportionSlider = proportion;
 			positionSlider = position;
 			rotationSlider = rotation;
+			colorPicker = color;
 		}
 		else {
 			ofVec3f proportion(renderer.objects2D[selectedObjects[0]]->getProportion());
@@ -748,6 +750,8 @@ void ofApp::toggleListener(bool& value) {
 			proportionSlider2D.setup("Proportion", ofVec2f(proportion.x, proportion.y), ofVec2f(0, 0), ofVec2f(100, 100));
 			positionSlider2D.setup("Position", ofVec2f(position.x, position.y), ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
 			rotationSlider2D.setup("Rotation", ofVec2f(rotation.x, rotation.y), ofVec2f(0, 0), ofVec2f(360, 360));
+			ofColor color = renderer.objects2D[selectedObjects[0]]->getColor();
+			colorPicker = color;
 		}
 	}
 }

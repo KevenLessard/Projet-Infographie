@@ -241,8 +241,8 @@ void Renderer::addNewTriangle(string name) {
     triangle->setName(name);
     triangle->setPosition(ofVec3f(0, 0, 0));
     triangle->setTriangleCoordA(ofVec2f(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2));
-    triangle->setTriangleCoordB(ofVec2f(ofGetWindowWidth() / 2 + 100, ofGetWindowHeight() / 2));
-    triangle->setTriangleCoordC(ofVec2f((ofGetWindowWidth() / 2 + 100) / 2, ofGetWindowHeight() / 2 + 100));
+    triangle->setTriangleCoordB(ofVec2f((ofGetWindowWidth() / 2) - 100, (ofGetWindowHeight() / 2) + 100));
+    triangle->setTriangleCoordC(ofVec2f(((ofGetWindowWidth() / 2) + 100), (ofGetWindowHeight() / 2) + 100));
     triangle->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(triangle);
 }
@@ -495,26 +495,6 @@ void Renderer::switchProjectionMode() {
         is_camera_ortho = true;
     }
 }
-
-void Renderer::cameraZoom() {
-
-}
-
-//2D
-/*
-void Renderer::addNewSquare() {
-    cout << "square";
-
-    if (squareDraw==false) {
-        cout << "true";
-        squareDraw = true;
-    }
-    else {
-        cout << "false";
-        squareDraw = false;
-    }
-}
-*/
 
 //util
 
