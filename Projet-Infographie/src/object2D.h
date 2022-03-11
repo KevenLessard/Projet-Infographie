@@ -192,3 +192,28 @@ private:
 	string m_name;
 
 };
+
+class GestionImages : public Object2D
+{
+public:
+	GestionImages();
+
+	string getName();
+
+	void setName(string newImageName);;
+	void draw();
+
+	vector<ofImage>loadedImages;
+	vector<ofImage>processedImages;
+	string originalFileExtension;
+
+	ofImage image;
+
+	void actionResearchImages();
+
+	void sampleImage(ofFileDialogResult openFileResult);
+
+
+private:
+	string m_name;
+};

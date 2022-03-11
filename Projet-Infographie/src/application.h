@@ -161,8 +161,6 @@ private:
 		
 	void openFileSelection(ofFileDialogResult openFileResult);
 
-	void actionResearchImages();
-
 	vector<ofImage>loadedImages;
 	vector<ofImage>processedImages;
 	string originalFileExtension;

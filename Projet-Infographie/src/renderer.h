@@ -120,6 +120,9 @@ public:
 	ofParameter<ofColor> color_picker;
 	ofLight light;
 
+
+	void addNewImage(string name);
+
 private:
 	bool nameAlreadyExists(string name);
 

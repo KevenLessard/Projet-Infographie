@@ -193,23 +193,19 @@ void ofApp::draw(){
 	renderer.draw();
 
 	if (mode3D==true) {
+		ofDrawBitmapString("Press F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
 		guiProperties3D.draw();
 		guiObjects3D.draw();
 		guiCamera3D.draw();
 	}
 
 	if (mode3D==false) {
+		ofDrawBitmapString("Press F3 to open an image, F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
 		guiProperties2D.draw();
 		guiObjects2D.draw();
 	}
 
 	guiHierarchy.draw();
-
-	//dessin de l'image chargée dans le buffer loadedImages.
-	ofDrawBitmapString("Press F3 to open an image, F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
-	for (unsigned int i = 0; i < loadedImages.size(); i++) {
-		loadedImages[i].draw(0, 20);
-	}
 }
 
 //---------------------------------------------------------------
@@ -246,6 +242,7 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 			{
 				image.resize(image.getWidth() / 2, image.getHeight() / 2);
 			}
+
 			loadedImages.push_back(image);
 			ofLog() << "loading completed";
 		}
@@ -253,24 +250,7 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 }
 
 //--------------------------------------------------------------
-//Fonction pour rechercher dans le réseau local une image
-void ofApp::actionResearchImages() {
 
-	//Open the Open File Dialog
-	ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une image (JPG ou PNG)");
-
-	//Check if the user opened a file
-	if (openFileResult.bSuccess) {
-
-		ofLog()<<"file selected";
-
-		//ouvrir l'image choisie
-		openFileSelection(openFileResult);
-	}
-	else {
-		ofLog()<<"operation canceled by user";
-	}
-}
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	switch (key)
@@ -389,9 +369,11 @@ void ofApp::keyReleased(int key){
 
 		
 	case 57346: // touche F3 pour rechercher une image
-		
-		ofLog() << " recherche image";
-		actionResearchImages();
+		if (mode3D == false) {
+			renderer.addNewImage(newObjectName);
+			newToggleObject();
+			newObjectName.set("");
+		}
 			
 		break;
 
@@ -857,3 +839,6 @@ void ofApp::addNewHouse() {
 	newToggleObject();
 	newObjectName.set("");
 }
+
+
+

@@ -529,3 +529,19 @@ bool Renderer::nameAlreadyExists(string name) {
     }
     return false;
 }
+
+
+void Renderer::addNewImage(string name) {
+    GestionImages* image = new GestionImages();
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Image " + to_string(objects2D.size());
+    }
+    image->setName(name);
+    image->setPosition(ofVec3f(0, 0, 0));
+    image->setProportion(ofVec3f(0, 0, 0));
+    image->actionResearchImages();
+    objects2D.push_back(image);
+}
