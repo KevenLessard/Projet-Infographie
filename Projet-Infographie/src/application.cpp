@@ -5,6 +5,8 @@ void ofApp::setup(){
 
 	ofSetWindowTitle("2D/3D engine");
 	ofLog() << "<app::setup>";
+	
+
 
 	renderer.setup();
 	
@@ -151,6 +153,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	
 	renderer.draw();
 
 	if (mode3D==true) {
@@ -171,6 +174,7 @@ void ofApp::draw(){
 	for (unsigned int i = 0; i < loadedImages.size(); i++) {
 		loadedImages[i].draw(0, 20);
 	}
+	
 }
 
 //---------------------------------------------------------------
@@ -322,18 +326,20 @@ void ofApp::keyReleased(int key){
 
 	case 57345: // touche F2 pour sauvegarde dynamique de la scene
 
-		ofLog() << "Touche S activé et relachee";
+		ofLog() << "Touche F2 activé et relachee";
+
 		nbTakes = intSliderTakes;
+		
 		timeByTakes = (floatSliderTime / nbTakes);
-		i = 0;
+		
 		while (i != nbTakes)
 		{
 			ofResetElapsedTimeCounter();
 			timePassed = ofGetElapsedTimef();
-			while (timePassed < timeByTakes)
+			while (ofGetElapsedTimef() < timeByTakes)
 			{
 				//ofLog() << "timeBytakes" << timeByTakes;
-				timePassed = ofGetElapsedTimef();
+				//timePassed = ofGetElapsedTimef();
 				//ofLog() << "timePassed" << timePassed;
 			}
 			renderer.image_export("serie", "png");
@@ -342,7 +348,7 @@ void ofApp::keyReleased(int key){
 			i++;
 		}
 		break;
-
+		
 	case 9: // touche TAB pour changer mode 2d 3d
 		if (mode3D)
 			mode3D = false;
@@ -623,7 +629,6 @@ void ofApp::updateHierarchy() {
 	}
 }
 //__________________________________________-
-
 
 //2D
 

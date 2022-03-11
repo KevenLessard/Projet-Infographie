@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include <array>
 #include "ofxGui.h"
 #include "renderer.h"
 
@@ -87,6 +88,7 @@ class ofApp : public ofBaseApp {
 
 		ofxButton HSBDisplayButton;
 		ofxLabel labelProperties3D;
+		ofxLabel labelProperties2D;
 		
 		ofxLabel labelHierarchy;
 		ofxLabel labelNewObject3D;
@@ -106,8 +108,8 @@ class ofApp : public ofBaseApp {
 		ofxVec3Slider rotationSlider;
 		ofxVec2Slider rotationSlider2D;
 
+		// dynamic saving
 		float timeByTakes;
-		int i = 0;
 		int nbTakes;
 		float timePassed;
 
