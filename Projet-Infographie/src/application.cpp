@@ -374,7 +374,7 @@ void ofApp::keyReleased(int key){
 			
 		break;
 
-	case 57345: // touche F2 pour sauvegarde dynamique de la scene
+	case 65: // touche A pour sauvegarde dynamique de la scene
 		nbTakes = intSliderTakes;
 		nbFrames = 0;
 		nbFramesPerTake = intSliderFrames;
