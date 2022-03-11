@@ -10,7 +10,6 @@ void ofApp::setup(){
 
 	renderer.setup();
 	
-	
 	is_verbose = false;
 
 	//3D
@@ -69,8 +68,8 @@ void ofApp::setup(){
 
 	guiCamera3D.setup();
 	guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
-	guiCamera3D.add(cameraObjectIndex.setup("Camera pointe vers: ", 0, 0, 100));
-	cameraObjectIndex.addListener(this, &ofApp::cameraLookAt);
+	guiCamera3D.add(cameraLookAtButton.setup("Camera look at"));
+	cameraLookAtButton.addListener(this, &ofApp::cameraLookAt);
 	guiCamera3D.add(projectionModeButton.setup("Switch projection mode"));
 	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
 	guiCamera3D.add(setAnimationButton.setup("Animation"));
@@ -727,8 +726,10 @@ void ofApp::updateSelection() {
 	}
 }
 
-void ofApp::cameraLookAt(int& index) {
-	renderer.cameraLookAt(index - 1);
+void ofApp::cameraLookAt() {
+	if (selectedObjects.size() == 1) {
+		renderer.cameraLookAt(selectedObjects[0]);
+	}
 }
 
 void ofApp::switchProjectionMode() {
