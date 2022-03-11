@@ -129,13 +129,42 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+
 	renderer.is_camera_move_left = is_key_press_left;
 	renderer.is_camera_move_right = is_key_press_right;
 
 	renderer.is_camera_move_up = is_key_press_up;
 	renderer.is_camera_move_down = is_key_press_down;
 
+	if (otherCursorInUse == false) {
+		if (mode3D == true) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = true;
+			renderer.handCursor_enabled = false;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		if (mode3D == false) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = false;
+			renderer.handCursor_enabled = true;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+	}
+
 	for (int i : selectedObjects) {
+
+		if (otherCursorInUse == false) {
+			renderer.crossCursor_enabled = true;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = false;
+			renderer.handCursor_enabled = false;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
 		ofVec3f newProportion;
 		ofVec3f newPosition;
 		ofVec3f newRotation;
@@ -164,23 +193,19 @@ void ofApp::draw(){
 	renderer.draw();
 
 	if (mode3D==true) {
+		ofDrawBitmapString("Press F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
 		guiProperties3D.draw();
 		guiObjects3D.draw();
 		guiCamera3D.draw();
 	}
 
 	if (mode3D==false) {
+		ofDrawBitmapString("Press F3 to open an image, F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
 		guiProperties2D.draw();
 		guiObjects2D.draw();
 	}
 
 	guiHierarchy.draw();
-
-	//dessin de l'image chargée dans le buffer loadedImages.
-	ofDrawBitmapString("Press F3 to open an image, F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
-	for (unsigned int i = 0; i < loadedImages.size(); i++) {
-		loadedImages[i].draw(0, 20);
-	}
 }
 
 //---------------------------------------------------------------
@@ -217,6 +242,7 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 			{
 				image.resize(image.getWidth() / 2, image.getHeight() / 2);
 			}
+
 			loadedImages.push_back(image);
 			ofLog() << "loading completed";
 		}
@@ -224,42 +250,53 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 }
 
 //--------------------------------------------------------------
-//Fonction pour rechercher dans le réseau local une image
-void ofApp::actionResearchImages() {
 
-	//Open the Open File Dialog
-	ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une image (JPG ou PNG)");
-
-	//Check if the user opened a file
-	if (openFileResult.bSuccess) {
-
-		ofLog()<<"file selected";
-
-		//ouvrir l'image choisie
-		openFileSelection(openFileResult);
-	}
-	else {
-		ofLog()<<"operation canceled by user";
-	}
-}
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	switch (key)
 	{
 	case OF_KEY_LEFT: // touche ←
 		is_key_press_left = true;
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursorUpDown_enabled = false;
+		renderer.resizeCursor_enabled = true;
+		otherCursorInUse = true;
 		break;
 
 	case OF_KEY_UP: // touche ↑
 		is_key_press_up = true;
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = false;
+		renderer.resizeCursorUpDown_enabled = true;
+		otherCursorInUse = true;
 		break;
 
 	case OF_KEY_RIGHT: // touche →
 		is_key_press_right = true;
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursorUpDown_enabled = false;
+		renderer.resizeCursor_enabled = true;
+		otherCursorInUse = true;
 		break;
 
 	case OF_KEY_DOWN: // touche ↓
 		is_key_press_down = true;
+		renderer.crossCursor_enabled = false;
+		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = false;
+		renderer.handCursor_enabled = false;
+		renderer.resizeCursor_enabled = false;
+		renderer.resizeCursorUpDown_enabled = true;
+		otherCursorInUse = true;
 		break;
 
 	default:
@@ -278,6 +315,7 @@ void ofApp::keyReleased(int key){
 		renderer.arrowCursor_enabled = false;
 		renderer.handCursor_enabled = false;
 		renderer.resizeCursor_enabled = false;
+		renderer.resizeCursorUpDown_enabled = false;
 		
 		ofLog() << "curseur en croix";
 
@@ -289,6 +327,7 @@ void ofApp::keyReleased(int key){
 		renderer.arrowCursor_enabled = false;
 		renderer.handCursor_enabled = false;
 		renderer.resizeCursor_enabled = false;
+		renderer.resizeCursorUpDown_enabled = false;
 		
 		ofLog() << "curseur en cercle";
 		
@@ -300,16 +339,19 @@ void ofApp::keyReleased(int key){
 		renderer.arrowCursor_enabled = false;
 		renderer.handCursor_enabled = true;
 		renderer.resizeCursor_enabled = false;
+		renderer.resizeCursorUpDown_enabled = false;
 
 		ofLog() << "curseur en main";
 		break;
 
 	case 52://curseur en fleche
-		renderer.arrowCursor_enabled = true;
 		renderer.crossCursor_enabled = false;
 		renderer.circleCursor_enabled = false;
+		renderer.arrowCursor_enabled = true;
 		renderer.handCursor_enabled = false;
 		renderer.resizeCursor_enabled = false;
+		renderer.resizeCursorUpDown_enabled = false;
+
 		ofLog() << "curseur en fleche";
 		break;
 	
@@ -319,14 +361,19 @@ void ofApp::keyReleased(int key){
 		renderer.arrowCursor_enabled = false;
 		renderer.handCursor_enabled = false;
 		renderer.resizeCursor_enabled = true;
+		renderer.resizeCursorUpDown_enabled = false;
+
 		ofLog() << "curseur de resize";
 		
 		break;
+
 		
 	case 57346: // touche F3 pour rechercher une image
-		
-		ofLog() << " recherche image";
-		actionResearchImages();
+		if (mode3D == false) {
+			renderer.addNewImage(newObjectName);
+			newToggleObject();
+			newObjectName.set("");
+		}
 			
 		break;
 
@@ -356,32 +403,111 @@ void ofApp::keyReleased(int key){
 	case 9: // touche TAB pour changer mode 2d 3d
 		objectsToggle.clear();
 		selectedObjects.clear();
-		
 		if (mode3D) {
 			mode3D = false;
 			renderer.isMode3D = false;
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = false;
+			renderer.handCursor_enabled = true;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
 		}
 		else {
 			mode3D = true;
 			renderer.isMode3D = true;
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = true;
+			renderer.handCursor_enabled = false;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
 		}
 		refreshHierarchy();
 		windowResized(ofGetWindowWidth(), ofGetWindowHeight());
 		break;
 	case OF_KEY_LEFT: // touche ←
 		is_key_press_left = false;
+		if (mode3D == true) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = true;
+			renderer.handCursor_enabled = false;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		if (mode3D == false) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = false;
+			renderer.handCursor_enabled = true;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		otherCursorInUse = false;
 		break;
 
 	case OF_KEY_UP: // touche ↑
 		is_key_press_up = false;
+		if (mode3D == true) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = true;
+			renderer.handCursor_enabled = false;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		if (mode3D == false) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = false;
+			renderer.handCursor_enabled = true;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		otherCursorInUse = false;
 		break;
 
 	case OF_KEY_RIGHT: // touche →
 		is_key_press_right = false;
+		if (mode3D == true) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = true;
+			renderer.handCursor_enabled = false;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		if (mode3D == false) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = false;
+			renderer.handCursor_enabled = true;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		otherCursorInUse = false;
 		break;
 
 	case OF_KEY_DOWN: // touche ↓
 		is_key_press_down = false;
+		if (mode3D == true) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = true;
+			renderer.handCursor_enabled = false;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		if (mode3D == false) {
+			renderer.crossCursor_enabled = false;
+			renderer.circleCursor_enabled = false;
+			renderer.arrowCursor_enabled = false;
+			renderer.handCursor_enabled = true;
+			renderer.resizeCursor_enabled = false;
+			renderer.resizeCursorUpDown_enabled = false;
+		}
+		otherCursorInUse = false;
 		break;
 
 	default:
@@ -435,11 +561,13 @@ void ofApp::mouseReleased(int x, int y, int button){
 	renderer.mouse_current_x = x;
 	renderer.mouse_current_y = y;
 
+
 	ofLog() << "ofApp::mouseReleased   at: ( x :" << x << ", y:" << y << ")";
 }
 
 void ofApp::mouseScrolled(int x, int y, float scrollX, float scrollY) {
 	renderer.mainCamera.dolly(-scrollY * 100);
+	//renderer.magnifyingGlassEnabled = true;
 }
 
 //--------------------------------------------------------------
@@ -711,3 +839,6 @@ void ofApp::addNewHouse() {
 	newToggleObject();
 	newObjectName.set("");
 }
+
+
+
