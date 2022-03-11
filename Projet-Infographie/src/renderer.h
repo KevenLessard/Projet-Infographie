@@ -26,6 +26,8 @@ public:
 	bool arrowCursor_enabled;
 	bool handCursor_enabled;
 	bool resizeCursor_enabled;
+	bool resizeCursorUpDown_enabled;
+	bool magnifyingGlassEnabled;
 
 	int cursor_width;
 	int cursor_height;
@@ -69,6 +71,8 @@ public:
 	void draw_ArrowCursor(float x, float y) const;
 	void draw_ResizeCursor(float x, float y) const;
 	void draw_HandCursor(float x, float y) const;
+	void draw_ResizeCursorUpDown(float x, float y) const;
+	void draw_MagnifyingGlass(float x, float y) const;
 
 	//3D
 	void addNew3dObject(string name);
@@ -115,6 +119,9 @@ public:
 
 	ofParameter<ofColor> color_picker;
 	ofLight light;
+
+
+	void addNewImage(string name);
 
 private:
 	bool nameAlreadyExists(string name);
