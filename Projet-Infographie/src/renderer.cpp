@@ -435,7 +435,7 @@ void Renderer::image_export(const string name, const string extension) const
     ofImage image;
 
     string time_stamp = ofGetTimestampString("-%y%m%d-%H%M%S-%i");
-    string file_name = name + time_stamp + "." + extension;
+    string file_name = "export/" + name + time_stamp + "." + extension;
 
     image.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
     image.save(file_name);
@@ -529,7 +529,7 @@ bool Renderer::nameAlreadyExists(string name) {
 }
 
 
-void Renderer::addNewImage(string name) {
+void Renderer::addNewImage(string name, string keypressed) {
     GestionImages* image = new GestionImages();
     if (nameAlreadyExists(name)) {
         return;
@@ -540,6 +540,11 @@ void Renderer::addNewImage(string name) {
     image->setName(name);
     image->setPosition(ofVec3f(0, 0, 0));
     image->setProportion(ofVec3f(0, 0, 0));
-    image->actionResearchImages();
+    image->actionResearchImages(keypressed);
     objects2D.push_back(image);
+}
+
+void Renderer::sampleImage(int index) {
+    //objects2D[index].sampleImage;
+    cout << "renderer";
 }

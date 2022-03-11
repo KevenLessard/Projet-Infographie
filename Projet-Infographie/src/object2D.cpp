@@ -52,9 +52,12 @@ ofColor Object2D::getColor() {
 	return color;
 }
 
+
 Object2D::~Object2D()
 {
 }
+
+
 
 // classe d'un cercle
 //------------------------------------------------------
@@ -353,7 +356,8 @@ void GestionImages::draw() {
 }
 
 //Fonction pour rechercher dans le réseau local une image
-void GestionImages::actionResearchImages() {
+void GestionImages::actionResearchImages(string keypressed) {
+
 
 	//Open the Open File Dialog
 	ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une image (JPG ou PNG)");
@@ -364,54 +368,62 @@ void GestionImages::actionResearchImages() {
 		ofLog() << "file selected";
 
 
-		sampleImage(openFileResult);
+		loadImage(openFileResult, keypressed);
 	}
 	else {
 		ofLog() << "operation canceled by user";
 	}
 }
 
-void GestionImages::sampleImage(ofFileDialogResult openFileResult) {
+void GestionImages::loadImage(ofFileDialogResult openFileResult, string keypressed) {
 
-	ofLog() << "getName(): " + openFileResult.getName();
-	ofLog() << "getPath(): " + openFileResult.getPath();
+		ofLog() << "getName(): " + openFileResult.getName();
+		ofLog() << "getPath(): " + openFileResult.getPath();
 
-	ofFile file(openFileResult.getPath());
+		ofFile file(openFileResult.getPath());
 
-	if (file.exists()) {
-		//présentement, nous chargons une seule image à la fois
-		loadedImages.clear();
+		if (file.exists()) {
+			//présentement, nous chargons une seule image à la fois
+			loadedImages.clear();
 
-		ofLog() << "The file exists - now checking the type via file extension";
-		string fileExtension = ofToUpper(file.getExtension());
+			ofLog() << "The file exists - now checking the type via file extension";
+			string fileExtension = ofToUpper(file.getExtension());
 
-		if (fileExtension == "JPG" || fileExtension == "PNG") {
+			if (fileExtension == "JPG" || fileExtension == "PNG") {
 
-			// Conserver l'extention pour la sauvegarde future
-			originalFileExtension = fileExtension;
+				// Conserver l'extention pour la sauvegarde future
+				originalFileExtension = fileExtension;
 
-			//Load l'image choisie
-			ofImage imageTopLeft;
-			ofImage imageTopRight;
-			ofImage imageDownLeft;
-			ofImage imageDownRight;
+				//Load l'image choisie
+				//ofImage image;
 
-			image.load(openFileResult.getPath());
-			if (image.getWidth() > ofGetWidth() || image.getHeight() > ofGetHeight())
-			{
-				image.resize(image.getWidth() / 2, image.getHeight() / 2);
+				image.load(openFileResult.getPath());
+				if (image.getWidth() > ofGetWidth() || image.getHeight() > ofGetHeight())
+				{
+					image.resize(image.getWidth() / 2, image.getHeight() / 2);
+				}
+				ofLog() << "loading completed";
+			}
+			if (keypressed == "f4") {
+				image.cropFrom(image, image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
 			}
 
+			if (keypressed == "f5") {
+				image.cropFrom(image, image.getWidth() * 0, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
 
-			//imageDownRight.cropFrom(image, image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
-			//loadedImages.push_back(imageDownRight);
-			//imageTopLeft.cropFrom(image, image.getWidth() * 0, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
-			//loadedImages.push_back(imageTopLeft);
-			//imageTopRight.cropFrom(image, image.getWidth() / 2, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
-			//loadedImages.push_back(imageTopRight);
-			//imageDownLeft.cropFrom(image, image.getWidth() * 0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
-			//loadedImages.push_back(imageDownLeft);
-			ofLog() << "loading completed";
+			}
+
+			if (keypressed == "f6") {
+				image.cropFrom(image, image.getWidth() / 2, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
+
+			}
+
+			if (keypressed == "f7") {
+				image.cropFrom(image, image.getWidth() * 0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
+			}
 		}
 	}
+
+void GestionImages::sampleImage() {
+	image.cropFrom(image, image.getWidth() * 0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
 }

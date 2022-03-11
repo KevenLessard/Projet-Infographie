@@ -364,10 +364,47 @@ void ofApp::keyReleased(int key){
 		
 		break;
 
+	case 57350: //touche f7 pour rogner l'image
+		if (mode3D == false) {
+			string keypressed = "f7";
+			renderer.addNewImage(newObjectName, keypressed);
+			cout << "test";
+			newToggleObject();
+			newObjectName.set("");
+		}
+		break;
+
+	case 57349: //touche f6 pour rogner l'image
+		if (mode3D == false) {
+			string keypressed = "f6";
+			renderer.addNewImage(newObjectName, keypressed);
+			newToggleObject();
+			newObjectName.set("");
+		}
+		break;
+
+	case 57348: //touche f5 pour rogner l'image
+		if (mode3D == false) {
+			string keypressed = "f5";
+			renderer.addNewImage(newObjectName, keypressed);
+			newToggleObject();
+			newObjectName.set("");
+		}
+		break;
+
+	case 57347: //touche f4 pour rogner l'image
+		if (mode3D == false) {
+			string keypressed = "f4";
+			renderer.addNewImage(newObjectName, keypressed);
+			newToggleObject();
+			newObjectName.set("");
+		}
+		break;
 		
 	case 57346: // touche F3 pour rechercher une image
 		if (mode3D == false) {
-			renderer.addNewImage(newObjectName);
+			string keypressed = "f3";
+			renderer.addNewImage(newObjectName, keypressed);
 			newToggleObject();
 			newObjectName.set("");
 		}
@@ -491,7 +528,6 @@ void ofApp::keyReleased(int key){
 		break;
 
 	default:
-		ofLog() << key;
 		break;
 	}
 }
@@ -666,8 +702,10 @@ void ofApp::addAnimatedWolf() {
 }
 
 void ofApp::deleteObject() {
-	for (int o : selectedObjects) {
-		renderer.deleteObject(o);
+	for (int i = 0; i < selectedObjects.size(); i++) {
+		int index = selectedObjects[i];
+		index = index - i;
+		renderer.deleteObject(index);
 	}
 	objectsToggle.clear();
 	if (mode3D)
@@ -851,6 +889,7 @@ void ofApp::addNewHouse() {
 	newToggleObject();
 	newObjectName.set("");
 }
+
 
 
 
