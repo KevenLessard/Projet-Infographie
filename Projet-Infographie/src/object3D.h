@@ -20,6 +20,7 @@ public:
 	ofVec3f getProportion();
 	float getRadius();
 	string getName();
+	ofNode getNode();
 
 	void setPosition(ofVec3f newPosition);
 	//Take a quaternion??

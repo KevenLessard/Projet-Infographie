@@ -129,6 +129,29 @@ float object3D::getRadius() {
 	return sphere.getRadius();
 }
 
+ofNode object3D::getNode() {
+	if (objectType == primitive3d) {
+		return primitive;
+	}
+	else if (objectType == sphere3d) {
+		return sphere;
+	}
+	else if (objectType == importation) {
+		ofNode node;
+		node.setPosition(getPosition());
+		return node;
+	}
+	else if (objectType == box3d) {
+		return box;
+	}
+	else if (objectType == cylinder3d) {
+		return cylinder;
+	}
+	else if (objectType == cone3d) {
+		return cone;
+	}
+}
+
 void object3D::setName(string newName) {
 	name = newName;
 }

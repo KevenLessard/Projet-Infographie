@@ -105,7 +105,7 @@ class ofApp : public ofBaseApp {
 
 		ofParameter<ofColor> colorPicker;
 
-		ofxIntField cameraObjectIndex;
+		ofxButton cameraLookAtButton;
 		ofxButton projectionModeButton;
 		ofxButton setAnimationButton;
 		ofxButton toggleRotationButton;
@@ -135,7 +135,7 @@ private:
 	void addNewTV();
 	void addAnimatedWolf();
 	void deleteObject();
-	void cameraLookAt(int& index);
+	void cameraLookAt();
 	void switchProjectionMode();
 	void setAnimation();
 	void toggleRotation();
@@ -158,7 +158,5 @@ private:
 	vector<ofImage>loadedImages;
 	vector<ofImage>processedImages;
 	string originalFileExtension;
-
-	vector<int> selectedObject;
 		
 };

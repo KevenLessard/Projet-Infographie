@@ -482,9 +482,7 @@ void Renderer::drawBoundingBox(int index) {
 //Camera
 
 void Renderer::cameraLookAt(int index) {
-    if (index >= objects3d.size() || index == -1) {
-        return;
-    }
+    mainCamera.lookAt(objects3d[index]->getNode());
 }
 
 void Renderer::switchProjectionMode() {
