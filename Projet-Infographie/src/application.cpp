@@ -116,6 +116,10 @@ void ofApp::setup(){
 	is_key_press_down = false;
 	is_key_press_left = false;
 	is_key_press_right = false;
+	is_key_press_w = false;
+	is_key_press_a = false;
+	is_key_press_s = false;
+	is_key_press_d = false;
 }
 
 //--------------------------------------------------------------
@@ -126,6 +130,13 @@ void ofApp::update(){
 
 	renderer.is_camera_move_up = is_key_press_up;
 	renderer.is_camera_move_down = is_key_press_down;
+
+	renderer.is_camera_pan_y_forward = is_key_press_a;
+	renderer.is_camera_pan_y_backward = is_key_press_d;
+	renderer.is_camera_tilt_x_right = is_key_press_w;
+	renderer.is_camera_tilt_x_left = is_key_press_s;
+
+
 
 	if (otherCursorInUse == false) {
 		if (mode3D == true) {
@@ -293,7 +304,30 @@ void ofApp::keyPressed(int key){
 		otherCursorInUse = true;
 		break;
 
+	case 119://W
+		is_key_press_w = true;
+		break;
+
+	case 97://A
+		is_key_press_a = true;
+		break;
+
+	case 115://S
+		is_key_press_s = true;
+		break;
+
+	case 100://D
+		is_key_press_d = true;
+		break;
+
+	case 32://espace Reset la caméra
+		renderer.mainCamera.resetTransform();
+		renderer.mainCamera.setPosition(0, 0, 500);
+		renderer.mainCamera.setFov(60.0f);
+		break;
+
 	default:
+		ofLog() << key;
 		break;
 	}
 }
@@ -522,6 +556,22 @@ void ofApp::keyReleased(int key){
 			renderer.resizeCursorUpDown_enabled = false;
 		}
 		otherCursorInUse = false;
+		break;
+
+	case 119://W
+		is_key_press_w = false;
+		break;
+
+	case 97://A
+		is_key_press_a = false;
+		break;
+
+	case 115://S
+		is_key_press_s = false;
+		break;
+
+	case 100://D
+		is_key_press_d = false;
 		break;
 
 	default:

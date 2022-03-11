@@ -113,6 +113,10 @@ class ofApp : public ofBaseApp {
 		bool is_key_press_down;
 		bool is_key_press_left;
 		bool is_key_press_right;
+		bool is_key_press_w;
+		bool is_key_press_a;
+		bool is_key_press_s;
+		bool is_key_press_d;
 
 		bool otherCursorInUse = false;
 

@@ -54,6 +54,15 @@ public:
 	bool is_camera_move_forward;
 	bool is_camera_move_backward;
 
+	bool is_camera_tilt_x_right;
+	bool is_camera_tilt_x_left;
+	bool is_camera_pan_y_forward;
+	bool is_camera_pan_y_backward;
+	bool is_camera_roll_z_right;
+	bool is_camera_roll_z_left;
+
+
+
 	float speed_delta;
 	float speed_translation;
 	float speed_rotation;

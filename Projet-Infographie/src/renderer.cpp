@@ -17,6 +17,14 @@ void Renderer::setup()
         is_camera_move_down = false;
         is_camera_move_forward = false;
         is_camera_move_backward = false;
+
+        is_camera_tilt_x_right = false;
+        is_camera_tilt_x_left = false;
+        is_camera_pan_y_forward = false;
+        is_camera_pan_y_backward = false;
+        is_camera_roll_z_right = false;
+        is_camera_roll_z_left = false;
+
         speed_delta = 250.0f;
 }
 
@@ -47,6 +55,22 @@ void Renderer::update()
         mainCamera.dolly(-speed_translation);
     if (is_camera_move_backward)
         mainCamera.dolly(speed_translation);
+
+    if (is_camera_tilt_x_right)
+        mainCamera.tiltDeg(speed_translation);
+    if (is_camera_tilt_x_left)
+        mainCamera.tiltDeg(-speed_translation);
+
+    if (is_camera_pan_y_forward)
+        mainCamera.panDeg(speed_translation);
+    if (is_camera_pan_y_backward)
+        mainCamera.panDeg(-speed_translation);
+
+    //Useless a supprimer
+    if (is_camera_roll_z_right)
+        mainCamera.rollDeg(speed_translation);
+    if (is_camera_roll_z_left)
+        mainCamera.rollDeg(-speed_translation);
 
     light.setPointLight();
     light.setDiffuseColor(255);
