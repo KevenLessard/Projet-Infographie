@@ -488,7 +488,6 @@ void ofApp::keyReleased(int key){
 		break;
 
 	default:
-		ofLog() << key;
 		break;
 	}
 }
@@ -663,8 +662,10 @@ void ofApp::addAnimatedWolf() {
 }
 
 void ofApp::deleteObject() {
-	for (int o : selectedObjects) {
-		renderer.deleteObject(o);
+	for (int i = 0; i < selectedObjects.size(); i++) {
+		int index = selectedObjects[i];
+		index = index - i;
+		renderer.deleteObject(index);
 	}
 	objectsToggle.clear();
 	if (mode3D)
