@@ -10,6 +10,7 @@
 class Renderer
 {
 public:
+	bool isMode3D;
 	// declaration des variables pour la fonction du curseur draw_cursor.
 	int mouse_press_x;
 	int mouse_press_y;
@@ -25,6 +26,8 @@ public:
 	bool arrowCursor_enabled;
 	bool handCursor_enabled;
 	bool resizeCursor_enabled;
+	bool resizeCursorUpDown_enabled;
+	bool magnifyingGlassEnabled;
 
 	int cursor_width;
 	int cursor_height;
@@ -39,7 +42,7 @@ public:
 	vector<Object2D*> objects2D;
 	//vector<Form*> shapes;
 
-	ofParameter<ofColor> colorPicker;
+	
 	
 	
 	ofCamera mainCamera;
@@ -68,6 +71,8 @@ public:
 	void draw_ArrowCursor(float x, float y) const;
 	void draw_ResizeCursor(float x, float y) const;
 	void draw_HandCursor(float x, float y) const;
+	void draw_ResizeCursorUpDown(float x, float y) const;
+	void draw_MagnifyingGlass(float x, float y) const;
 
 	//3D
 	void addNew3dObject(string name);
@@ -84,7 +89,7 @@ public:
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void cameraZoom();
-	void setObjectColor(int index);
+	void setObjectColor(int index, ofColor newColor);
 	string getObject3dName(int index);
 	string getObject2dName(int index);
 	void setAnimation(int index);
@@ -114,6 +119,9 @@ public:
 
 	ofParameter<ofColor> color_picker;
 	ofLight light;
+
+
+	void addNewImage(string name);
 
 private:
 	bool nameAlreadyExists(string name);

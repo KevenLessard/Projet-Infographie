@@ -7,10 +7,13 @@
     <ClCompile Include="src\application.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\gestionImages.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\object2D.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\object3D.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer.cpp">
@@ -67,12 +70,6 @@
     <ClCompile Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS.cpp">
       <Filter>addons\ofxVectorGraphics\libs</Filter>
     </ClCompile>
-    <ClCompile Include="src\object3D.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\object2D.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -128,7 +125,10 @@
     <ClInclude Include="src\application.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\gestionImages.h">
+    <ClInclude Include="src\object2D.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\object3D.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer.h">
@@ -319,12 +319,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS_Types.hpp">
       <Filter>addons\ofxVectorGraphics\libs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\object3D.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\object2D.h">
-      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

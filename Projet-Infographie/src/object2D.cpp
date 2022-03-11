@@ -44,6 +44,14 @@ void Object2D::setProportion(ofVec3f newProportion)
 	m_proportion = newProportion;
 }
 
+void Object2D::setColor(ofColor newColor) {
+	color = newColor;
+}
+
+ofColor Object2D::getColor() {
+	return color;
+}
+
 Object2D::~Object2D()
 {
 }
@@ -77,7 +85,7 @@ void Circle2D::setName(string newCircleName)
 
 void Circle2D::draw()
 {
-	ofSetColor(255, 255, 255);
+	ofSetColor(getColor());
 	ofDrawCircle(getPosition(), getRadius());
 	
 }
@@ -121,7 +129,7 @@ void Rectangle2D::setName(string newRectangleName)
 
 void Rectangle2D::draw()
 {
-	ofSetColor(145, 145, 145);
+	ofSetColor(getColor());
 	ofDrawRectangle( getPosition(), getRectanglewidth(), getRectangleHeight());
 }
 
@@ -174,7 +182,7 @@ void Triangle2D::setName(string newTriangleName)
 
 void Triangle2D::draw()
 {
-	ofColor(50, 0, 125);
+	ofSetColor(getColor());
 	ofDrawTriangle(getTriangleCoordA(), getTriangleCoordB(), getTriangleCoordC());
 }
 
@@ -217,7 +225,7 @@ void Ellipse2D::setName(string newEllipseName)
 
 void Ellipse2D::draw()
 {
-	ofColor(35, 35, 35);
+	ofSetColor(getColor());
 	ofDrawEllipse(getPosition(), getEllipsewidth(), getEllipseHeight());
 }
 
@@ -262,7 +270,7 @@ void Line2D::setName(string newLineName)
 }
 
 void Line2D::draw() {
-	ofColor(255, 0, 76);
+	ofSetColor(getColor());
 	ofDrawLine(getLinePtA(), getLinePtB());
 }
 // Classe Star
@@ -284,7 +292,7 @@ string Star2D::getName()
 
 void Star2D::draw()
 {
-	ofSetColor(255);
+	ofSetColor(getColor());
 	ofSetPolyMode(OF_POLY_WINDING_NONZERO);
 
 	ofBeginShape();
@@ -315,7 +323,7 @@ string House2D::getName()
 
 void House2D::draw()
 {
-	ofSetColor(255);
+	ofSetColor(getColor());
 	ofSetPolyMode(OF_POLY_WINDING_ODD);
 	ofBeginShape();
 	ofVertex(250, 25);
@@ -324,4 +332,86 @@ void House2D::draw()
 	ofVertex(305, 200);
 	ofVertex(250, 135);
 	ofEndShape();
+}
+
+// Class gestionImage
+//----------------------------------------------------------------------
+GestionImages::GestionImages() {
+
+}
+
+void GestionImages::setName(string newImageName) {
+	m_name = newImageName;
+}
+
+string GestionImages::getName() {
+	return m_name;
+}
+
+void GestionImages::draw() {
+	image.draw(getPosition());
+}
+
+//Fonction pour rechercher dans le réseau local une image
+void GestionImages::actionResearchImages() {
+
+	//Open the Open File Dialog
+	ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une image (JPG ou PNG)");
+
+	//Check if the user opened a file
+	if (openFileResult.bSuccess) {
+
+		ofLog() << "file selected";
+
+
+		sampleImage(openFileResult);
+	}
+	else {
+		ofLog() << "operation canceled by user";
+	}
+}
+
+void GestionImages::sampleImage(ofFileDialogResult openFileResult) {
+
+	ofLog() << "getName(): " + openFileResult.getName();
+	ofLog() << "getPath(): " + openFileResult.getPath();
+
+	ofFile file(openFileResult.getPath());
+
+	if (file.exists()) {
+		//présentement, nous chargons une seule image à la fois
+		loadedImages.clear();
+
+		ofLog() << "The file exists - now checking the type via file extension";
+		string fileExtension = ofToUpper(file.getExtension());
+
+		if (fileExtension == "JPG" || fileExtension == "PNG") {
+
+			// Conserver l'extention pour la sauvegarde future
+			originalFileExtension = fileExtension;
+
+			//Load l'image choisie
+			ofImage imageTopLeft;
+			ofImage imageTopRight;
+			ofImage imageDownLeft;
+			ofImage imageDownRight;
+
+			image.load(openFileResult.getPath());
+			if (image.getWidth() > ofGetWidth() || image.getHeight() > ofGetHeight())
+			{
+				image.resize(image.getWidth() / 2, image.getHeight() / 2);
+			}
+
+
+			//imageDownRight.cropFrom(image, image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
+			//loadedImages.push_back(imageDownRight);
+			//imageTopLeft.cropFrom(image, image.getWidth() * 0, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
+			//loadedImages.push_back(imageTopLeft);
+			//imageTopRight.cropFrom(image, image.getWidth() / 2, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
+			//loadedImages.push_back(imageTopRight);
+			//imageDownLeft.cropFrom(image, image.getWidth() * 0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
+			//loadedImages.push_back(imageDownLeft);
+			ofLog() << "loading completed";
+		}
+	}
 }

@@ -124,10 +124,14 @@ class ofApp : public ofBaseApp {
 		bool is_key_press_left;
 		bool is_key_press_right;
 
+		bool otherCursorInUse = false;
+
 		bool mode3D = true;
 
 
 private:
+
+	void refreshHierarchy();
 
 	//3D
 	void addNewObject();
@@ -159,8 +163,6 @@ private:
 	void addNewHouse();
 		
 	void openFileSelection(ofFileDialogResult openFileResult);
-
-	void actionResearchImages();
 
 	vector<ofImage>loadedImages;
 	vector<ofImage>processedImages;

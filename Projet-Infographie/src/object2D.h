@@ -13,13 +13,13 @@ public:
 	virtual string getName();
 	virtual void setName(string newObjectName);
 	
-
 	ofVec3f getPosition();
 	//return a quaternion?? 
 	ofVec3f getRotation();
 	ofVec3f getProportion();
 	
-
+	void setColor(ofColor newColor);
+	ofColor getColor();
 	void setPosition(ofVec3f newPosition);
 	//Take a quaternion??
 	void setRotation(ofVec3f newRotation);
@@ -38,7 +38,7 @@ private:
 	ofVec3f m_rotation;
 	ofVec3f m_proportion;
 	string m_name;
-	
+	ofColor color;
 
 };
 
@@ -191,4 +191,29 @@ private:
 
 	string m_name;
 
+};
+
+class GestionImages : public Object2D
+{
+public:
+	GestionImages();
+
+	string getName();
+
+	void setName(string newImageName);;
+	void draw();
+
+	vector<ofImage>loadedImages;
+	vector<ofImage>processedImages;
+	string originalFileExtension;
+
+	ofImage image;
+
+	void actionResearchImages();
+
+	void sampleImage(ofFileDialogResult openFileResult);
+
+
+private:
+	string m_name;
 };
