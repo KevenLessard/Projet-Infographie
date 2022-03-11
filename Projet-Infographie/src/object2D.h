@@ -89,15 +89,15 @@ class Triangle2D : public Object2D
 public:
 
 	Triangle2D();
-	ofVec2f getTriangleCoordA();
-	ofVec2f getTriangleCoordB();
-	ofVec2f getTriangleCoordC();
+	ofVec3f getTriangleCoordA();
+	ofVec3f getTriangleCoordB();
+	ofVec3f getTriangleCoordC();
 	string getName();
 	
 
-	void setTriangleCoordA(ofVec2f newTriangleCoordA);
-	void setTriangleCoordB(ofVec2f newTriangleCoordB);
-	void setTriangleCoordC(ofVec2f newTriangleCoordC);
+	void setTriangleCoordA(ofVec3f newTriangleCoordA);
+	void setTriangleCoordB(ofVec3f newTriangleCoordB);
+	void setTriangleCoordC(ofVec3f newTriangleCoordC);
 	void setName(string newTriangleName);
 
 	void draw();

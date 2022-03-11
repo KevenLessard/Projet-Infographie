@@ -265,9 +265,9 @@ void Renderer::addNewTriangle(string name) {
     }
     triangle->setName(name);
     triangle->setPosition(ofVec3f(0, 0, 0));
-    triangle->setTriangleCoordA(ofVec2f(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2));
-    triangle->setTriangleCoordB(ofVec2f((ofGetWindowWidth() / 2) - 100, (ofGetWindowHeight() / 2) + 100));
-    triangle->setTriangleCoordC(ofVec2f(((ofGetWindowWidth() / 2) + 100), (ofGetWindowHeight() / 2) + 100));
+    triangle->setTriangleCoordA(ofVec3f(ofGetWindowWidth() / 200, ofGetWindowHeight() / 200));
+    triangle->setTriangleCoordB(ofVec3f((ofGetWindowWidth() / 200) - 100, (ofGetWindowHeight() / 200) + 100));
+    triangle->setTriangleCoordC(ofVec3f(((ofGetWindowWidth() / 200) + 100), (ofGetWindowHeight() / 200) + 100));
     triangle->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(triangle);
 }

@@ -205,6 +205,7 @@ void ofApp::draw(){
 
 	if (mode3D==false) {
 		ofDrawBitmapString("Press F3 to open an image, F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
+		ofDrawBitmapString("Press F4 to open TopLeft of an image, F5 for TopRight, F6 for DownLeft and F7 for DownRight.", guiHierarchy.getWidth(), 30);
 		guiProperties2D.draw();
 		guiObjects2D.draw();
 	}
@@ -302,19 +303,27 @@ void ofApp::keyPressed(int key){
 		break;
 
 	case 119://W
-		is_key_press_w = true;
+		if (mode3D == true) {
+			is_key_press_w = true;
+		}
 		break;
 
 	case 97://A
-		is_key_press_a = true;
+		if (mode3D == true) {
+			is_key_press_a = true;
+		}
 		break;
 
 	case 115://S
-		is_key_press_s = true;
+		if (mode3D == true) {
+			is_key_press_s = true;
+		}
 		break;
 
 	case 100://D
-		is_key_press_d = true;
+		if (mode3D == true) {
+			is_key_press_d = true;
+		}
 		break;
 
 	case 32://espace Reset la caméra
