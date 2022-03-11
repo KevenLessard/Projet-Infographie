@@ -82,7 +82,7 @@ class ofApp : public ofBaseApp {
 		ofxIntSlider intSlider;
 		ofxFloatSlider floatSlider;
 		ofxIntSlider intSliderTakes;
-		ofxFloatSlider floatSliderTime;
+		ofxIntSlider intSliderFrames;
 
 		ofxButton HSBDisplayButton;
 		ofxLabel labelProperties3D;
@@ -91,28 +91,21 @@ class ofApp : public ofBaseApp {
 		ofxLabel labelNewObject3D;
 		ofxLabel labelNewObject2D;
 
-		ofParameterGroup proportionGroup;
-		ofParameter<float> proportionX;
-		ofParameter<float> proportionY;
-		ofParameter<float> proportionZ;
-
-		ofParameterGroup proportionGroup2D;
-		ofParameter<float> proportionX2D;
-		ofParameter<float> proportionY2D;
-
+		ofxVec3Slider proportionSlider;
+		ofxVec2Slider proportionSlider2D;
 		ofxVec3Slider positionSlider;
 		ofxVec2Slider positionSlider2D;
 		ofxVec3Slider rotationSlider;
 		ofxVec2Slider rotationSlider2D;
 
-		float timeByTakes;
+		int nbFramesPerTake;
 		int i = 0;
 		int nbTakes;
-		float timePassed;
+		int nbFrames;
 
 		ofParameter<ofColor> colorPicker;
 
-		ofxIntField cameraObjectIndex;
+		ofxButton cameraLookAtButton;
 		ofxButton projectionModeButton;
 		ofxButton setAnimationButton;
 		ofxButton toggleRotationButton;
@@ -129,6 +122,7 @@ class ofApp : public ofBaseApp {
 private:
 
 	void refreshHierarchy();
+	void exportImage();
 
 	//3D
 	void addNewObject();
@@ -141,7 +135,7 @@ private:
 	void addNewTV();
 	void addAnimatedWolf();
 	void deleteObject();
-	void cameraLookAt(int& index);
+	void cameraLookAt();
 	void switchProjectionMode();
 	void setAnimation();
 	void toggleRotation();
@@ -165,7 +159,5 @@ private:
 	vector<ofImage>loadedImages;
 	vector<ofImage>processedImages;
 	string originalFileExtension;
-
-	vector<int> selectedObject;
 		
 };

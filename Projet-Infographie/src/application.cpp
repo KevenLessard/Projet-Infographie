@@ -8,7 +8,6 @@ void ofApp::setup(){
 
 	renderer.setup();
 	
-	
 	is_verbose = false;
 
 	//3D
@@ -17,12 +16,7 @@ void ofApp::setup(){
 	guiProperties3D.setup();
 	guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
 	guiProperties3D.add(labelProperties3D.setup("Panel", "Properties"));
-
-	proportionGroup.setName("Proportion");
-	proportionGroup.add(proportionX.set("x", 1, 0, 100));
-	proportionGroup.add(proportionY.set("y", 1, 0, 100));
-	proportionGroup.add(proportionZ.set("z", 1, 0, 100));
-	guiProperties3D.add(proportionGroup);
+	guiProperties3D.add(proportionSlider.setup("Proportion", ofVec3f(1, 1, 1), ofVec3f(0, 0, 0), ofVec3f(100, 100, 100)));
 	guiProperties3D.add(positionSlider.setup("Position", ofVec3f(0, 0, 0), ofVec3f(-1920, -1080, 0), ofVec3f(1920, 1080, 1000)));
 	guiProperties3D.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
 	guiProperties3D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
@@ -30,8 +24,8 @@ void ofApp::setup(){
 	HSBDisplayButton.addListener(this, &ofApp::getHsb);
 
 	//Informations de sauvegarde dynamique
-	guiProperties3D.add(intSliderTakes.setup("nombre de prises", 1, 1, 24));
-	guiProperties3D.add(floatSliderTime.setup("temps sauvegarde (secondes)", 5.0, 1.0, 30.0));
+	guiProperties3D.add(intSliderTakes.setup("Nombre de prises", 1, 1, 24));
+	guiProperties3D.add(intSliderFrames.setup("Nombre de frames par prises", 5, 1, 500));
 
 	//panneau de hierarchie des objets ** À développer **
 	guiHierarchy.setup();
@@ -72,8 +66,8 @@ void ofApp::setup(){
 
 	guiCamera3D.setup();
 	guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
-	guiCamera3D.add(cameraObjectIndex.setup("Camera pointe vers: ", 0, 0, 100));
-	cameraObjectIndex.addListener(this, &ofApp::cameraLookAt);
+	guiCamera3D.add(cameraLookAtButton.setup("Camera look at"));
+	cameraLookAtButton.addListener(this, &ofApp::cameraLookAt);
 	guiCamera3D.add(projectionModeButton.setup("Switch projection mode"));
 	projectionModeButton.addListener(this, &ofApp::switchProjectionMode);
 	guiCamera3D.add(setAnimationButton.setup("Animation"));
@@ -87,10 +81,7 @@ void ofApp::setup(){
 	guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
 	guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
 
-	proportionGroup.setName("Proportion");
-	proportionGroup.add(proportionX2D.set("x", 1, 0, 100));
-	proportionGroup.add(proportionY2D.set("y", 1, 0, 100));
-	guiProperties2D.add(proportionGroup2D);
+	guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
 	guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920,1080)));
 	guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 	guiProperties2D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
@@ -169,12 +160,13 @@ void ofApp::update(){
 		ofVec3f newPosition;
 		ofVec3f newRotation;
 		if (mode3D) {
-			newProportion = ofVec3f(proportionX, proportionY, proportionZ);
+			newProportion = ofVec3f(proportionSlider);
 			newPosition = ofVec3f(positionSlider);
 			newRotation = ofVec3f(rotationSlider);
 		}
 		else {
-			newProportion = ofVec3f(proportionX2D, proportionY2D, 1);
+			ofVec3f newProportion2D(proportionSlider2D);
+			newProportion = ofVec3f(newProportion2D.x, newProportion2D.y, 1);
 			newPosition = ofVec3f(positionSlider2D);
 			newRotation = ofVec3f(rotationSlider2D);
 		}
@@ -191,6 +183,8 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	renderer.draw();
+
+	exportImage();
 
 	if (mode3D==true) {
 		ofDrawBitmapString("Press F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
@@ -415,26 +409,9 @@ void ofApp::keyReleased(int key){
 		break;
 
 	case 57345: // touche F2 pour sauvegarde dynamique de la scene
-
-		ofLog() << "Touche S activé et relachee";
 		nbTakes = intSliderTakes;
-		timeByTakes = (floatSliderTime / nbTakes);
-		i = 0;
-		while (i != nbTakes)
-		{
-			ofResetElapsedTimeCounter();
-			timePassed = ofGetElapsedTimef();
-			while (timePassed < timeByTakes)
-			{
-				//ofLog() << "timeBytakes" << timeByTakes;
-				timePassed = ofGetElapsedTimef();
-				//ofLog() << "timePassed" << timePassed;
-			}
-			renderer.image_export("serie", "png");
-			ofLog() << "image" << i << "exporte";
-			ofResetElapsedTimeCounter();
-			i++;
-		}
+		nbFrames = 0;
+		nbFramesPerTake = intSliderFrames;
 		break;
 
 	case 9: // touche TAB pour changer mode 2d 3d
@@ -658,7 +635,6 @@ void ofApp::getHsb()
 	ofColor b = myRGBColor.getBrightness();
 
 	ofLog() << "HSB :" << "Hue :" << h << "Saturation :" << s << "Brightness :"<< b;
-
 }
 
 //--------------------------------------------------------------
@@ -755,6 +731,24 @@ void ofApp::deleteObject() {
 
 void ofApp::toggleListener(bool& value) {
 	updateSelection();
+	if (selectedObjects.size() == 1) {
+		if (mode3D) {
+			ofVec3f proportion(renderer.objects3d[selectedObjects[0]]->getProportion());
+			ofVec3f position(renderer.objects3d[selectedObjects[0]]->getPosition());
+			ofVec3f rotation(renderer.objects3d[selectedObjects[0]]->getRotation());
+			proportionSlider = proportion;
+			positionSlider = position;
+			rotationSlider = rotation;
+		}
+		else {
+			ofVec3f proportion(renderer.objects2D[selectedObjects[0]]->getProportion());
+			ofVec3f position(renderer.objects2D[selectedObjects[0]]->getPosition());
+			ofVec3f rotation(renderer.objects2D[selectedObjects[0]]->getRotation());
+			proportionSlider2D.setup("Proportion", ofVec2f(proportion.x, proportion.y), ofVec2f(0, 0), ofVec2f(100, 100));
+			positionSlider2D.setup("Position", ofVec2f(position.x, position.y), ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
+			rotationSlider2D.setup("Rotation", ofVec2f(rotation.x, rotation.y), ofVec2f(0, 0), ofVec2f(360, 360));
+		}
+	}
 }
 
 void ofApp::updateSelection() {
@@ -766,8 +760,10 @@ void ofApp::updateSelection() {
 	}
 }
 
-void ofApp::cameraLookAt(int& index) {
-	renderer.cameraLookAt(index - 1);
+void ofApp::cameraLookAt() {
+	if (selectedObjects.size() == 1) {
+		renderer.cameraLookAt(selectedObjects[0]);
+	}
 }
 
 void ofApp::switchProjectionMode() {
@@ -810,6 +806,17 @@ void ofApp::updateHierarchy() {
 	
 	for (ofParameter<bool> toggle : objectsToggle) {
 		guiHierarchy.add(toggle);
+	}
+}
+
+void ofApp::exportImage() {
+	if (nbTakes > 0) {
+		if (nbFrames == nbFramesPerTake) {
+			renderer.image_export("serie", "png");
+			nbTakes--;
+			nbFrames = 0;
+		}
+		nbFrames++;
 	}
 }
 
