@@ -158,6 +158,7 @@ private:
 	void addNewLine();
 	void addNewStar();
 	void addNewHouse();
+	void addNewImage(string keypressed);
 		
 	void openFileSelection(ofFileDialogResult openFileResult);
 
