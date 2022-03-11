@@ -407,20 +407,22 @@ void GestionImages::loadImage(ofFileDialogResult openFileResult, string keypress
 
 			//Permet d'importer l'échantillonage d'une image
 			if (keypressed == "f4") {
-				image.cropFrom(image, image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
-			}
-
-			if (keypressed == "f5") {
+				//TopLeft
 				image.cropFrom(image, image.getWidth() * 0, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
 
 			}
-
-			if (keypressed == "f6") {
+			if (keypressed == "f5") {
+				//TopRight
 				image.cropFrom(image, image.getWidth() / 2, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
 
 			}
-
 			if (keypressed == "f7") {
+				//DownRight
+				image.cropFrom(image, image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
+			}
+
+			//DownLeft
+			if (keypressed == "f6") {
 				image.cropFrom(image, image.getWidth() * 0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
 			}
 		}
