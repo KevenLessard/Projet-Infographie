@@ -7,6 +7,8 @@ class Object2D
 {
 
 public:
+
+	//GestionImages gestionimages;
 	
 	Object2D();
 
@@ -29,6 +31,7 @@ public:
 	virtual void draw()=0;
 
 	virtual ~Object2D();
+
 
 	
 
@@ -209,11 +212,15 @@ public:
 
 	ofImage image;
 
-	void actionResearchImages();
+	void actionResearchImages(string keypressed);
 
-	void sampleImage(ofFileDialogResult openFileResult);
+
+	void loadImage(ofFileDialogResult openFileResult, string keypressed);
+	void sampleImage();
+
 
 
 private:
 	string m_name;
+
 };

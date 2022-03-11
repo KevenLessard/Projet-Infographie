@@ -529,7 +529,7 @@ bool Renderer::nameAlreadyExists(string name) {
 }
 
 
-void Renderer::addNewImage(string name) {
+void Renderer::addNewImage(string name, string keypressed) {
     GestionImages* image = new GestionImages();
     if (nameAlreadyExists(name)) {
         return;
@@ -540,6 +540,11 @@ void Renderer::addNewImage(string name) {
     image->setName(name);
     image->setPosition(ofVec3f(0, 0, 0));
     image->setProportion(ofVec3f(0, 0, 0));
-    image->actionResearchImages();
+    image->actionResearchImages(keypressed);
     objects2D.push_back(image);
+}
+
+void Renderer::sampleImage(int index) {
+    //objects2D[index].sampleImage;
+    cout << "renderer";
 }

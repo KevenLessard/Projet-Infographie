@@ -121,7 +121,8 @@ public:
 	ofLight light;
 
 
-	void addNewImage(string name);
+	void addNewImage(string name, string keypressed);
+	void sampleImage(int index);
 
 private:
 	bool nameAlreadyExists(string name);
