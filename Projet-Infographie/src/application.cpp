@@ -12,6 +12,7 @@ void ofApp::setup(){
 	
 	is_verbose = false;
 
+	isRGBA = false;
 	//3D
 	//Panneau de propriete des objets     
 	//Plusieurs outils ou sliders répertoriés la dedans. Pas tous utiles pour le moment, mais donner des idées.
@@ -23,7 +24,7 @@ void ofApp::setup(){
 	guiProperties3D.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
 	guiProperties3D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties3D.add(HSBDisplayButton.setup("HSB"));
-	HSBDisplayButton.addListener(this, &ofApp::getHsb);
+	HSBDisplayButton.addListener(this, &ofApp::refreshProperties);
 
 	//Informations de sauvegarde dynamique
 	guiProperties3D.add(intSliderTakes.setup("Nombre de prises", 1, 1, 24));
@@ -82,13 +83,11 @@ void ofApp::setup(){
 	guiProperties2D.setup();
 	guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
 	guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
-
 	guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
 	guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920,1080)));
-	guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+	//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 	guiProperties2D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties2D.add(HSBDisplayButton.setup("HSB"));
-	HSBDisplayButton.addListener(this, &ofApp::getHsb);
 
 	//Panneau d'ajout d'objects 2D
 
@@ -103,6 +102,7 @@ void ofApp::setup(){
 	guiObjects2D.add(newLineButton.setup("New Line"));
 	guiObjects2D.add(newStarButton.setup("New Star"));
 	guiObjects2D.add(newHouseButton.setup("New House"));
+	guiObjects2D.add(deleteButton.setup("Delete object"));
 		
 	newObjectName.set("Name: ", "");
 	newRectangleButton.addListener(this, &ofApp::addNewRectangle);
@@ -118,6 +118,10 @@ void ofApp::setup(){
 	is_key_press_down = false;
 	is_key_press_left = false;
 	is_key_press_right = false;
+	is_key_press_w = false;
+	is_key_press_a = false;
+	is_key_press_s = false;
+	is_key_press_d = false;
 }
 
 //--------------------------------------------------------------
@@ -128,6 +132,13 @@ void ofApp::update(){
 
 	renderer.is_camera_move_up = is_key_press_up;
 	renderer.is_camera_move_down = is_key_press_down;
+
+	renderer.is_camera_pan_y_forward = is_key_press_a;
+	renderer.is_camera_pan_y_backward = is_key_press_d;
+	renderer.is_camera_tilt_x_right = is_key_press_w;
+	renderer.is_camera_tilt_x_left = is_key_press_s;
+
+
 
 	if (otherCursorInUse == false) {
 		if (mode3D == true) {
@@ -175,7 +186,18 @@ void ofApp::update(){
 		renderer.proportionateObject(i, newProportion);
 		renderer.moveObject(i, newPosition);
 		renderer.rotateObject(i, newRotation);
-		renderer.setObjectColor(i, colorPicker);
+		if (isRGBA) {
+			renderer.setObjectColor(i, colorPicker);
+		}
+		else {
+			ofVec3f hsb = hsbColorPicker;
+			float h = (hsb.x * 255) / 360;
+			float s = (hsb.y * 255) / 100;
+			float b = (hsb.z * 255) / 100;
+			ofColor myRGBColor;
+			myRGBColor = myRGBColor.fromHsb(h, s, b);
+			renderer.setObjectColor(i, myRGBColor);
+		}
 		renderer.drawBoundingBox(i);
 	}
 	updateHierarchy();
@@ -198,6 +220,7 @@ void ofApp::draw(){
 
 	if (mode3D==false) {
 		ofDrawBitmapString("Press F3 to open an image, F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
+		ofDrawBitmapString("Press F4 to open TopLeft of an image, F5 for TopRight, F6 for DownLeft and F7 for DownRight.", guiHierarchy.getWidth(), 30);
 		guiProperties2D.draw();
 		guiObjects2D.draw();
 	}
@@ -247,8 +270,6 @@ void ofApp::openFileSelection(ofFileDialogResult openFileResult) {
 }
 
 //--------------------------------------------------------------
-
-//--------------------------------------------------------------
 void ofApp::keyPressed(int key){
 	switch (key)
 	{
@@ -296,7 +317,38 @@ void ofApp::keyPressed(int key){
 		otherCursorInUse = true;
 		break;
 
+	case 119://W
+		if (mode3D == true) {
+			is_key_press_w = true;
+		}
+		break;
+
+	case 97://A
+		if (mode3D == true) {
+			is_key_press_a = true;
+		}
+		break;
+
+	case 115://S
+		if (mode3D == true) {
+			is_key_press_s = true;
+		}
+		break;
+
+	case 100://D
+		if (mode3D == true) {
+			is_key_press_d = true;
+		}
+		break;
+
+	case 32://espace Reset la caméra
+		renderer.mainCamera.resetTransform();
+		renderer.mainCamera.setPosition(0, 0, 500);
+		renderer.mainCamera.setFov(60.0f);
+		break;
+
 	default:
+		ofLog() << key;
 		break;
 	}
 }
@@ -418,8 +470,8 @@ void ofApp::keyReleased(int key){
 		break;
 		
 	case 9: // touche TAB pour changer mode 2d 3d
-		objectsToggle.clear();
 		selectedObjects.clear();
+		objectsToggle.clear();
 		if (mode3D) {
 			mode3D = false;
 			renderer.isMode3D = false;
@@ -527,6 +579,22 @@ void ofApp::keyReleased(int key){
 		otherCursorInUse = false;
 		break;
 
+	case 119://W
+		is_key_press_w = false;
+		break;
+
+	case 97://A
+		is_key_press_a = false;
+		break;
+
+	case 115://S
+		is_key_press_s = false;
+		break;
+
+	case 100://D
+		is_key_press_d = false;
+		break;
+
 	default:
 		break;
 	}
@@ -628,15 +696,7 @@ void ofApp::gotMessage(ofMessage msg){
 //--------------------------------------------------------------
 void ofApp::getHsb()
 {
-	ofColor myRGBColor;
-	myRGBColor.set(colorPicker);
-	ofLog() << "Couleur active " << myRGBColor;
 
-	ofColor h = myRGBColor.getHue();
-	ofColor s = myRGBColor.getSaturation();
-	ofColor b = myRGBColor.getBrightness();
-
-	ofLog() << "HSB :" << "Hue :" << h << "Saturation :" << s << "Brightness :"<< b;
 }
 
 //--------------------------------------------------------------
@@ -740,9 +800,11 @@ void ofApp::toggleListener(bool& value) {
 			ofVec3f proportion(renderer.objects3d[selectedObjects[0]]->getProportion());
 			ofVec3f position(renderer.objects3d[selectedObjects[0]]->getPosition());
 			ofVec3f rotation(renderer.objects3d[selectedObjects[0]]->getRotation());
+			ofColor color = renderer.objects3d[selectedObjects[0]]->getColor();
 			proportionSlider = proportion;
 			positionSlider = position;
 			rotationSlider = rotation;
+			colorPicker = color;
 		}
 		else {
 			ofVec3f proportion(renderer.objects2D[selectedObjects[0]]->getProportion());
@@ -751,6 +813,8 @@ void ofApp::toggleListener(bool& value) {
 			proportionSlider2D.setup("Proportion", ofVec2f(proportion.x, proportion.y), ofVec2f(0, 0), ofVec2f(100, 100));
 			positionSlider2D.setup("Position", ofVec2f(position.x, position.y), ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
 			rotationSlider2D.setup("Rotation", ofVec2f(rotation.x, rotation.y), ofVec2f(0, 0), ofVec2f(360, 360));
+			ofColor color = renderer.objects2D[selectedObjects[0]]->getColor();
+			colorPicker = color;
 		}
 	}
 }
@@ -841,6 +905,60 @@ void ofApp::refreshHierarchy() {
 			toggle.addListener(this, &ofApp::toggleListener);
 			objectsToggle.push_back(toggle);
 		}
+	}
+}
+
+void ofApp::refreshProperties() {
+	if (!isRGBA) {
+		isRGBA = true;
+		ofVec3f hsb = hsbColorPicker;
+		float h = (hsb.x * 255) / 360;
+		float s = (hsb.y * 255) / 100;
+		float b = (hsb.z * 255) / 100;
+		ofColor myRGBColor;
+		myRGBColor = myRGBColor.fromHsb(h, s, b);
+		guiProperties3D.setup();
+		guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
+		guiProperties3D.add(labelProperties3D.setup("Panel", "Properties"));
+		guiProperties3D.add(proportionSlider.setup("Proportion", proportionSlider, ofVec3f(0, 0, 0), ofVec3f(100, 100, 100)));
+		guiProperties3D.add(positionSlider.setup("Position", positionSlider, ofVec3f(-1920, -1080, 0), ofVec3f(1920, 1080, 1000)));
+		guiProperties3D.add(rotationSlider.setup("Rotation", rotationSlider, ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
+		guiProperties3D.add(colorPicker.set("Color RGBA", ofColor(myRGBColor), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
+		guiProperties3D.add(HSBDisplayButton.setup("HSB"));
+
+		guiProperties2D.setup();
+		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
+		guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
+		guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
+		guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
+		//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+		guiProperties2D.add(colorPicker.set("Color", ofColor(myRGBColor), ofColor(0, 0), ofColor(255, 255)));
+		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
+	}
+	else {
+		ofColor myRGBColor;
+		myRGBColor.set(colorPicker);
+		float h = myRGBColor.getHueAngle();
+		float s = (myRGBColor.getSaturation()*100)/255;
+		float b = (myRGBColor.getBrightness()*100)/255;
+		isRGBA = false;
+		guiProperties3D.setup();
+		guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
+		guiProperties3D.add(labelProperties3D.setup("Panel", "Properties"));
+		guiProperties3D.add(proportionSlider.setup("Proportion", proportionSlider, ofVec3f(0, 0, 0), ofVec3f(100, 100, 100)));
+		guiProperties3D.add(positionSlider.setup("Position", positionSlider, ofVec3f(-1920, -1080, 0), ofVec3f(1920, 1080, 1000)));
+		guiProperties3D.add(rotationSlider.setup("Rotation", rotationSlider, ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
+		guiProperties3D.add(hsbColorPicker.setup("Color HSB", ofVec3f(h, s, b), ofVec3f(0, 0, 0), ofVec3f(360, 100, 100)));
+		guiProperties3D.add(HSBDisplayButton.setup("HSB"));
+
+		guiProperties2D.setup();
+		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
+		guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
+		guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
+		guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
+		//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+		guiProperties2D.add(hsbColorPicker.setup("Color HSB", ofVec3f(h, s, b), ofVec3f(0, 0, 0), ofVec3f(360, 100, 100)));
+		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 	}
 }
 //__________________________________________-

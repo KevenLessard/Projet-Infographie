@@ -88,8 +88,9 @@ void Circle2D::setName(string newCircleName)
 
 void Circle2D::draw()
 {
+	ofVec3f proportion = getProportion();
 	ofSetColor(getColor());
-	ofDrawCircle(getPosition(), getRadius());
+	ofDrawCircle(getPosition(), getRadius()*proportion.x);
 	
 }
 
@@ -133,7 +134,8 @@ void Rectangle2D::setName(string newRectangleName)
 void Rectangle2D::draw()
 {
 	ofSetColor(getColor());
-	ofDrawRectangle( getPosition(), getRectanglewidth(), getRectangleHeight());
+	ofVec3f proportion = getProportion();
+	ofDrawRectangle( getPosition(), getRectanglewidth()*proportion.x, getRectangleHeight()*proportion.y);
 }
 
 // Classe Triangle
@@ -143,17 +145,17 @@ Triangle2D::Triangle2D()
 {
 }
 
-ofVec2f Triangle2D::getTriangleCoordA()
+ofVec3f Triangle2D::getTriangleCoordA()
 {
 	return m_TriangleCoordA;
 }
 
-ofVec2f Triangle2D::getTriangleCoordB()
+ofVec3f Triangle2D::getTriangleCoordB()
 {
 	return m_TriangleCoordB;
 }
 
-ofVec2f Triangle2D::getTriangleCoordC()
+ofVec3f Triangle2D::getTriangleCoordC()
 {
 	return m_TriangleCoordC;
 }
@@ -163,17 +165,17 @@ string Triangle2D::getName()
 	return m_name;
 }
 
-void Triangle2D::setTriangleCoordA(ofVec2f newTriangleCoordA)
+void Triangle2D::setTriangleCoordA(ofVec3f newTriangleCoordA)
 {
 	m_TriangleCoordA = newTriangleCoordA;
 }
 
-void Triangle2D::setTriangleCoordB(ofVec2f newTriangleCoordB)
+void Triangle2D::setTriangleCoordB(ofVec3f newTriangleCoordB)
 {
 	m_TriangleCoordB = newTriangleCoordB;
 }
 
-void Triangle2D::setTriangleCoordC(ofVec2f newTriangleCoordC)
+void Triangle2D::setTriangleCoordC(ofVec3f newTriangleCoordC)
 {
 	m_TriangleCoordC = newTriangleCoordC;
 }
@@ -186,7 +188,10 @@ void Triangle2D::setName(string newTriangleName)
 void Triangle2D::draw()
 {
 	ofSetColor(getColor());
-	ofDrawTriangle(getTriangleCoordA(), getTriangleCoordB(), getTriangleCoordC());
+	ofVec3f position = getPosition();
+	ofVec3f proportion = getProportion();
+
+	ofDrawTriangle((getTriangleCoordA() + getPosition())*proportion, (getTriangleCoordB() + getPosition())*proportion, (getTriangleCoordC() + getPosition())*proportion);
 }
 
 
@@ -228,8 +233,9 @@ void Ellipse2D::setName(string newEllipseName)
 
 void Ellipse2D::draw()
 {
+	ofVec3f proportion = getProportion();
 	ofSetColor(getColor());
-	ofDrawEllipse(getPosition(), getEllipsewidth(), getEllipseHeight());
+	ofDrawEllipse(getPosition(), getEllipsewidth()*proportion.x, getEllipseHeight()*proportion.y);
 }
 
 // Classe Line
@@ -274,7 +280,8 @@ void Line2D::setName(string newLineName)
 
 void Line2D::draw() {
 	ofSetColor(getColor());
-	ofDrawLine(getLinePtA(), getLinePtB());
+	ofVec3f proportion = getProportion();
+	ofDrawLine((getLinePtA() + getPosition())*getProportion(), (getLinePtB() + getPosition())*getProportion());
 }
 // Classe Star
 //----------------------------------------------------------------------
@@ -298,12 +305,15 @@ void Star2D::draw()
 	ofSetColor(getColor());
 	ofSetPolyMode(OF_POLY_WINDING_NONZERO);
 
+	ofVec3f position = getPosition();
+	ofVec3f proportion = getProportion();
+
 	ofBeginShape();
-	ofVertex(400, 135);
-	ofVertex(215, 135);
-	ofVertex(365, 25);
-	ofVertex(305, 200);
-	ofVertex(250, 25);
+	ofVertex((400 + position.x)*proportion.x, (135 + position.y)*proportion.y);
+	ofVertex((215 + position.x)*proportion.x, (135 + position.y)*proportion.y);
+	ofVertex((365 + position.x)*proportion.x, (25 + position.y)*proportion.y);
+	ofVertex((305 + position.x)*proportion.x, (200 + position.y)*proportion.y);
+	ofVertex((250 + position.x)*proportion.x, (25 + position.y)*proportion.y);
 	ofEndShape();
 }
 
@@ -326,14 +336,17 @@ string House2D::getName()
 
 void House2D::draw()
 {
+	ofVec3f position = getPosition();
+	ofVec3f proportion = getProportion();
+
 	ofSetColor(getColor());
 	ofSetPolyMode(OF_POLY_WINDING_ODD);
 	ofBeginShape();
-	ofVertex(250, 25);
-	ofVertex(365, 25);
-	ofVertex(365, 135);
-	ofVertex(305, 200);
-	ofVertex(250, 135);
+	ofVertex((0 + position.x) * proportion.x, (0 + position.y) * proportion.y);
+	ofVertex((115 + position.x) * proportion.x, (0 + position.y) * proportion.y);
+	ofVertex((115 + position.x) * proportion.x, (110 + position.y) * proportion.y);
+	ofVertex((55 + position.x) * proportion.x, (175 + position.y) * proportion.y);
+	ofVertex((0 + position.x) * proportion.x, (110 + position.y) * proportion.y);
 	ofEndShape();
 }
 
@@ -404,26 +417,26 @@ void GestionImages::loadImage(ofFileDialogResult openFileResult, string keypress
 				}
 				ofLog() << "loading completed";
 			}
-			if (keypressed == "f4") {
-				image.cropFrom(image, image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
-			}
 
-			if (keypressed == "f5") {
+			//Permet d'importer l'échantillonage d'une image
+			if (keypressed == "f4") {
+				//TopLeft
 				image.cropFrom(image, image.getWidth() * 0, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
 
 			}
-
-			if (keypressed == "f6") {
+			if (keypressed == "f5") {
+				//TopRight
 				image.cropFrom(image, image.getWidth() / 2, image.getHeight() * 0, image.getWidth() / 2, image.getHeight() / 2);
 
 			}
-
 			if (keypressed == "f7") {
+				//DownRight
+				image.cropFrom(image, image.getWidth() / 2, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
+			}
+
+			//DownLeft
+			if (keypressed == "f6") {
 				image.cropFrom(image, image.getWidth() * 0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
 			}
 		}
 	}
-
-void GestionImages::sampleImage() {
-	image.cropFrom(image, image.getWidth() * 0, image.getHeight() / 2, image.getWidth() / 2, image.getHeight() / 2);
-}

@@ -106,7 +106,9 @@ class ofApp : public ofBaseApp {
 		int nbTakes;
 		int nbFrames;
 
+		bool isRGBA;
 		ofParameter<ofColor> colorPicker;
+		ofxVec3Slider hsbColorPicker;
 
 		ofxButton cameraLookAtButton;
 		ofxButton projectionModeButton;
@@ -116,6 +118,10 @@ class ofApp : public ofBaseApp {
 		bool is_key_press_down;
 		bool is_key_press_left;
 		bool is_key_press_right;
+		bool is_key_press_w;
+		bool is_key_press_a;
+		bool is_key_press_s;
+		bool is_key_press_d;
 
 		bool otherCursorInUse = false;
 
@@ -126,6 +132,7 @@ private:
 
 	void refreshHierarchy();
 	void exportImage();
+	void refreshProperties();
 
 	//3D
 	void addNewObject();
@@ -155,7 +162,6 @@ private:
 	void addNewLine();
 	void addNewStar();
 	void addNewHouse();
-	void addNewImage(string keypressed);
 		
 	void openFileSelection(ofFileDialogResult openFileResult);
 

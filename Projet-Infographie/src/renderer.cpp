@@ -17,6 +17,14 @@ void Renderer::setup()
         is_camera_move_down = false;
         is_camera_move_forward = false;
         is_camera_move_backward = false;
+
+        is_camera_tilt_x_right = false;
+        is_camera_tilt_x_left = false;
+        is_camera_pan_y_forward = false;
+        is_camera_pan_y_backward = false;
+        is_camera_roll_z_right = false;
+        is_camera_roll_z_left = false;
+
         speed_delta = 250.0f;
 }
 
@@ -47,6 +55,22 @@ void Renderer::update()
         mainCamera.dolly(-speed_translation);
     if (is_camera_move_backward)
         mainCamera.dolly(speed_translation);
+
+    if (is_camera_tilt_x_right)
+        mainCamera.tiltDeg(speed_translation);
+    if (is_camera_tilt_x_left)
+        mainCamera.tiltDeg(-speed_translation);
+
+    if (is_camera_pan_y_forward)
+        mainCamera.panDeg(speed_translation);
+    if (is_camera_pan_y_backward)
+        mainCamera.panDeg(-speed_translation);
+
+    //Useless a supprimer
+    if (is_camera_roll_z_right)
+        mainCamera.rollDeg(speed_translation);
+    if (is_camera_roll_z_left)
+        mainCamera.rollDeg(-speed_translation);
 
     light.setPointLight();
     light.setDiffuseColor(255);
@@ -164,6 +188,7 @@ void Renderer::draw()
     } else {
         for (Object2D* object : objects2D) {
             ofPushMatrix();
+            ofFill();
             object->draw();
             ofPopMatrix();
         }
@@ -240,9 +265,9 @@ void Renderer::addNewTriangle(string name) {
     }
     triangle->setName(name);
     triangle->setPosition(ofVec3f(0, 0, 0));
-    triangle->setTriangleCoordA(ofVec2f(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2));
-    triangle->setTriangleCoordB(ofVec2f(ofGetWindowWidth() / 2 + 100, ofGetWindowHeight() / 2));
-    triangle->setTriangleCoordC(ofVec2f((ofGetWindowWidth() / 2 + 100) / 2, ofGetWindowHeight() / 2 + 100));
+    triangle->setTriangleCoordA(ofVec3f(ofGetWindowWidth() / 200, ofGetWindowHeight() / 200));
+    triangle->setTriangleCoordB(ofVec3f((ofGetWindowWidth() / 200) - 100, (ofGetWindowHeight() / 200) + 100));
+    triangle->setTriangleCoordC(ofVec3f(((ofGetWindowWidth() / 200) + 100), (ofGetWindowHeight() / 200) + 100));
     triangle->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(triangle);
 }
@@ -276,9 +301,9 @@ void Renderer::addNewLine(string name) {
         name = "Line " + to_string(objects2D.size());
     }
     line->setName(name);
-    line->setPosition(ofVec3f(0, 0, 0));
-    line->setLinePtA(100, 500);
-    line->setLinePtB(200, 500);
+    line->setPosition(ofVec3f((ofGetWidth()/200), (ofGetHeight() / 200), 0));
+    line->setLinePtA(0, 0);
+    line->setLinePtB(200, 0);
     line->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(line);
 }
@@ -495,26 +520,6 @@ void Renderer::switchProjectionMode() {
         is_camera_ortho = true;
     }
 }
-
-void Renderer::cameraZoom() {
-
-}
-
-//2D
-/*
-void Renderer::addNewSquare() {
-    cout << "square";
-
-    if (squareDraw==false) {
-        cout << "true";
-        squareDraw = true;
-    }
-    else {
-        cout << "false";
-        squareDraw = false;
-    }
-}
-*/
 
 //util
 

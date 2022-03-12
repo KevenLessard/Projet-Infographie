@@ -12,18 +12,15 @@ public:
 	object3D(string name, int type);
 	object3D(string name, string fileName);
 
-	void loadModel();
-
 	ofVec3f getPosition();
-	//return a quaternion?? 
 	ofVec3f getRotation();
 	ofVec3f getProportion();
 	float getRadius();
 	string getName();
 	ofNode getNode();
+	ofColor getColor();
 
 	void setPosition(ofVec3f newPosition);
-	//Take a quaternion??
 	void setRotation(ofVec3f newRotation);
 	void setProportion(ofVec3f newProportion);
 	void setRadius(float newRadius);
