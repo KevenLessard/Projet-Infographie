@@ -103,7 +103,9 @@ class ofApp : public ofBaseApp {
 		int nbTakes;
 		int nbFrames;
 
+		bool isRGBA;
 		ofParameter<ofColor> colorPicker;
+		ofxVec3Slider hsbColorPicker;
 
 		ofxButton cameraLookAtButton;
 		ofxButton projectionModeButton;
@@ -127,6 +129,7 @@ private:
 
 	void refreshHierarchy();
 	void exportImage();
+	void refreshProperties();
 
 	//3D
 	void addNewObject();
