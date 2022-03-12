@@ -83,7 +83,7 @@ void ofApp::setup(){
 	guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
 	guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
 	guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920,1080)));
-	guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+	//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 	guiProperties2D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 
@@ -100,6 +100,7 @@ void ofApp::setup(){
 	guiObjects2D.add(newLineButton.setup("New Line"));
 	guiObjects2D.add(newStarButton.setup("New Star"));
 	guiObjects2D.add(newHouseButton.setup("New House"));
+	guiObjects2D.add(deleteButton.setup("Delete object"));
 		
 	newObjectName.set("Name: ", "");
 	newRectangleButton.addListener(this, &ofApp::addNewRectangle);
@@ -927,7 +928,7 @@ void ofApp::refreshProperties() {
 		guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
 		guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
 		guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
-		guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+		//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 		guiProperties2D.add(colorPicker.set("Color", ofColor(myRGBColor), ofColor(0, 0), ofColor(255, 255)));
 		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 	}
@@ -952,7 +953,7 @@ void ofApp::refreshProperties() {
 		guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
 		guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
 		guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
-		guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+		//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 		guiProperties2D.add(hsbColorPicker.setup("Color HSB", ofVec3f(h, s, b), ofVec3f(0, 0, 0), ofVec3f(360, 100, 100)));
 		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 	}
