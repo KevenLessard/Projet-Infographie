@@ -922,6 +922,8 @@ void ofApp::refreshProperties() {
 		guiProperties3D.add(rotationSlider.setup("Rotation", rotationSlider, ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
 		guiProperties3D.add(colorPicker.set("Color RGBA", ofColor(myRGBColor), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
 		guiProperties3D.add(HSBDisplayButton.setup("HSB"));
+		guiProperties3D.add(intSliderTakes.setup("Nombre de prises", 1, 1, 24));
+		guiProperties3D.add(intSliderFrames.setup("Nombre de frames par prises", 5, 1, 500));
 
 		guiProperties2D.setup();
 		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
@@ -931,6 +933,8 @@ void ofApp::refreshProperties() {
 		//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 		guiProperties2D.add(colorPicker.set("Color", ofColor(myRGBColor), ofColor(0, 0), ofColor(255, 255)));
 		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
+		guiProperties2D.add(intSliderTakes.setup("Nombre de prises", 1, 1, 24));
+		guiProperties2D.add(intSliderFrames.setup("Nombre de frames par prises", 5, 1, 500));
 	}
 	else {
 		ofColor myRGBColor;
@@ -947,6 +951,8 @@ void ofApp::refreshProperties() {
 		guiProperties3D.add(rotationSlider.setup("Rotation", rotationSlider, ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
 		guiProperties3D.add(hsbColorPicker.setup("Color HSB", ofVec3f(h, s, b), ofVec3f(0, 0, 0), ofVec3f(360, 100, 100)));
 		guiProperties3D.add(HSBDisplayButton.setup("HSB"));
+		guiProperties3D.add(intSliderTakes.setup("Nombre de prises", 1, 1, 24));
+		guiProperties3D.add(intSliderFrames.setup("Nombre de frames par prises", 5, 1, 500));
 
 		guiProperties2D.setup();
 		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
@@ -956,6 +962,8 @@ void ofApp::refreshProperties() {
 		//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 		guiProperties2D.add(hsbColorPicker.setup("Color HSB", ofVec3f(h, s, b), ofVec3f(0, 0, 0), ofVec3f(360, 100, 100)));
 		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
+		guiProperties2D.add(intSliderTakes.setup("Nombre de prises", 1, 1, 24));
+		guiProperties2D.add(intSliderFrames.setup("Nombre de frames par prises", 5, 1, 500));
 	}
 }
 //__________________________________________-
