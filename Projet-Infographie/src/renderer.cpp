@@ -301,9 +301,9 @@ void Renderer::addNewLine(string name) {
         name = "Line " + to_string(objects2D.size());
     }
     line->setName(name);
-    line->setPosition(ofVec3f(0, 0, 0));
-    line->setLinePtA(100, 500);
-    line->setLinePtB(200, 500);
+    line->setPosition(ofVec3f((ofGetWidth()/200), (ofGetHeight() / 200), 0));
+    line->setLinePtA(0, 0);
+    line->setLinePtB(200, 0);
     line->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(line);
 }
