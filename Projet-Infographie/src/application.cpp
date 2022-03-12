@@ -183,7 +183,18 @@ void ofApp::update(){
 		renderer.proportionateObject(i, newProportion);
 		renderer.moveObject(i, newPosition);
 		renderer.rotateObject(i, newRotation);
-		renderer.setObjectColor(i, colorPicker);
+		if (isRGBA) {
+			renderer.setObjectColor(i, colorPicker);
+		}
+		else {
+			ofVec3f hsb = hsbColorPicker;
+			float h = (hsb.x * 255) / 360;
+			float s = (hsb.y * 255) / 100;
+			float b = (hsb.z * 255) / 100;
+			ofColor myRGBColor;
+			myRGBColor = myRGBColor.fromHsb(h, s, b);
+			renderer.setObjectColor(i, myRGBColor);
+		}
 		renderer.drawBoundingBox(i);
 	}
 	updateHierarchy();
@@ -896,9 +907,12 @@ void ofApp::refreshHierarchy() {
 void ofApp::refreshProperties() {
 	if (!isRGBA) {
 		isRGBA = true;
-		ofColor myRGBColor;
 		ofVec3f hsb = hsbColorPicker;
-		ofLog() << "hsbColorPicker: " << hsb;
+		float h = (hsb.x * 255) / 360;
+		float s = (hsb.y * 255) / 100;
+		float b = (hsb.z * 255) / 100;
+		ofColor myRGBColor;
+		myRGBColor = myRGBColor.fromHsb(h, s, b);
 		guiProperties3D.setup();
 		guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
 		guiProperties3D.add(labelProperties3D.setup("Panel", "Properties"));
@@ -907,13 +921,22 @@ void ofApp::refreshProperties() {
 		guiProperties3D.add(rotationSlider.setup("Rotation", rotationSlider, ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
 		guiProperties3D.add(colorPicker.set("Color RGBA", ofColor(myRGBColor), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
 		guiProperties3D.add(HSBDisplayButton.setup("HSB"));
+
+		guiProperties2D.setup();
+		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
+		guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
+		guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
+		guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
+		guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+		guiProperties2D.add(colorPicker.set("Color", ofColor(myRGBColor), ofColor(0, 0), ofColor(255, 255)));
+		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 	}
 	else {
 		ofColor myRGBColor;
 		myRGBColor.set(colorPicker);
-		int h = myRGBColor.getHueAngle();
-		int s = (myRGBColor.getSaturation()*100)/255;
-		int b = (myRGBColor.getBrightness()*100)/255;
+		float h = myRGBColor.getHueAngle();
+		float s = (myRGBColor.getSaturation()*100)/255;
+		float b = (myRGBColor.getBrightness()*100)/255;
 		isRGBA = false;
 		guiProperties3D.setup();
 		guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
@@ -923,6 +946,15 @@ void ofApp::refreshProperties() {
 		guiProperties3D.add(rotationSlider.setup("Rotation", rotationSlider, ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
 		guiProperties3D.add(hsbColorPicker.setup("Color HSB", ofVec3f(h, s, b), ofVec3f(0, 0, 0), ofVec3f(360, 100, 100)));
 		guiProperties3D.add(HSBDisplayButton.setup("HSB"));
+
+		guiProperties2D.setup();
+		guiProperties2D.setPosition(ofGetWindowWidth() - guiProperties2D.getWidth(), 0);
+		guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
+		guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
+		guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
+		guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
+		guiProperties2D.add(hsbColorPicker.setup("Color HSB", ofVec3f(h, s, b), ofVec3f(0, 0, 0), ofVec3f(360, 100, 100)));
+		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 	}
 }
 //__________________________________________-
