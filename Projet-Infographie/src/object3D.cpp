@@ -87,7 +87,8 @@ ofVec3f object3D::getRotation() {
 		return sphere.getOrientationEuler();
 	}
 	else if (objectType == importation) {
-		return objectImport.getRotationAxis(0);
+		ofVec3f rotation(objectImport.getRotationAngle(0), objectImport.getRotationAngle(1), objectImport.getRotationAngle(2));
+		return rotation;
 	}
 	else if (objectType == box3d) {
 		return box.getOrientationEuler();
@@ -189,7 +190,7 @@ void object3D::setRotation(ofVec3f newRotation) {
 	}
 	else if(objectType == importation) {
 		//Permet de faire la rotation des modèle 3D
-		objectImport.setRotation(0, newRotation.x + 180, 1, 0, 0);
+		objectImport.setRotation(0, newRotation.x, 1, 0, 0);
 		objectImport.setRotation(1, newRotation.y, 0, 1, 0);
 		objectImport.setRotation(2, newRotation.z, 0, 0, 1);
 	}
