@@ -26,6 +26,10 @@ void Renderer::setup()
         is_camera_roll_z_left = false;
 
         speed_delta = 250.0f;
+
+        sphereCenter = ofVec3f(0, 0, 500);
+
+        Skybox.load();
 }
 
 void Renderer::update()
@@ -178,6 +182,7 @@ void Renderer::draw()
     ofEnableLighting();
 
     light.enable();
+    Skybox.draw();
 
     if (isMode3D) {
         for (object3D* object : objects3d) {

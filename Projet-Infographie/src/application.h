@@ -10,6 +10,7 @@
 class ofApp : public ofBaseApp {
 
 	Renderer renderer;
+	
 	//GestionImages gestionImages;
 
 	//3D

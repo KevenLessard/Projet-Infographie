@@ -6,6 +6,7 @@
 #include "object2D.h"
 #include "sphere.h"
 #include "ofxVectorGraphics.h"
+#include "ofxSkyBox.h"
 
 class Renderer
 {
@@ -128,6 +129,11 @@ public:
 
 	void addNewImage(string name, string keypressed);
 	void sampleImage(int index);
+
+	// Création d'un CubeMap
+	//----------------------------------------------------------------
+	ofxSkyBox Skybox;
+	ofVec3f sphereCenter;
 
 private:
 	bool nameAlreadyExists(string name);
