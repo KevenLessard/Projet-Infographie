@@ -1,13 +1,17 @@
 #version 330
 
-out vec3  texcoord;
+layout (location = 0) in vec3 aPos;
+
+out vec3 texCoords;
+
+uniform mat4 ModelView;
+uniform mat4 ModelProjection;
+
 
 void main() 
 {
- 	vec4 texcoord0 = gl_ModelViewMatrix * gl_Vertex;
-	//texcoord = texcoord0.xyz;
-	texcoord = normalize(gl_Vertex.xyz);
-
-    gl_Position    = ftransform();
+ 	texCoords = aPos;
+	vec4 pos = ModelProjection * ModelView * vec4(aPos, 1.0);
+	gl_Position = pos.xyww;
    
 }
