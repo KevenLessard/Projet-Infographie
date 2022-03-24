@@ -4,8 +4,30 @@ object3D::object3D(string p_name) {
 	name = p_name;
 	objectType = primitive3d;
 	primitive = of3dPrimitive();
+
 	//Chargement du shader
-	shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
+	shader_color_fill.load(
+		"shader/color_fill_330_vs.glsl",
+		"shader/color_fill_330_fs.glsl");
+
+	shader_lambert.load(
+		"shader/lambert_330_vs.glsl",
+		"shader/lambert_330_fs.glsl");
+
+	shader_gouraud.load(
+		"shader/gouraud_330_vs.glsl",
+		"shader/gouraud_330_fs.glsl");
+
+	shader_phong.load(
+		"shader/phong_330_vs.glsl",
+		"shader/phong_330_fs.glsl");
+
+	shader_blinn_phong.load(
+		"shader/blinn_phong_330_vs.glsl",
+		"shader/blinn_phong_330_fs.glsl");
+
+	shader = shader_lambert;
+
 }
 
 object3D::object3D(string p_name, int type) {
@@ -39,7 +61,28 @@ object3D::object3D(string p_name, int type) {
 		ofLog() << "Invalid type.";
 	}
 	//Chargement du shader
-	shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
+		//Chargement du shader
+	shader_color_fill.load(
+		"shader/color_fill_330_vs.glsl",
+		"shader/color_fill_330_fs.glsl");
+
+	shader_lambert.load(
+		"shader/lambert_330_vs.glsl",
+		"shader/lambert_330_fs.glsl");
+
+	shader_gouraud.load(
+		"shader/gouraud_330_vs.glsl",
+		"shader/gouraud_330_fs.glsl");
+
+	shader_phong.load(
+		"shader/phong_330_vs.glsl",
+		"shader/phong_330_fs.glsl");
+
+	shader_blinn_phong.load(
+		"shader/blinn_phong_330_vs.glsl",
+		"shader/blinn_phong_330_fs.glsl");
+
+	shader = shader_lambert;
 }
 
 object3D::object3D(string p_name, string fileName) {
@@ -50,8 +93,29 @@ object3D::object3D(string p_name, string fileName) {
 	objectImport.setRotation(0, 180, 1, 0, 0);
 	//Enlève les matériaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
+
 	//Chargement du shader
-	shader.load("lambert_330_vs.glsl", "lambert_330_fs.glsl");
+	shader_color_fill.load(
+		"shader/color_fill_330_vs.glsl",
+		"shader/color_fill_330_fs.glsl");
+
+	shader_lambert.load(
+		"shader/lambert_330_vs.glsl",
+		"shader/lambert_330_fs.glsl");
+
+	shader_gouraud.load(
+		"shader/gouraud_330_vs.glsl",
+		"shader/gouraud_330_fs.glsl");
+
+	shader_phong.load(
+		"shader/phong_330_vs.glsl",
+		"shader/phong_330_fs.glsl");
+
+	shader_blinn_phong.load(
+		"shader/blinn_phong_330_vs.glsl",
+		"shader/blinn_phong_330_fs.glsl");
+	shader = shader_lambert;
+
 }
 
 string object3D::getName() {
@@ -260,6 +324,29 @@ void object3D::toggleRotation() {
 	}
 }
 
+void object3D::changeShader(string type) {
+	if (type == "color_fill") {
+		shader = shader_color_fill;
+	}
+
+	if (type == "lambert") {
+		shader = shader_lambert;
+	}
+
+	if (type == "gouraud") {
+		shader = shader_gouraud;
+	}
+
+	if (type == "phong") {
+		shader = shader_phong;
+	}
+	if (type == "blinn_phong") {
+		shader = shader_blinn_phong;
+	}
+	shader_name = type;
+}
+
+
 void object3D::draw() {
 	ofPushMatrix();
 	shader.begin();
@@ -335,9 +422,29 @@ void object3D::draw() {
 }
 
 void object3D::updateShader(ofLight light) {
-	shader.begin();
-	shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
-	shader.setUniform3f("color_diffuse", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
-	shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
-	shader.end();
+
+	oscillation_amplitude = 32.0f;
+	oscillation_frequency = 7500.0f;
+	float oscillation = oscillate(5124, oscillation_frequency, oscillation_amplitude) + oscillation_amplitude;
+
+	if (shader_name == "color_fill") {
+		shader.begin();
+		shader.setUniform3f("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+		shader.end();
+	}
+	else {
+		shader.begin();
+		shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
+		shader.setUniform3f("color_diffuse", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
+		shader.setUniform3f("color_specular", 1.0f, 1.0f, 0.0f);
+		shader.setUniform1f("brightness", oscillation);
+		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
+		shader.end();
+	}
+}
+
+// fonction d'oscillation
+float object3D::oscillate(float time, float frequency, float amplitude)
+{
+	return sinf(time * 2.0f * PI / frequency) * amplitude;
 }
