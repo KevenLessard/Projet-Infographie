@@ -324,10 +324,6 @@ void object3D::toggleRotation() {
 	}
 }
 
-
-
-
-//Shader Test hugo
 void object3D::changeShader(string type) {
 	if (type == "color_fill") {
 		shader = shader_color_fill;
@@ -426,52 +422,29 @@ void object3D::draw() {
 }
 
 void object3D::updateShader(ofLight light) {
+
+	oscillation_amplitude = 32.0f;
+	oscillation_frequency = 7500.0f;
+	float oscillation = oscillate(5124, oscillation_frequency, oscillation_amplitude) + oscillation_amplitude;
+
 	if (shader_name == "color_fill") {
 		shader.begin();
-		shader.setUniform3f("color", 1.0f, 1.0f, 0.0f);
+		shader.setUniform3f("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 		shader.end();
 	}
-
-	if (shader_name == "lambert") {
+	else {
 		shader.begin();
 		shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
-		shader.setUniform3f("color_diffuse", 0.6f, 0.6f, 0.6f);
-		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
-		shader.end();
-	}
-
-	if (shader_name == "gouraud") {
-		shader.begin();
-		shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
-		shader.setUniform3f("color_diffuse", 0.6f, 0.6f, 0.0f);
+		shader.setUniform3f("color_diffuse", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 		shader.setUniform3f("color_specular", 1.0f, 1.0f, 0.0f);
-		//shader.setUniform1f("brightness", oscillation);
+		shader.setUniform1f("brightness", oscillation);
 		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
 		shader.end();
 	}
+}
 
-	if (shader_name == "phong") {
-		shader.begin();
-		shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
-		shader.setUniform3f("color_diffuse", 0.6f, 0.0f, 0.6f);
-		shader.setUniform3f("color_specular", 1.0f, 1.0f, 0.0f);
-		//shader.setUniform1f("brightness", oscillation);
-		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
-		shader.end();
-	}
-
-	if (shader_name == "blinn_phong") {
-		shader.begin();
-		shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
-		shader.setUniform3f("color_diffuse", 0.0f, 0.6f, 0.6f);
-		shader.setUniform3f("color_specular", 1.0f, 1.0f, 0.0f);
-		//shader.setUniform1f("brightness", oscillation);
-		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
-		shader.end();
-	}
-//	shader.begin();
-//	shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
-//	shader.setUniform3f("color_diffuse", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
-//	shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
-//	shader.end();
+// fonction d'oscillation
+float object3D::oscillate(float time, float frequency, float amplitude)
+{
+	return sinf(time * 2.0f * PI / frequency) * amplitude;
 }

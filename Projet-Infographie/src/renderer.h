@@ -115,8 +115,8 @@ public:
 	void addNewHouse(string name);
 
 
-	//Hugo Test
 	void shaderActive(int index, string type);
+	void addNewImage(string name, string keypressed);
 
 	bool squareDraw = false;
 	bool circleDraw = false;
@@ -130,8 +130,6 @@ public:
 	ofLight light;
 
 
-	void addNewImage(string name, string keypressed);
-	void sampleImage(int index);
 
 private:
 	bool nameAlreadyExists(string name);

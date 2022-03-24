@@ -36,27 +36,7 @@ public:
 	void drawBoundingBox();
 	void changeShader(string type);
 
-	//Shader Hugo test
-	void update();
-
-	string shader_name;
-
-	ShaderType shader_active;
-
-	ofShader shader_color_fill;
-	ofShader shader_lambert;
-	ofShader shader_gouraud;
-	ofShader shader_phong;
-	ofShader shader_blinn_phong;
-
-	ofShader shader;
-
-	ofLight light;
-
-	float oscillation;
-	float oscillation_frequency;
-	float oscillation_amplitude;
-	//float oscillate(float time, float frequency, float amplitude);
+	float oscillate(float time, float frequency, float amplitude);
 
 
 
@@ -80,6 +60,18 @@ private:
 	ofCylinderPrimitive cylinder;
 	ofConePrimitive cone;
 
+
+	string shader_name;
+	ofShader shader_color_fill;
+	ofShader shader_lambert;
+	ofShader shader_gouraud;
+	ofShader shader_phong;
+	ofShader shader_blinn_phong;
+	ofShader shader;
+	ofLight light;
+	float oscillation;
+	float oscillation_frequency;
+	float oscillation_amplitude;
 
 };
 
