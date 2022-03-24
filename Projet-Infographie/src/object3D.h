@@ -4,6 +4,9 @@
 #pragma once
 
 enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d };
+// énumération des types de shader
+enum class ShaderType { color_fill, lambert, gouraud, phong, blinn_phong };
+
 
 class object3D
 {
@@ -31,6 +34,31 @@ public:
 	void toggleRotation();
 	void draw();
 	void drawBoundingBox();
+	void changeShader(string type);
+
+	//Shader Hugo test
+	void update();
+
+	string shader_name;
+
+	ShaderType shader_active;
+
+	ofShader shader_color_fill;
+	ofShader shader_lambert;
+	ofShader shader_gouraud;
+	ofShader shader_phong;
+	ofShader shader_blinn_phong;
+
+	ofShader shader;
+
+	ofLight light;
+
+	float oscillation;
+	float oscillation_frequency;
+	float oscillation_amplitude;
+	//float oscillate(float time, float frequency, float amplitude);
+
+
 
 private:
 	string name;
@@ -44,7 +72,6 @@ private:
 	bool toggleBoundingBox = false;
 
 	ofColor color;
-	ofShader shader;
 
 	ofxAssimpModelLoader objectImport;
 	of3dPrimitive primitive;

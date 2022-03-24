@@ -114,6 +114,10 @@ public:
 	void addNewStar(string name);
 	void addNewHouse(string name);
 
+
+	//Hugo Test
+	void shaderActive(int index, string type);
+
 	bool squareDraw = false;
 	bool circleDraw = false;
 	bool RectangleDraw = false;

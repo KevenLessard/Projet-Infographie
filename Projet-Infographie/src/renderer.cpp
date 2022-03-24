@@ -549,6 +549,11 @@ void Renderer::addNewImage(string name, string keypressed) {
     objects2D.push_back(image);
 }
 
+void Renderer::shaderActive(int index, string type) {
+    objects3d[index]->changeShader(type);
+}
+
+
 void Renderer::sampleImage(int index) {
     //objects2D[index].sampleImage;
     cout << "renderer";
