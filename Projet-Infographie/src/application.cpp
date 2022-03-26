@@ -358,62 +358,41 @@ void ofApp::keyReleased(int key){
 
 	switch (key)
 	{
-	case 49://curseur en croix
-		renderer.crossCursor_enabled = true;
-		renderer.circleCursor_enabled = false;
-		renderer.arrowCursor_enabled = false;
-		renderer.handCursor_enabled = false;
-		renderer.resizeCursor_enabled = false;
-		renderer.resizeCursorUpDown_enabled = false;
-		
-		ofLog() << "curseur en croix";
+	case 49: // touche 1
+		for (int o : selectedObjects) {
+			renderer.shaderActive(o , "color_fill");
 
+		}
+
+		ofLog() << "<shader: color fill>";
 		break;
 
-	case 50://curseur en cercle
-		renderer.crossCursor_enabled = false;
-		renderer.circleCursor_enabled = true;
-		renderer.arrowCursor_enabled = false;
-		renderer.handCursor_enabled = false;
-		renderer.resizeCursor_enabled = false;
-		renderer.resizeCursorUpDown_enabled = false;
-		
-		ofLog() << "curseur en cercle";
-		
+	case 50: // touche 2
+		for (int o : selectedObjects) {
+			renderer.shaderActive(o, "lambert");
+		}
+		ofLog() << "<shader: lambert>";
 		break;
 
-	case 51://curseur en main
-		renderer.crossCursor_enabled = false;
-		renderer.circleCursor_enabled = false;
-		renderer.arrowCursor_enabled = false;
-		renderer.handCursor_enabled = true;
-		renderer.resizeCursor_enabled = false;
-		renderer.resizeCursorUpDown_enabled = false;
-
-		ofLog() << "curseur en main";
+	case 51: // touche 3
+		for (int o : selectedObjects) {
+			renderer.shaderActive(o, "gouraud");
+		}
+		ofLog() << "<shader: gouraud>";
 		break;
 
-	case 52://curseur en fleche
-		renderer.crossCursor_enabled = false;
-		renderer.circleCursor_enabled = false;
-		renderer.arrowCursor_enabled = true;
-		renderer.handCursor_enabled = false;
-		renderer.resizeCursor_enabled = false;
-		renderer.resizeCursorUpDown_enabled = false;
-
-		ofLog() << "curseur en fleche";
+	case 52: // touche 4
+		for (int o : selectedObjects) {
+			renderer.shaderActive(o, "phong");
+		}
+		ofLog() << "<shader: phong>";
 		break;
-	
-	case 53://resize horizontal
-		renderer.crossCursor_enabled = false;
-		renderer.circleCursor_enabled = false;
-		renderer.arrowCursor_enabled = false;
-		renderer.handCursor_enabled = false;
-		renderer.resizeCursor_enabled = true;
-		renderer.resizeCursorUpDown_enabled = false;
 
-		ofLog() << "curseur de resize";
-		
+	case 53: // touche 5
+		for (int o : selectedObjects) {
+			renderer.shaderActive(o, "blinn_phong");
+		}
+		ofLog() << "<shader: blinn-phong>";
 		break;
 
 	case 57350: //touche f7 pour rogner l'image
