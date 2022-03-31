@@ -44,8 +44,10 @@ public:
 
 	
 	
-	
-	ofCamera mainCamera;
+	//Test Cam
+	ofEasyCam mainCamera;
+
+	//ofCamera mainCamera;
 	bool is_camera_ortho = false;
 	bool is_camera_move_left;
 	bool is_camera_move_right;

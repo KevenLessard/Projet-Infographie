@@ -30,6 +30,8 @@ void Renderer::setup()
 
 void Renderer::update()
 {
+
+
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
 
@@ -81,7 +83,7 @@ void Renderer::update()
             object->updateShader(light);
         }
     }
-    
+
 }
 
 // fonction de dessin du curseur
@@ -171,6 +173,7 @@ void Renderer::draw_MagnifyingGlass(float x, float y)const {
 
 void Renderer::draw()
 {
+
     //Ajouter une section pour le draw du 2D
     ofPushMatrix();
     mainCamera.begin();
@@ -397,13 +400,8 @@ void Renderer::addNewCone(string name) {
 
 
 void Renderer::import3dModel(std::string file_name) {
-    string name = file_name;
-    if (nameAlreadyExists(name)) {
-        return;
-    }
-    if (file_name == "") {
-        name = file_name + to_string(objects3d.size());
-    }
+    string name = file_name + to_string(objects3d.size());
+
     object3D* model3D = new object3D(name, file_name);
     objects3d.push_back(model3D);
 }
