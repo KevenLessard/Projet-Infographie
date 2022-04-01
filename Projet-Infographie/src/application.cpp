@@ -100,6 +100,8 @@ void ofApp::setup(){
 	guiObjects2D.add(newLineButton.setup("New Line"));
 	guiObjects2D.add(newStarButton.setup("New Star"));
 	guiObjects2D.add(newHouseButton.setup("New House"));
+	guiObjects2D.add(newBezierSplineButton.setup("New Bezier spline curve"));
+	guiObjects2D.add(newCRbutton.setup("New Catmull-Rom curve"));
 	guiObjects2D.add(deleteButton.setup("Delete object"));
 		
 	newObjectName.set("Name: ", "");
@@ -110,6 +112,8 @@ void ofApp::setup(){
 	newLineButton.addListener(this, &ofApp::addNewLine);
 	newStarButton.addListener(this, &ofApp::addNewStar);
 	newHouseButton.addListener(this, &ofApp::addNewHouse);
+	newBezierSplineButton.addListener(this, &ofApp::addNewBezierSpline);
+	newCRbutton.addListener(this, &ofApp::addNewCR);
 
 
 	is_key_press_up = false;
@@ -990,6 +994,16 @@ void ofApp::addNewHouse() {
 	newObjectName.set("");
 }
 
+void ofApp::addNewBezierSpline() {
+	renderer.addNewCurve(newObjectName, 1);
+	newToggleObject();
+	newObjectName.set("");
+}
 
+void ofApp::addNewCR() {
+	renderer.addNewCurve(newObjectName, 0);
+	newToggleObject();
+	newObjectName.set("");
+}
 
 

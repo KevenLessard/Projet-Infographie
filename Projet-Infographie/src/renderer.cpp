@@ -339,6 +339,18 @@ void Renderer::addNewHouse(string name) {
     objects2D.push_back(house);
 }
 
+void Renderer::addNewCurve(string name, int type) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Curve " + to_string(objects2D.size());
+    }
+    Curve2D* curve = new Curve2D(type);
+    curve->setName(name);
+    objects2D.push_back(curve);
+}
+
 void Renderer::addNew3dObject(string name) {
     if (nameAlreadyExists(name)) {
         return;

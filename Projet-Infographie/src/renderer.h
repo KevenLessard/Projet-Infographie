@@ -115,7 +115,7 @@ public:
 	void addNewEllipse(string name);
 	void addNewStar(string name);
 	void addNewHouse(string name);
-
+	void addNewCurve(string name, int type);
 
 	void shaderActive(int index, string type);
 	void addNewImage(string name, string keypressed);
