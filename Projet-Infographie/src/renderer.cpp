@@ -26,6 +26,12 @@ void Renderer::setup()
         is_camera_roll_z_left = false;
 
         speed_delta = 250.0f;
+
+
+        camera_offset = 350.0f;
+        oscillation_frequency = 7500.0f;
+        oscillation_amplitude = 45.0;
+        reset();
 }
 
 void Renderer::update()
@@ -74,15 +80,54 @@ void Renderer::update()
     if (is_camera_roll_z_left)
         mainCamera.rollDeg(-speed_translation);
 
-    light.setPointLight();
-    light.setDiffuseColor(255);
-    light.setGlobalPosition(center_x, center_y, 255.0f);
+
+    //Light
+    ofPushMatrix();
+    if (light_directionalOn)
+    {
+        // transformer la lumière directionnelle
+        orientation_directional.makeRotate(int(ofGetElapsedTimeMillis() * 0.1f) % 360, 0, 1, 0);
+
+        light_directional.setPosition(center_x, center_y + 60, camera_offset * 0.75f);
+        light_directional.setOrientation(orientation_directional);
+    }
+
+    if (light_pointOn)
+    {
+        // transformer la lumière ponctuelle
+        light_point.setPosition(ofGetMouseX(), ofGetMouseY(), camera_offset * 0.75f);
+    }
+
+    if (light_spotOn)
+    {
+        // transformer la lumière projecteur
+        oscillation = oscillate(ofGetElapsedTimeMillis(), oscillation_frequency, oscillation_amplitude);
+
+        orientation_spot.makeRotate(30.0f, ofVec3f(1, 0, 0), oscillation, ofVec3f(0, 1, 0), 0.0f, ofVec3f(0, 0, 1));
+
+        light_spot.setOrientation(orientation_spot);
+
+        light_spot.setPosition(center_x, center_y - 75.0f, camera_offset * 0.75f);
+    }
+    ofPopMatrix();
 
     if (isMode3D) {
-        for (object3D* object : objects3d) {
-            object->updateShader(light);
-        }
+    for (object3D* object : objects3d) {
+      object->updateMaterial();
     }
+    }
+    
+    //Code pour envoyer lumière sur shader
+    //light.setPointLight();
+    //light.setDiffuseColor(255);
+    //light.setGlobalPosition(center_x, center_y, 255.0f);
+    //
+    //
+    //if (isMode3D) {
+    //    for (object3D* object : objects3d) {
+    //        object->updateShader(light);
+    //    }
+    //}
 
 }
 
@@ -178,9 +223,10 @@ void Renderer::draw()
     ofPushMatrix();
     mainCamera.begin();
     ofEnableDepthTest();
-    ofEnableLighting();
 
-    light.enable();
+
+    ofEnableLighting();
+    lightingOn();
 
     if (isMode3D) {
         for (object3D* object : objects3d) {
@@ -197,10 +243,10 @@ void Renderer::draw()
         }
     }
 
-    light.disable();
 
     ofDisableLighting();
     ofDisableDepthTest();
+    lightingOff();
     mainCamera.end();
     ofPopMatrix();
 
@@ -482,7 +528,27 @@ string Renderer::getObject2dName(int index)
 }
 
 void Renderer::reset() {
+    // configurer la lumière ambiante
+    light_ambient.set(127, 127, 127);
 
+    // configurer la lumière directionnelle
+    light_directional.setDiffuseColor(ofColor(31, 255, 31));
+    light_directional.setSpecularColor(ofColor(191, 191, 191));
+    light_directional.setOrientation(ofVec3f(0.0f, 0.0f, 0.0f));
+    light_directional.setDirectional();
+
+    // configurer la lumière ponctuelle
+    light_point.setDiffuseColor(ofColor(255, 255, 255));
+    light_point.setSpecularColor(ofColor(191, 191, 191));
+    light_point.setPointLight();
+
+    // configurer la lumière projecteur
+    light_spot.setDiffuseColor(ofColor(191, 191, 191));
+    light_spot.setSpecularColor(ofColor(191, 191, 191));
+    light_spot.setOrientation(ofVec3f(0.0f, 0.0f, 0.0f));
+    light_spot.setSpotConcentration(2);
+    light_spot.setSpotlightCutOff(30);
+    light_spot.setSpotlight();
 }
 
 void Renderer::setAnimation(int index) {
@@ -551,3 +617,62 @@ void Renderer::shaderActive(int index, string type) {
     objects3d[index]->changeShader(type);
 }
 
+void Renderer::addNewLight(int light) {
+    if (light == 1 && light_ambientOn == true) {
+        light_ambientOn = false;
+    }
+    if (light == 1 && light_ambientOn == false) {
+        light_ambientOn = true;
+    }
+
+    if (light == 2 && light_directionalOn == true) {
+        light_directionalOn = false;
+    }
+    if (light == 2 && light_directionalOn == false) {
+        light_directionalOn = true;
+    }
+
+    if (light == 3 && light_pointOn == true) {
+        light_pointOn = false;
+    }
+    if (light == 3 && light_pointOn == false) {
+        light_pointOn = true;
+    }
+
+    if (light == 4 && light_spotOn == true) {
+        light_spotOn = false;
+    }
+    if (light == 4 && light_spotOn == false) {
+        light_spotOn = true;
+        cout << "bot";
+    }
+}
+
+void Renderer::lightingOn() {
+    if (light_ambientOn)
+        ofSetGlobalAmbientColor(light_ambient);
+    else
+        ofSetGlobalAmbientColor(ofColor(0, 0, 0));
+
+    if (light_directionalOn)
+        light_directional.enable();
+
+    if (light_pointOn)
+        light_point.enable();
+
+    if (light_spotOn)
+        light_spot.enable();
+}
+
+void Renderer::lightingOff() {
+    ofSetGlobalAmbientColor(ofColor(0, 0, 0));
+    light_directional.disable();
+    light_point.disable();
+    light_spot.disable();
+}
+
+// fonction d'oscillation
+float Renderer::oscillate(float time, float frequency, float amplitude)
+{
+    return sinf(time * 2.0f * PI / frequency) * amplitude;
+}

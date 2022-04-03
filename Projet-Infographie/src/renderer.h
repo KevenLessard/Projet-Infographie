@@ -105,6 +105,9 @@ public:
 	void setAnimation(int index);
 	void toggleRotation(int index);
 	void drawBoundingBox(int index);
+	void addNewLight(int index);
+	void lightingOn();
+	void lightingOff();
 
 	//2D
 
@@ -131,7 +134,25 @@ public:
 	ofParameter<ofColor> color_picker;
 	ofLight light;
 
+	ofColor light_ambient;
 
+	ofLight light_directional;
+	ofLight light_point;
+	ofLight light_spot;
+
+	ofQuaternion orientation_directional;
+	ofQuaternion orientation_spot;
+
+	float oscillation;
+	float oscillation_frequency;
+	float oscillation_amplitude;
+	float oscillate(float time, float frequency, float amplitude);
+	float camera_offset;
+
+	bool light_ambientOn;
+	bool light_directionalOn;
+	bool light_pointOn;
+	bool light_spotOn;
 
 private:
 	bool nameAlreadyExists(string name);
