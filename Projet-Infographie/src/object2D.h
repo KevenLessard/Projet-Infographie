@@ -193,12 +193,12 @@ private:
 
 };
 
+typedef vector<glm::vec3> Curve;
+
 class Curve2D : public Object2D {
 public: 
 	vector<glm::vec3> cps;
 	vector<glm::vec3> line;
-
-	typedef vector<glm::vec3> Curve;
 
 	Curve2D(int curveType);
 

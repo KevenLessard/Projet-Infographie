@@ -350,20 +350,18 @@ void House2D::draw()
 	ofEndShape();
 }
 
-#include "ofxCurve.h"
-
 //--------------------------------------------------------------------------------------
 // 
 //Curve2D
 
 Curve2D::Curve2D(int curveType) {
-    cps.push_back(glm::vec3(100.0, 150.0, 0.0));
-    cps.push_back(glm::vec3(200.0, 200.0, 0.0));
+    cps.push_back(glm::vec3(400.0, 150.0, 0.0));
+    cps.push_back(glm::vec3(200.0, 900.0, 0.0));
     cps.push_back(glm::vec3(300.0, 650.0, 0.0));
-    cps.push_back(glm::vec3(400.0, 400.0, 0.0));
-    cps.push_back(glm::vec3(500.0, 450.0, 0.0));
-    cps.push_back(glm::vec3(600.0, 222.0, 0.0));
-    cps.push_back(glm::vec3(800.0, 150.0, 0.0));
+    cps.push_back(glm::vec3(450.0, 400.0, 0.0));
+    cps.push_back(glm::vec3(500.0, 750.0, 0.0));
+    cps.push_back(glm::vec3(700.0, 222.0, 0.0));
+    cps.push_back(glm::vec3(800.0, 500.0, 0.0));
 
     switch (curveType) {
     case 0:
