@@ -465,6 +465,11 @@ void Renderer::setObjectColor(int index, ofColor newColor) {
     }
 }
 
+void Renderer::moveCurve(int index, int pointIndex, ofVec3f newPosition) {
+    glm::vec3 newPos(newPosition.x, newPosition.y, 0);
+    objects2D[index]->movePoint(pointIndex, newPos);
+}
+
 void Renderer::image_export(const string name, const string extension) const
 {
     ofImage image;

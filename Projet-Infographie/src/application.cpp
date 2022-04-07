@@ -103,6 +103,17 @@ void ofApp::setup(){
 	guiObjects2D.add(newBezierSplineButton.setup("New Bezier spline curve"));
 	guiObjects2D.add(newCRbutton.setup("New Catmull-Rom curve"));
 	guiObjects2D.add(deleteButton.setup("Delete object"));
+
+	//Panneau des points de controle
+	for (int i = 0; i < 7; i++) {
+		controlPoints.push_back(new ofxVec2Slider());
+	}
+	guiControlPoints.setup();
+	guiControlPoints.setPosition(0, ofGetWindowHeight() - guiControlPoints.getHeight());
+	for (int i = 1; i < 8; i++) {
+		string name = "Control point " + ofToString(i);
+		guiControlPoints.add(controlPoints[i - 1]->setup(name, ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
+	}
 		
 	newObjectName.set("Name: ", "");
 	newRectangleButton.addListener(this, &ofApp::addNewRectangle);
@@ -114,7 +125,6 @@ void ofApp::setup(){
 	newHouseButton.addListener(this, &ofApp::addNewHouse);
 	newBezierSplineButton.addListener(this, &ofApp::addNewBezierSpline);
 	newCRbutton.addListener(this, &ofApp::addNewCR);
-
 
 	is_key_press_up = false;
 	is_key_press_down = false;
@@ -160,9 +170,8 @@ void ofApp::update(){
 			renderer.resizeCursorUpDown_enabled = false;
 		}
 	}
-
+	bool oneCurveSelected = false;
 	for (int i : selectedObjects) {
-
 		if (otherCursorInUse == false) {
 			renderer.crossCursor_enabled = true;
 			renderer.circleCursor_enabled = false;
@@ -180,6 +189,14 @@ void ofApp::update(){
 			newRotation = ofVec3f(rotationSlider);
 		}
 		else {
+			if (renderer.objects2D[i]->isCurve) {
+				oneCurveSelected = true;
+				for (int j = 0; j < 7; j++) {
+					ofVec2f slider(*controlPoints[j]);
+					ofVec3f newControlPoint(slider.x, slider.y, 0);
+					renderer.moveCurve(i, j, newControlPoint);
+				}
+			}
 			ofVec3f newProportion2D(proportionSlider2D);
 			newProportion = ofVec3f(newProportion2D.x, newProportion2D.y, 1);
 			newPosition = ofVec3f(positionSlider2D);
@@ -201,6 +218,12 @@ void ofApp::update(){
 			renderer.setObjectColor(i, myRGBColor);
 		}
 		renderer.drawBoundingBox(i);
+	}
+	if (oneCurveSelected) {
+		curveSelected = true;
+	}
+	else {
+		curveSelected = false;
 	}
 	updateHierarchy();
 	renderer.update();
@@ -224,6 +247,12 @@ void ofApp::draw(){
 		ofDrawBitmapString("Press F4 to open TopLeft of an image, F5 for TopRight, F6 for DownLeft and F7 for DownRight.", guiHierarchy.getWidth(), 30);
 		guiProperties2D.draw();
 		guiObjects2D.draw();
+		if (curveSelected) {
+			guiControlPoints.draw();
+		}
+		else {
+			guiProperties2D.draw();
+		}
 	}
 
 	guiHierarchy.draw();
@@ -663,8 +692,8 @@ void ofApp::windowResized(int w, int h){
 	} else {
 		guiHierarchy.setPosition(0, 0);
 		guiProperties2D.setPosition(w - guiProperties2D.getWidth(), 0);
-		//guiCamera3D.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight());
 		guiObjects2D.setPosition(w - guiObjects2D.getWidth(), h - guiObjects2D.getHeight());
+		guiControlPoints.setPosition(0, h - guiControlPoints.getHeight());
 	}
 	
 }
@@ -787,12 +816,25 @@ void ofApp::toggleListener(bool& value) {
 			colorPicker = color;
 		}
 		else {
-			ofVec3f proportion(renderer.objects2D[selectedObjects[0]]->getProportion());
-			ofVec3f position(renderer.objects2D[selectedObjects[0]]->getPosition());
-			ofVec3f rotation(renderer.objects2D[selectedObjects[0]]->getRotation());
-			proportionSlider2D.setup("Proportion", ofVec2f(proportion.x, proportion.y), ofVec2f(0, 0), ofVec2f(100, 100));
-			positionSlider2D.setup("Position", ofVec2f(position.x, position.y), ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
-			rotationSlider2D.setup("Rotation", ofVec2f(rotation.x, rotation.y), ofVec2f(0, 0), ofVec2f(360, 360));
+			ofLog() << "Test 2D";
+			if (renderer.objects2D[selectedObjects[0]]->isCurve) {
+				ofLog() << "Test curveSelected";
+;				vector<ofVec2f> points(renderer.objects2D[selectedObjects[0]]->getPoints());
+				for (int i = 1; i < 8; i++) {
+					ofLog() << points[i - 1];
+					string name = "Control point " + ofToString(i);
+					controlPoints[i - 1]->setup(name, points[i-1], ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
+				}
+			}
+			else {
+				ofVec3f proportion(renderer.objects2D[selectedObjects[0]]->getProportion());
+				ofVec3f position(renderer.objects2D[selectedObjects[0]]->getPosition());
+				ofVec3f rotation(renderer.objects2D[selectedObjects[0]]->getRotation());
+				proportionSlider2D.setup("Proportion", ofVec2f(proportion.x, proportion.y), ofVec2f(0, 0), ofVec2f(100, 100));
+				positionSlider2D.setup("Position", ofVec2f(position.x, position.y), ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
+				rotationSlider2D.setup("Rotation", ofVec2f(rotation.x, rotation.y), ofVec2f(0, 0), ofVec2f(360, 360));
+			}
+
 			ofColor color = renderer.objects2D[selectedObjects[0]]->getColor();
 			colorPicker = color;
 		}
@@ -913,7 +955,6 @@ void ofApp::refreshProperties() {
 		guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
 		guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
 		guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
-		//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 		guiProperties2D.add(colorPicker.set("Color", ofColor(myRGBColor), ofColor(0, 0), ofColor(255, 255)));
 		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 		guiProperties2D.add(intSliderTakes.setup("Nombre de prises", 1, 1, 24));
@@ -942,7 +983,6 @@ void ofApp::refreshProperties() {
 		guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
 		guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
 		guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
-		//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 		guiProperties2D.add(hsbColorPicker.setup("Color HSB", ofVec3f(h, s, b), ofVec3f(0, 0, 0), ofVec3f(360, 100, 100)));
 		guiProperties2D.add(HSBDisplayButton.setup("HSB"));
 		guiProperties2D.add(intSliderTakes.setup("Nombre de prises", 1, 1, 24));

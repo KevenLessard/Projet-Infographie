@@ -116,6 +116,7 @@ public:
 	void addNewStar(string name);
 	void addNewHouse(string name);
 	void addNewCurve(string name, int type);
+	void moveCurve(int index, int pointIndex, ofVec3f newPosition);
 
 	void shaderActive(int index, string type);
 	void addNewImage(string name, string keypressed);

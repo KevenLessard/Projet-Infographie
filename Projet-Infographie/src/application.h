@@ -40,6 +40,7 @@ class ofApp : public ofBaseApp {
 	ofxPanel guiProperties2D;
 	ofxPanel guiObjects2D;
 	ofxPanel guiCamera2D;
+	ofxPanel guiControlPoints;
 
 	ofxButton newCircleButton;
 	ofxButton newSquareButton;
@@ -51,6 +52,10 @@ class ofApp : public ofBaseApp {
 	ofxButton newHouseButton;
 	ofxButton newBezierSplineButton;
 	ofxButton newCRbutton;
+
+	vector<ofxVec2Slider*> controlPoints;
+
+	bool curveSelected = false;
 	//___________________________
 
 

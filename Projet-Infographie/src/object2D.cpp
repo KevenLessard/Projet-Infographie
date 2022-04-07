@@ -52,6 +52,12 @@ ofColor Object2D::getColor() {
 	return color;
 }
 
+void Object2D::movePoint(int pointIndex, glm::vec3 newPosition) {
+}  
+vector<ofVec2f> Object2D::getPoints() {
+    return vector<ofVec2f>();
+}
+
 
 Object2D::~Object2D()
 {
@@ -355,6 +361,7 @@ void House2D::draw()
 //Curve2D
 
 Curve2D::Curve2D(int curveType) {
+    isCurve = true;
     cps.push_back(glm::vec3(400.0, 150.0, 0.0));
     cps.push_back(glm::vec3(200.0, 900.0, 0.0));
     cps.push_back(glm::vec3(300.0, 650.0, 0.0));
@@ -365,9 +372,11 @@ Curve2D::Curve2D(int curveType) {
 
     switch (curveType) {
     case 0:
+        isBezier = false;
         line = evalCR(cps, 1000);
         break;
     case 1:
+        isBezier = true;
         line = evalBspline(cps, 1000);
         break;
     }
@@ -589,6 +598,23 @@ void Curve2D::draw() {
     for (int i = 0; i < line.size(); i++) {
         ofDrawCircle(line[i], 2);
     }
+}
+
+void Curve2D::movePoint(int pointIndex, glm::vec3 newPosition) {
+    cps[pointIndex] = newPosition;
+    if (isBezier)
+        line = evalBspline(cps, 1000);
+    else
+        line = evalCR(cps, 1000);
+}
+
+vector<ofVec2f> Curve2D::getPoints() {
+    vector<ofVec2f> result;
+    for (int i = 0; i < 7; i++) {
+        ofVec2f v(cps[i].x, cps[i].y);
+        result.push_back(v);
+    }
+    return result;
 }
 //----------------------------------------------------------------------
 
