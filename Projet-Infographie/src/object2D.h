@@ -193,6 +193,30 @@ private:
 
 };
 
+class Curve2D : public Object2D {
+public: 
+	vector<glm::vec3> cps;
+	vector<glm::vec3> line;
+
+	typedef vector<glm::vec3> Curve;
+
+	Curve2D(int curveType);
+
+	Curve coreBezier(glm::vec3& p0,
+		glm::vec3& p1,
+		glm::vec3& p2,
+		glm::vec3& p3,
+		unsigned steps);
+
+	Curve evalBezier(vector<glm::vec3>& P, unsigned steps);
+
+	Curve evalBspline(vector<glm::vec3>& P, unsigned steps);
+
+	Curve evalCR(vector<glm::vec3>& P, unsigned steps);
+
+	void draw();
+};
+
 class GestionImages : public Object2D
 {
 public:

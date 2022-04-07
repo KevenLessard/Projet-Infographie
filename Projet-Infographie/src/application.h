@@ -49,6 +49,8 @@ class ofApp : public ofBaseApp {
 	ofxButton newLineButton;
 	ofxButton newStarButton;
 	ofxButton newHouseButton;
+	ofxButton newBezierSplineButton;
+	ofxButton newCRbutton;
 	//___________________________
 
 
@@ -159,6 +161,8 @@ private:
 	void addNewLine();
 	void addNewStar();
 	void addNewHouse();
+	void addNewBezierSpline();
+	void addNewCR();
 		
 	void openFileSelection(ofFileDialogResult openFileResult);
 
