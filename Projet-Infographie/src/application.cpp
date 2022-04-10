@@ -395,6 +395,36 @@ void ofApp::keyReleased(int key){
 		ofLog() << "<shader: blinn-phong>";
 		break;
 
+	case 54: // touche 1
+		renderer.kernel_type = ConvolutionKernel::identity;
+		renderer.kernel_name = "identité";
+		break;
+
+	case 55: // touche 2
+		renderer.kernel_type = ConvolutionKernel::emboss;
+		renderer.kernel_name = "bosseler";
+		renderer.filter();
+		break;
+
+	case 56: // touche 3
+		renderer.kernel_type = ConvolutionKernel::sharpen;
+		renderer.kernel_name = "aiguiser";
+		//renderer.image_destination2 = renderer.image_destination;
+		renderer.filter();
+		break;
+
+	case 57: // touche 4
+		renderer.kernel_type = ConvolutionKernel::edge_detect;
+		renderer.kernel_name = "détection de bordure";
+		//renderer.image_destination3 = renderer.image_destination;
+		renderer.filter();
+		break;
+
+	case 58: // touche 5
+		renderer.kernel_type = ConvolutionKernel::blur;
+		renderer.kernel_name = "flou";
+		break;
+
 	case 57350: //touche f7 pour rogner l'image
 		if (mode3D == false) {
 			string keypressed = "f7";

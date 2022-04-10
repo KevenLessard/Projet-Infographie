@@ -5,11 +5,18 @@
 #include "object3D.h"
 #include "object2D.h"
 #include "sphere.h"
+#include "fliters.h"
 #include "ofxVectorGraphics.h"
+
+
+
 
 class Renderer
 {
 public:
+	ConvolutionKernel kernel_type;
+	string kernel_name;
+
 	bool isMode3D;
 	// declaration des variables pour la fonction du curseur draw_cursor.
 	int mouse_press_x;
