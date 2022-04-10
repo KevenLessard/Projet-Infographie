@@ -26,14 +26,12 @@ void Renderer::setup()
         is_camera_roll_z_left = false;
 
         speed_delta = 250.0f;
-
-        sphereCenter = ofVec3f(0, 0, 500);
-
-        Skybox.load();
 }
 
 void Renderer::update()
 {
+
+
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
 
@@ -85,7 +83,7 @@ void Renderer::update()
             object->updateShader(light);
         }
     }
-    
+
 }
 
 // fonction de dessin du curseur
@@ -175,6 +173,7 @@ void Renderer::draw_MagnifyingGlass(float x, float y)const {
 
 void Renderer::draw()
 {
+
     //Ajouter une section pour le draw du 2D
     ofPushMatrix();
     mainCamera.begin();
@@ -182,7 +181,6 @@ void Renderer::draw()
     ofEnableLighting();
 
     light.enable();
-    Skybox.draw();
 
     if (isMode3D) {
         for (object3D* object : objects3d) {
@@ -341,6 +339,18 @@ void Renderer::addNewHouse(string name) {
     objects2D.push_back(house);
 }
 
+void Renderer::addNewCurve(string name, int type) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Curve " + to_string(objects2D.size());
+    }
+    Curve2D* curve = new Curve2D(type);
+    curve->setName(name);
+    objects2D.push_back(curve);
+}
+
 void Renderer::addNew3dObject(string name) {
     if (nameAlreadyExists(name)) {
         return;
@@ -402,13 +412,8 @@ void Renderer::addNewCone(string name) {
 
 
 void Renderer::import3dModel(std::string file_name) {
-    string name = file_name;
-    if (nameAlreadyExists(name)) {
-        return;
-    }
-    if (file_name == "") {
-        name = file_name + to_string(objects3d.size());
-    }
+    string name = file_name + to_string(objects3d.size());
+
     object3D* model3D = new object3D(name, file_name);
     objects3d.push_back(model3D);
 }
@@ -458,6 +463,11 @@ void Renderer::setObjectColor(int index, ofColor newColor) {
     else {
         objects2D[index]->setColor(newColor);
     }
+}
+
+void Renderer::moveCurve(int index, int pointIndex, ofVec3f newPosition) {
+    glm::vec3 newPos(newPosition.x, newPosition.y, 0);
+    objects2D[index]->movePoint(pointIndex, newPos);
 }
 
 void Renderer::image_export(const string name, const string extension) const
@@ -554,7 +564,7 @@ void Renderer::addNewImage(string name, string keypressed) {
     objects2D.push_back(image);
 }
 
-void Renderer::sampleImage(int index) {
-    //objects2D[index].sampleImage;
-    cout << "renderer";
+void Renderer::shaderActive(int index, string type) {
+    objects3d[index]->changeShader(type);
 }
+

@@ -5,12 +5,18 @@
 #include "object3D.h"
 #include "object2D.h"
 #include "sphere.h"
+
 #include "ofxVectorGraphics.h"
-#include "ofxSkyBox.h"
+
+
+
 
 class Renderer
 {
 public:
+	
+	
+
 	bool isMode3D;
 	// declaration des variables pour la fonction du curseur draw_cursor.
 	int mouse_press_x;
@@ -45,8 +51,10 @@ public:
 
 	
 	
-	
-	ofCamera mainCamera;
+	//Test Cam
+	ofEasyCam mainCamera;
+
+	//ofCamera mainCamera;
 	bool is_camera_ortho = false;
 	bool is_camera_move_left;
 	bool is_camera_move_right;
@@ -114,6 +122,11 @@ public:
 	void addNewEllipse(string name);
 	void addNewStar(string name);
 	void addNewHouse(string name);
+	void addNewCurve(string name, int type);
+	void moveCurve(int index, int pointIndex, ofVec3f newPosition);
+
+	void shaderActive(int index, string type);
+	void addNewImage(string name, string keypressed);
 
 	bool squareDraw = false;
 	bool circleDraw = false;
@@ -127,13 +140,6 @@ public:
 	ofLight light;
 
 
-	void addNewImage(string name, string keypressed);
-	void sampleImage(int index);
-
-	// Création d'un CubeMap
-	//----------------------------------------------------------------
-	ofxSkyBox Skybox;
-	ofVec3f sphereCenter;
 
 private:
 	bool nameAlreadyExists(string name);
