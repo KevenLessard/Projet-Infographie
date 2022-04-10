@@ -51,8 +51,10 @@ public:
 
 	
 	
-	
-	ofCamera mainCamera;
+	//Test Cam
+	ofEasyCam mainCamera;
+
+	//ofCamera mainCamera;
 	bool is_camera_ortho = false;
 	bool is_camera_move_left;
 	bool is_camera_move_right;
@@ -120,7 +122,8 @@ public:
 	void addNewEllipse(string name);
 	void addNewStar(string name);
 	void addNewHouse(string name);
-
+	void addNewCurve(string name, int type);
+	void moveCurve(int index, int pointIndex, ofVec3f newPosition);
 
 	void shaderActive(int index, string type);
 	void addNewImage(string name, string keypressed);
