@@ -38,7 +38,7 @@ void ofApp::setup(){
 	guiLights.setPosition(ofGetWindowWidth() - guiLights.getWidth(), guiProperties3D.getHeight());
 	guiLights.add(labelLight.setup("Panel", "Lights"));
 	guiLights.add(newLight1.setup("Ambient Light"));
-	guiLights.add(newLight2.setup("Pulsing Light"));
+	guiLights.add(newLight2.setup("Directional Light"));
 	guiLights.add(newLight3.setup("Cursor Light"));
 	guiLights.add(newLight4.setup("SpotLight"));
 	newLight1.addListener(this, &ofApp::addNewLight1);
