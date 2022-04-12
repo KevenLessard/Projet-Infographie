@@ -83,6 +83,7 @@ object3D::object3D(string p_name, int type) {
 		"shader/blinn_phong_330_fs.glsl");
 
 	shader = shader_lambert;
+	setColor(ofColor(200, 200, 200));
 }
 
 object3D::object3D(string p_name, string fileName) {
@@ -115,6 +116,9 @@ object3D::object3D(string p_name, string fileName) {
 		"shader/blinn_phong_330_vs.glsl",
 		"shader/blinn_phong_330_fs.glsl");
 	shader = shader_lambert;
+
+
+	setColor(ofColor(200, 200, 200));
 
 }
 
@@ -349,7 +353,9 @@ void object3D::changeShader(string type) {
 
 void object3D::draw() {
 	ofPushMatrix();
-	shader.begin();
+	//shader.begin();
+	material1.begin();
+
 
 	if (objectType == primitive3d) {
 		primitive.draw(OF_MESH_WIREFRAME);
@@ -417,12 +423,15 @@ void object3D::draw() {
 		}
 		toggleBoundingBox = false;
 	}
-	shader.end();
+	material1.end();
+	//shader.end();
 	ofPopMatrix();
 }
 
 void object3D::updateShader(ofLight light) {
 
+
+	//Vieux code pu utilisé
 	oscillation_amplitude = 32.0f;
 	oscillation_frequency = 7500.0f;
 	float oscillation = oscillate(5124, oscillation_frequency, oscillation_amplitude) + oscillation_amplitude;
@@ -441,6 +450,14 @@ void object3D::updateShader(ofLight light) {
 		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
 		shader.end();
 	}
+}
+
+void object3D::updateMaterial() {
+	material1.setAmbientColor(ofColor(63, 63, 63));
+	material1.setDiffuseColor(ofColor(200,200,200));
+	material1.setEmissiveColor(ofColor(color.r, color.g, color.b));
+	material1.setSpecularColor(ofColor(127, 127, 127));
+	material1.setShininess(16.0f);
 }
 
 // fonction d'oscillation

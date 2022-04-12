@@ -33,6 +33,19 @@ void ofApp::setup(){
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panel", "Hierarchy"));
 
+	//Panneau de lumières
+	guiLights.setup();
+	guiLights.setPosition(ofGetWindowWidth() - guiLights.getWidth(), guiProperties3D.getHeight());
+	guiLights.add(labelLight.setup("Panel", "Lights"));
+	guiLights.add(newLight1.setup("Ambient Light"));
+	guiLights.add(newLight2.setup("Pulsing Light"));
+	guiLights.add(newLight3.setup("Cursor Light"));
+	guiLights.add(newLight4.setup("SpotLight"));
+	newLight1.addListener(this, &ofApp::addNewLight1);
+	newLight2.addListener(this, &ofApp::addNewLight2);
+	newLight3.addListener(this, &ofApp::addNewLight3);
+	newLight4.addListener(this, &ofApp::addNewLight4);
+
 	//Panneau d'ajout d'objects 3D
 	guiObjects3D.setup();
 	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
@@ -240,6 +253,7 @@ void ofApp::draw(){
 		guiProperties3D.draw();
 		guiObjects3D.draw();
 		guiCamera3D.draw();
+		guiLights.draw();
 	}
 
 	if (mode3D==false) {
@@ -1044,6 +1058,22 @@ void ofApp::addNewCR() {
 	renderer.addNewCurve(newObjectName, 0);
 	newToggleObject();
 	newObjectName.set("");
+}
+
+void ofApp::addNewLight1() {
+	renderer.addNewLight(1);
+}
+
+void ofApp::addNewLight2() {
+	renderer.addNewLight(2);
+}
+
+void ofApp::addNewLight3() {
+	renderer.addNewLight(3);
+}
+
+void ofApp::addNewLight4() {
+	renderer.addNewLight(4);
 }
 
 
