@@ -16,6 +16,7 @@ class ofApp : public ofBaseApp {
 	ofxPanel guiObjects3D;
 	ofxPanel guiCamera3D;
 	ofxPanel guiHierarchy;
+	ofxPanel guiLights;
 
 	//Hierarchy
 	vector<ofParameter<bool>> objectsToggle;
@@ -33,6 +34,12 @@ class ofApp : public ofBaseApp {
 	ofxButton newGlassesButton;
 	ofxButton newTVButton;
 	ofxButton newWolfButton;
+
+	//Lumières
+	ofxButton newLight1;
+	ofxButton newLight2;
+	ofxButton newLight3;
+	ofxButton newLight4;
 
 	//___________________________
 
@@ -97,6 +104,7 @@ class ofApp : public ofBaseApp {
 		ofxLabel labelHierarchy;
 		ofxLabel labelNewObject3D;
 		ofxLabel labelNewObject2D;
+		ofxLabel labelLight;
 
 		ofxVec3Slider proportionSlider;
 		ofxVec2Slider proportionSlider2D;
@@ -157,6 +165,10 @@ private:
 	void updateHierarchy();
 	void toggleListener(bool& value);
 	void updateSelection();
+	void addNewLight1();
+	void addNewLight2();
+	void addNewLight3();
+	void addNewLight4();
 
 	//2D
 	void addNewRectangle();
