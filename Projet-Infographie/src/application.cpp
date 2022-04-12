@@ -427,7 +427,7 @@ void ofApp::keyReleased(int key){
 		}
 		ofLog() << "<shader: blinn-phong>";
 		break;
-
+		/*
 	case 54: // touche 1
 		renderer.kernel_type = ConvolutionKernel::identity;
 		renderer.kernel_name = "identité";
@@ -457,6 +457,7 @@ void ofApp::keyReleased(int key){
 		renderer.kernel_type = ConvolutionKernel::blur;
 		renderer.kernel_name = "flou";
 		break;
+		*/
 
 	case 57350: //touche f7 pour rogner l'image
 		if (mode3D == false) {

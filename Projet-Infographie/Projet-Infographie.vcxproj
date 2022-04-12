@@ -180,7 +180,6 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\filters.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\application.cpp" />
     <ClCompile Include="src\object2D.cpp" />
@@ -206,7 +205,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h" />
-    <ClInclude Include="src\fliters.h" />
     <ClInclude Include="src\object2D.h" />
     <ClInclude Include="src\object3D.h" />
     <ClInclude Include="src\renderer.h" />
