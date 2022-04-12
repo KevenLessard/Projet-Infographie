@@ -13,6 +13,8 @@ public:
 
 	virtual string getName();
 	virtual void setName(string newObjectName);
+	virtual void movePoint(int pointIndex, glm::vec3 newPosition);
+	virtual vector<ofVec2f> getPoints();
 	
 	ofVec3f getPosition();
 	ofVec3f getRotation();
@@ -23,7 +25,7 @@ public:
 	void setPosition(ofVec3f newPosition);
 	void setRotation(ofVec3f newRotation);
 	void setProportion(ofVec3f newProportion);
-	
+	bool isCurve = false;
 
 	virtual void draw()=0;
 
@@ -191,6 +193,33 @@ private:
 
 	string m_name;
 
+};
+
+typedef vector<glm::vec3> Curve;
+
+class Curve2D : public Object2D {
+public: 
+	vector<glm::vec3> cps;
+	vector<glm::vec3> line;
+	bool isBezier;
+	Curve2D(int curveType);
+
+	Curve coreBezier(glm::vec3& p0,
+		glm::vec3& p1,
+		glm::vec3& p2,
+		glm::vec3& p3,
+		unsigned steps);
+
+	Curve evalBezier(vector<glm::vec3>& P, unsigned steps);
+
+	Curve evalBspline(vector<glm::vec3>& P, unsigned steps);
+
+	Curve evalCR(vector<glm::vec3>& P, unsigned steps);
+
+	void movePoint(int pointIndex, glm::vec3 newPosition);
+	vector<ofVec2f> getPoints();
+
+	void draw();
 };
 
 class GestionImages : public Object2D
