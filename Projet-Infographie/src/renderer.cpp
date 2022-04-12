@@ -255,6 +255,8 @@ void Renderer::addNewRectangle(string name) {
     rectangle->setRectangleHeight(100);
     rectangle->setRectanglewidth(200);
     rectangle->setProportion(ofVec3f(1, 1, 1));
+    //rectangle->applyTexture();
+    //ofLog() << "applyTexture appelé";
     objects2D.push_back(rectangle);
 }
 
@@ -339,6 +341,23 @@ void Renderer::addNewHouse(string name) {
     house->setPosition(ofVec3f(0, 0, 0));
     house->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(house);
+}
+
+void Renderer::addNewCurve(string name, int type) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Curve " + to_string(objects2D.size());
+    }
+    Curve2D* curve = new Curve2D(type);
+    curve->setName(name);
+    objects2D.push_back(curve);
+}
+
+void Renderer::textureSelection(string name, int index)
+{
+
 }
 
 void Renderer::addNew3dObject(string name) {

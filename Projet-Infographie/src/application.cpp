@@ -88,6 +88,7 @@ void ofApp::setup(){
 	//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 	guiProperties2D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties2D.add(HSBDisplayButton.setup("HSB"));
+	guiProperties2D.add(newTextureButton.setup("Add Texture"));
 
 	//Panneau d'ajout d'objects 2D
 
@@ -103,6 +104,20 @@ void ofApp::setup(){
 	guiObjects2D.add(newStarButton.setup("New Star"));
 	guiObjects2D.add(newHouseButton.setup("New House"));
 	guiObjects2D.add(deleteButton.setup("Delete object"));
+	
+
+	//Panneau des points de controle
+	for (int i = 0; i < 7; i++) {
+		controlPoints.push_back(new ofxVec2Slider());
+	}
+	guiControlPoints.setup();
+	guiControlPoints.setPosition(0, ofGetWindowHeight() - guiControlPoints.getHeight());
+	for (int i = 1; i < 8; i++) {
+		string name = "Control point " + ofToString(i);
+		guiControlPoints.add(controlPoints[i - 1]->setup(name, ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920, 1080)));
+	}
+
+	//newTextureButton.addListener(this, &ofApp::textureSelection);
 		
 	newObjectName.set("Name: ", "");
 	newRectangleButton.addListener(this, &ofApp::addNewRectangle);
@@ -392,14 +407,11 @@ void ofApp::keyReleased(int key){
 
 		ofLog() << "curseur en main";
 		break;
-
-	case 52://curseur en fleche
-		renderer.crossCursor_enabled = false;
-		renderer.circleCursor_enabled = false;
-		renderer.arrowCursor_enabled = true;
-		renderer.handCursor_enabled = false;
-		renderer.resizeCursor_enabled = false;
-		renderer.resizeCursorUpDown_enabled = false;
+/*
+	case 54: // touche 1
+		renderer.kernel_type = ConvolutionKernel::identity;
+		renderer.kernel_name = "identité";
+		break;
 
 		ofLog() << "curseur en fleche";
 		break;
@@ -415,7 +427,7 @@ void ofApp::keyReleased(int key){
 		ofLog() << "curseur de resize";
 		
 		break;
-
+		*/
 	case 57350: //touche f7 pour rogner l'image
 		if (mode3D == false) {
 			string keypressed = "f7";
@@ -1015,6 +1027,14 @@ void ofApp::addNewHouse() {
 	newToggleObject();
 	newObjectName.set("");
 }
+
+
+
+/*void ofApp::textureSelection()
+{
+	renderer.textureSelection(newObjectName, index);
+	ofLog() << "etape 1 textureSelection appelee dans ofApp";
+}*/
 
 
 

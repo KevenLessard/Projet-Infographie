@@ -123,6 +123,7 @@ public:
 	void addNewStar(string name);
 	void addNewHouse(string name);
 	void addNewCurve(string name, int type);
+	void textureSelection(string name, int index);
 	void moveCurve(int index, int pointIndex, ofVec3f newPosition);
 
 	void shaderActive(int index, string type);
