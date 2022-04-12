@@ -88,14 +88,14 @@ void Renderer::update()
         // transformer la lumière directionnelle
         orientation_directional.makeRotate(int(ofGetElapsedTimeMillis() * 0.1f) % 360, 0, 1, 0);
 
-        light_directional.setPosition(center_x, center_y + 60, camera_offset * 0.75f);
+        light_directional.setPosition(0, 60, camera_offset * 0.75f);
         light_directional.setOrientation(orientation_directional);
     }
 
     if (light_pointOn)
     {
         // transformer la lumière ponctuelle
-        light_point.setPosition(ofGetMouseX(), ofGetMouseY(), camera_offset * 0.75f);
+        light_point.setPosition(mouse_current_x, -mouse_current_y, camera_offset * 0.75f);
     }
 
     if (light_spotOn)
@@ -228,7 +228,19 @@ void Renderer::draw()
     ofEnableLighting();
     lightingOn();
 
+
     if (isMode3D) {
+        //Dessine les lumières mais marche mal
+        //if (light_pointOn) {
+        //    light_point.draw();
+        //}
+        //if (light_directionalOn) {
+        //    light_directional.draw();
+        //}
+        //if (light_spotOn) {
+        //    light_spot.draw();
+        //}
+
         for (object3D* object : objects3d) {
             ofPushMatrix();
             object->draw();
@@ -528,11 +540,13 @@ string Renderer::getObject2dName(int index)
 }
 
 void Renderer::reset() {
+
+
     // configurer la lumière ambiante
     light_ambient.set(127, 127, 127);
 
     // configurer la lumière directionnelle
-    light_directional.setDiffuseColor(ofColor(31, 255, 31));
+    light_directional.setDiffuseColor(ofColor(191, 191, 191));
     light_directional.setSpecularColor(ofColor(191, 191, 191));
     light_directional.setOrientation(ofVec3f(0.0f, 0.0f, 0.0f));
     light_directional.setDirectional();
@@ -621,30 +635,29 @@ void Renderer::addNewLight(int light) {
     if (light == 1 && light_ambientOn == true) {
         light_ambientOn = false;
     }
-    if (light == 1 && light_ambientOn == false) {
+    else if (light == 1 && light_ambientOn == false) {
         light_ambientOn = true;
     }
 
     if (light == 2 && light_directionalOn == true) {
         light_directionalOn = false;
     }
-    if (light == 2 && light_directionalOn == false) {
+    else if (light == 2 && light_directionalOn == false) {
         light_directionalOn = true;
     }
 
     if (light == 3 && light_pointOn == true) {
         light_pointOn = false;
     }
-    if (light == 3 && light_pointOn == false) {
+    else if (light == 3 && light_pointOn == false) {
         light_pointOn = true;
     }
 
     if (light == 4 && light_spotOn == true) {
         light_spotOn = false;
     }
-    if (light == 4 && light_spotOn == false) {
+    else if (light == 4 && light_spotOn == false) {
         light_spotOn = true;
-        cout << "bot";
     }
 }
 

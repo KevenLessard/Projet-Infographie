@@ -83,6 +83,7 @@ object3D::object3D(string p_name, int type) {
 		"shader/blinn_phong_330_fs.glsl");
 
 	shader = shader_lambert;
+	setColor(ofColor(200, 200, 200));
 }
 
 object3D::object3D(string p_name, string fileName) {
@@ -117,11 +118,7 @@ object3D::object3D(string p_name, string fileName) {
 	shader = shader_lambert;
 
 
-	material1.setAmbientColor(ofColor(63, 63, 63));
-	material1.setDiffuseColor(ofColor(191, 63, 0));
-	material1.setEmissiveColor(ofColor(31, 0, 0));
-	material1.setSpecularColor(ofColor(127, 127, 127));
-	material1.setShininess(16.0f);
+	setColor(ofColor(200, 200, 200));
 
 }
 
@@ -457,8 +454,8 @@ void object3D::updateShader(ofLight light) {
 
 void object3D::updateMaterial() {
 	material1.setAmbientColor(ofColor(63, 63, 63));
-	material1.setDiffuseColor(ofColor(color.r, color.g, color.b));
-	material1.setEmissiveColor(ofColor(31, 0, 0));
+	material1.setDiffuseColor(ofColor(200,200,200));
+	material1.setEmissiveColor(ofColor(color.r, color.g, color.b));
 	material1.setSpecularColor(ofColor(127, 127, 127));
 	material1.setShininess(16.0f);
 }
