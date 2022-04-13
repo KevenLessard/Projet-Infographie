@@ -57,6 +57,9 @@ object3D::object3D(string p_name, int type) {
 		cone = ofConePrimitive();
 		objectType = cone3d;
 		break;
+	case 6:
+		surface = ofxBezierSurface();
+		objectType = surfaceBezier;
 	default:
 		ofLog() << "Invalid type.";
 	}

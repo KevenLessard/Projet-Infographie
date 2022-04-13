@@ -153,8 +153,7 @@ void Renderer::draw_HandCursor(float x, float y) const
 {
     int cursor_width = 32;
     int cursor_height = 32;
-
-
+    
     ofImage handCursor;
     handCursor.load("handCursor.png");
 
