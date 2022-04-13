@@ -1,6 +1,6 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
-#include "ofxBezierSurface.h"
+#include "bezierSurface.h"
 
 #pragma once
 

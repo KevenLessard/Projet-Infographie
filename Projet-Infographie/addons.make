@@ -1,4 +1,3 @@
 ofxAssimpModelLoader
-ofxBezierSurface
 ofxGui
 ofxVectorGraphics

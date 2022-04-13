@@ -7,6 +7,9 @@
     <ClCompile Include="src\application.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\bezierSurface.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -33,9 +36,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpTexture.cpp">
       <Filter>addons\ofxAssimpModelLoader\src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\addons\ofxBezierSurface\src\ofxBezierSurface.cpp">
-      <Filter>addons\ofxBezierSurface\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxBaseGui.cpp">
       <Filter>addons\ofxGui\src</Filter>
@@ -108,12 +108,6 @@
     <Filter Include="addons\ofxAssimpModelLoader\libs\assimp\include\assimp\port\AndroidJNI">
       <UniqueIdentifier>{CA012BC2-060F-2F55-47FD-5ACF}</UniqueIdentifier>
     </Filter>
-    <Filter Include="addons\ofxBezierSurface">
-      <UniqueIdentifier>{9359652E-0F6C-FAE6-7414-8192}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="addons\ofxBezierSurface\src">
-      <UniqueIdentifier>{09D0E532-7E2A-FD37-B415-212B}</UniqueIdentifier>
-    </Filter>
     <Filter Include="addons\ofxGui">
       <UniqueIdentifier>{4F2A59AF-5F4E-704B-D067-EC13}</UniqueIdentifier>
     </Filter>
@@ -132,6 +126,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\application.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\bezierSurface.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\object2D.h">
@@ -283,9 +280,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\libs\assimp\include\assimp\version.h">
       <Filter>addons\ofxAssimpModelLoader\libs\assimp\include\assimp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\..\addons\ofxBezierSurface\src\ofxBezierSurface.h">
-      <Filter>addons\ofxBezierSurface\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxBaseGui.h">
       <Filter>addons\ofxGui\src</Filter>

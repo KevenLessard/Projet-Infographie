@@ -430,6 +430,7 @@ void object3D::draw() {
 	}
 	else if (objectType == surfaceBezier) {
 		surface.drawWireframe();
+		
 	}
 	material1.end();
 	//shader.end();
