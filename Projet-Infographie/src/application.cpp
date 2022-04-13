@@ -441,6 +441,12 @@ void ofApp::keyReleased(int key){
 		ofLog() << "<shader: blinn-phong>";
 		break;
 
+	case 57351:
+		for (int o : selectedObjects) {
+			renderer.setTexture(o);
+
+		}
+
 	case 57350: //touche f7 pour rogner l'image
 		if (mode3D == false) {
 			string keypressed = "f7";

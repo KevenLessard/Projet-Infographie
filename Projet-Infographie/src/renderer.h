@@ -101,6 +101,8 @@ public:
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void setObjectColor(int index, ofColor newColor);
+
+
 	string getObject3dName(int index);
 	string getObject2dName(int index);
 	void setAnimation(int index);
@@ -109,6 +111,7 @@ public:
 	void addNewLight(int index);
 	void lightingOn();
 	void lightingOff();
+	void setTexture(int index);
 
 	//2D
 
