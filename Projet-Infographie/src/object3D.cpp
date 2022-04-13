@@ -60,6 +60,8 @@ object3D::object3D(string p_name, int type) {
 	case 6:
 		surface = ofxBezierSurface();
 		objectType = surfaceBezier;
+		surface.setup(50, 50, 6, 6);
+		break;
 	default:
 		ofLog() << "Invalid type.";
 	}
@@ -425,6 +427,9 @@ void object3D::draw() {
 			ofDrawBox(cone.getPosition(), sizeBase, cone.getHeight() * cone.getGlobalScale().x, sizeBase);
 		}
 		toggleBoundingBox = false;
+	}
+	else if (objectType == surfaceBezier) {
+		surface.drawWireframe();
 	}
 	material1.end();
 	//shader.end();

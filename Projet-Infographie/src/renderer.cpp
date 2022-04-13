@@ -467,6 +467,17 @@ void Renderer::addNewCone(string name) {
     objects3d.push_back(cone);
 }
 
+void Renderer::addNewSurface(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Surface " + to_string(objects3d.size());
+    }
+    object3D* surface = new object3D(name, 6);
+    objects3d.push_back(surface);
+}
+
 
 void Renderer::import3dModel(std::string file_name) {
     string name = file_name + to_string(objects3d.size());
