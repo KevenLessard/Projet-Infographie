@@ -32,6 +32,9 @@ public:
 	void setName(string newName);
 	void setAnimation();
 	void updateShader(ofLight light);
+
+	void updateMaterial();
+
 	void toggleRotation();
 	void draw();
 	void drawBoundingBox();
@@ -74,6 +77,11 @@ private:
 	float oscillation;
 	float oscillation_frequency;
 	float oscillation_amplitude;
+
+	ofMaterial material1;
+	ofMaterial material2;
+	ofMaterial material3;
+	ofMaterial material4;
 
 };
 
