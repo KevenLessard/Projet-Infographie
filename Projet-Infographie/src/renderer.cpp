@@ -599,6 +599,14 @@ void Renderer::drawBoundingBox(int index) {
     }
 }
 
+void Renderer::setTexture(int index) {
+    if (isMode3D) {
+
+        ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une texture");
+        objects3d[index]->setTexture(openFileResult);
+    }
+}
+
 //Camera
 
 void Renderer::cameraLookAt(int index) {

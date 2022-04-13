@@ -84,6 +84,12 @@ object3D::object3D(string p_name, int type) {
 
 	shader = shader_lambert;
 	setColor(ofColor(200, 200, 200));
+	materialNumber = 1;
+
+	ofDisableArbTex();
+	//ofLoadImage(texture1, "texture/metal_rust.jpg");
+
+
 }
 
 object3D::object3D(string p_name, string fileName) {
@@ -119,6 +125,7 @@ object3D::object3D(string p_name, string fileName) {
 
 
 	setColor(ofColor(200, 200, 200));
+	materialNumber = 1;
 
 }
 
@@ -352,9 +359,11 @@ void object3D::changeShader(string type) {
 
 
 void object3D::draw() {
-	ofPushMatrix();
-	//shader.begin();
+
+
+
 	material1.begin();
+	texture1.bind();
 
 
 	if (objectType == primitive3d) {
@@ -423,7 +432,12 @@ void object3D::draw() {
 		}
 		toggleBoundingBox = false;
 	}
+
+
+	texture1.unbind();
 	material1.end();
+	//material1.end();
+
 	//shader.end();
 	ofPopMatrix();
 }
@@ -453,11 +467,19 @@ void object3D::updateShader(ofLight light) {
 }
 
 void object3D::updateMaterial() {
-	material1.setAmbientColor(ofColor(63, 63, 63));
-	material1.setDiffuseColor(ofColor(200,200,200));
-	material1.setEmissiveColor(ofColor(color.r, color.g, color.b));
-	material1.setSpecularColor(ofColor(127, 127, 127));
-	material1.setShininess(16.0f);
+
+		material1.setAmbientColor(ofColor(63, 63, 63));
+		material1.setDiffuseColor(ofColor(200, 200, 200));
+		material1.setEmissiveColor(ofColor(color.r, color.g, color.b));
+		material1.setSpecularColor(ofColor(127, 127, 127));
+		material1.setShininess(16.0f);
+
+
+
+}
+
+void object3D::setTexture(ofFileDialogResult openFileResult) {
+	ofLoadImage(texture1, openFileResult.getPath());
 }
 
 // fonction d'oscillation

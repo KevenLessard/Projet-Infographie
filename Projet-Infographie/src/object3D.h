@@ -30,7 +30,10 @@ public:
 	void setColor(ofColor newColor);
 	void setName(string newName);
 	void setAnimation();
+	void setTexture(ofFileDialogResult openFileResult);
 	void updateShader(ofLight light);
+
+	//Materiel test
 
 	void updateMaterial();
 
@@ -80,6 +83,11 @@ private:
 	ofMaterial material2;
 	ofMaterial material3;
 	ofMaterial material4;
+	int materialNumber;
 
+	ofTexture texture1;
+	ofPoint points[4];
+	int cornerIndex = 0;
+	bool textureOn;
 };
 
