@@ -59,6 +59,7 @@ void ofApp::setup(){
 	guiObjects3D.add(newGlassesButton.setup("glasses.3DS"));
 	guiObjects3D.add(newTVButton.setup("tv.fbx"));
 	guiObjects3D.add(newWolfButton.setup("Animated Wolf"));
+	guiObjects3D.add(newSurfaceButton.setup("Bezier surface"));
 	guiObjects3D.add(deleteButton.setup("Delete object"));
 
 	newObjectName.set("Name: ", "");
@@ -71,6 +72,7 @@ void ofApp::setup(){
 	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
 	newTVButton.addListener(this, &ofApp::addNewTV);
 	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
+	newSurfaceButton.addListener(this, &ofApp::addBezierSurface);
 	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
@@ -786,6 +788,12 @@ void ofApp::addNewTV() {
 
 void ofApp::addAnimatedWolf() {
 	renderer.import3dModel("Wolf_dae.dae");
+	newToggleObject();
+	newObjectName.set("");
+}
+
+void ofApp::addBezierSurface() {
+	renderer.addNewSurface(newObjectName);
 	newToggleObject();
 	newObjectName.set("");
 }

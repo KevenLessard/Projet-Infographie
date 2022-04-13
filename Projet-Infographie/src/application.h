@@ -34,6 +34,7 @@ class ofApp : public ofBaseApp {
 	ofxButton newGlassesButton;
 	ofxButton newTVButton;
 	ofxButton newWolfButton;
+	ofxButton newSurfaceButton;
 
 	//Lumières
 	ofxButton newLight1;
@@ -156,6 +157,7 @@ private:
 	void addNewGlasses();
 	void addNewTV();
 	void addAnimatedWolf();
+	void addBezierSurface();
 	void deleteObject();
 	void cameraLookAt();
 	void switchProjectionMode();

@@ -54,6 +54,7 @@ ofColor Object2D::getColor() {
 
 void Object2D::movePoint(int pointIndex, glm::vec3 newPosition) {
 }  
+
 vector<ofVec2f> Object2D::getPoints() {
     return vector<ofVec2f>();
 }

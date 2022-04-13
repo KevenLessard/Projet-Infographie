@@ -198,8 +198,7 @@ void Renderer::draw_HandCursor(float x, float y) const
 {
     int cursor_width = 32;
     int cursor_height = 32;
-
-
+    
     ofImage handCursor;
     handCursor.load("handCursor.png");
 
@@ -466,6 +465,17 @@ void Renderer::addNewCone(string name) {
     }
     object3D* cone = new object3D(name, 5);
     objects3d.push_back(cone);
+}
+
+void Renderer::addNewSurface(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Surface " + to_string(objects3d.size());
+    }
+    object3D* surface = new object3D(name, 6);
+    objects3d.push_back(surface);
 }
 
 

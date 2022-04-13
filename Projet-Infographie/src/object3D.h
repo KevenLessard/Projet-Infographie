@@ -1,9 +1,10 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
+#include "bezierSurface.h"
 
 #pragma once
 
-enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d };
+enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier };
 // énumération des types de shader
 enum class ShaderType { color_fill, lambert, gouraud, phong, blinn_phong };
 
@@ -65,6 +66,7 @@ private:
 	ofBoxPrimitive box;
 	ofCylinderPrimitive cylinder;
 	ofConePrimitive cone;
+	ofxBezierSurface surface;
 
 
 	string shader_name;

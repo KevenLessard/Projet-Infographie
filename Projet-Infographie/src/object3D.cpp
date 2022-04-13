@@ -57,6 +57,11 @@ object3D::object3D(string p_name, int type) {
 		cone = ofConePrimitive();
 		objectType = cone3d;
 		break;
+	case 6:
+		surface = ofxBezierSurface();
+		objectType = surfaceBezier;
+		surface.setup(50, 50, 6, 6);
+		break;
 	default:
 		ofLog() << "Invalid type.";
 	}
@@ -96,9 +101,9 @@ object3D::object3D(string p_name, string fileName) {
 	name = p_name;
 	objectType = importation;
 	objectImport.loadModel(fileName);
-	//Évite que le modèle apparaissent à l'envers
+	//Ã‰vite que le modÃ¨le apparaissent Ã  l'envers
 	objectImport.setRotation(0, 180, 1, 0, 0);
-	//Enlève les matériaux de base pour faire marcher le shader
+	//EnlÃ¨ve les matÃ©riaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
 
 	//Chargement du shader
@@ -264,7 +269,7 @@ void object3D::setRotation(ofVec3f newRotation) {
 		sphere.setOrientation(newRotation);
 	}
 	else if(objectType == importation) {
-		//Permet de faire la rotation des modèle 3D
+		//Permet de faire la rotation des modÃ¨le 3D
 		objectImport.setRotation(0, newRotation.x, 1, 0, 0);
 		objectImport.setRotation(1, newRotation.y, 0, 1, 0);
 		objectImport.setRotation(2, newRotation.z, 0, 0, 1);
@@ -434,7 +439,12 @@ void object3D::draw() {
 	}
 
 
-	texture1.unbind();
+	else if (objectType == surfaceBezier) {
+		surface.drawWireframe();
+		
+	}
+
+  	texture1.unbind();
 	material1.end();
 	//material1.end();
 
@@ -445,7 +455,7 @@ void object3D::draw() {
 void object3D::updateShader(ofLight light) {
 
 
-	//Vieux code pu utilisé
+	//Vieux code pu utilisÃ©
 	oscillation_amplitude = 32.0f;
 	oscillation_frequency = 7500.0f;
 	float oscillation = oscillate(5124, oscillation_frequency, oscillation_amplitude) + oscillation_amplitude;
