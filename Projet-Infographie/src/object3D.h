@@ -1,9 +1,10 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
+#include "bezierSurface.h"
 
 #pragma once
 
-enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d };
+enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier };
 // énumération des types de shader
 enum class ShaderType { color_fill, lambert, gouraud, phong, blinn_phong };
 
@@ -30,7 +31,13 @@ public:
 	void setColor(ofColor newColor);
 	void setName(string newName);
 	void setAnimation();
+	void setTexture(ofFileDialogResult openFileResult);
 	void updateShader(ofLight light);
+
+	//Materiel test
+
+	void updateMaterial();
+
 	void toggleRotation();
 	void draw();
 	void drawBoundingBox();
@@ -59,6 +66,7 @@ private:
 	ofBoxPrimitive box;
 	ofCylinderPrimitive cylinder;
 	ofConePrimitive cone;
+	ofxBezierSurface surface;
 
 
 	string shader_name;
@@ -73,5 +81,15 @@ private:
 	float oscillation_frequency;
 	float oscillation_amplitude;
 
+	ofMaterial material1;
+	ofMaterial material2;
+	ofMaterial material3;
+	ofMaterial material4;
+	int materialNumber;
+
+	ofTexture texture1;
+	ofPoint points[4];
+	int cornerIndex = 0;
+	bool textureOn;
 };
 

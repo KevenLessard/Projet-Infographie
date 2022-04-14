@@ -98,6 +98,7 @@ public:
 	void addNewBox(string name);
 	void addNewCylinder(string name);
 	void addNewCone(string name);
+	void addNewSurface(string name);
 	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
@@ -107,11 +108,17 @@ public:
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void setObjectColor(int index, ofColor newColor);
+
+
 	string getObject3dName(int index);
 	string getObject2dName(int index);
 	void setAnimation(int index);
 	void toggleRotation(int index);
 	void drawBoundingBox(int index);
+	void addNewLight(int index);
+	void lightingOn();
+	void lightingOff();
+	void setTexture(int index);
 
 	//2D
 
@@ -139,7 +146,25 @@ public:
 	ofParameter<ofColor> color_picker;
 	ofLight light;
 
+	ofColor light_ambient;
 
+	ofLight light_directional;
+	ofLight light_point;
+	ofLight light_spot;
+
+	ofQuaternion orientation_directional;
+	ofQuaternion orientation_spot;
+
+	float oscillation;
+	float oscillation_frequency;
+	float oscillation_amplitude;
+	float oscillate(float time, float frequency, float amplitude);
+	float camera_offset;
+
+	bool light_ambientOn;
+	bool light_directionalOn;
+	bool light_pointOn;
+	bool light_spotOn;
 
 private:
 	bool nameAlreadyExists(string name);

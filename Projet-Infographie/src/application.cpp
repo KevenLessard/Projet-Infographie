@@ -35,6 +35,19 @@ void ofApp::setup(){
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panel", "Hierarchy"));
 
+	//Panneau de lumières
+	guiLights.setup();
+	guiLights.setPosition(ofGetWindowWidth() - guiLights.getWidth(), guiProperties3D.getHeight());
+	guiLights.add(labelLight.setup("Panel", "Lights"));
+	guiLights.add(newLight1.setup("Ambient Light"));
+	guiLights.add(newLight2.setup("Directional Light"));
+	guiLights.add(newLight3.setup("Cursor Light"));
+	guiLights.add(newLight4.setup("SpotLight"));
+	newLight1.addListener(this, &ofApp::addNewLight1);
+	newLight2.addListener(this, &ofApp::addNewLight2);
+	newLight3.addListener(this, &ofApp::addNewLight3);
+	newLight4.addListener(this, &ofApp::addNewLight4);
+
 	//Panneau d'ajout d'objects 3D
 	guiObjects3D.setup();
 	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
@@ -48,6 +61,7 @@ void ofApp::setup(){
 	guiObjects3D.add(newGlassesButton.setup("glasses.3DS"));
 	guiObjects3D.add(newTVButton.setup("tv.fbx"));
 	guiObjects3D.add(newWolfButton.setup("Animated Wolf"));
+	guiObjects3D.add(newSurfaceButton.setup("Bezier surface"));
 	guiObjects3D.add(deleteButton.setup("Delete object"));
 
 	newObjectName.set("Name: ", "");
@@ -60,6 +74,7 @@ void ofApp::setup(){
 	newGlassesButton.addListener(this, &ofApp::addNewGlasses);
 	newTVButton.addListener(this, &ofApp::addNewTV);
 	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
+	newSurfaceButton.addListener(this, &ofApp::addBezierSurface);
 	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
@@ -243,6 +258,7 @@ void ofApp::draw(){
 		guiProperties3D.draw();
 		guiObjects3D.draw();
 		guiCamera3D.draw();
+		guiLights.draw();
 	}
 
 	if (mode3D==false) {
@@ -458,6 +474,12 @@ void ofApp::keyReleased(int key){
 		renderer.kernel_name = "flou";
 		break;
 		*/
+
+	case 57351:
+		for (int o : selectedObjects) {
+			renderer.setTexture(o);
+
+		}
 
 	case 57350: //touche f7 pour rogner l'image
 		if (mode3D == false) {
@@ -804,6 +826,12 @@ void ofApp::addAnimatedWolf() {
 	newObjectName.set("");
 }
 
+void ofApp::addBezierSurface() {
+	renderer.addNewSurface(newObjectName);
+	newToggleObject();
+	newObjectName.set("");
+}
+
 void ofApp::deleteObject() {
 	for (int i = 0; i < selectedObjects.size(); i++) {
 		int index = selectedObjects[i];
@@ -1080,6 +1108,22 @@ void ofApp::addNewCR() {
 	renderer.addNewCurve(newObjectName, 0);
 	newToggleObject();
 	newObjectName.set("");
+}
+
+void ofApp::addNewLight1() {
+	renderer.addNewLight(1);
+}
+
+void ofApp::addNewLight2() {
+	renderer.addNewLight(2);
+}
+
+void ofApp::addNewLight3() {
+	renderer.addNewLight(3);
+}
+
+void ofApp::addNewLight4() {
+	renderer.addNewLight(4);
 }
 
 

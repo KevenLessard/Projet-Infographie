@@ -57,6 +57,11 @@ object3D::object3D(string p_name, int type) {
 		cone = ofConePrimitive();
 		objectType = cone3d;
 		break;
+	case 6:
+		surface = ofxBezierSurface();
+		objectType = surfaceBezier;
+		surface.setup(50, 50, 6, 6);
+		break;
 	default:
 		ofLog() << "Invalid type.";
 	}
@@ -83,15 +88,22 @@ object3D::object3D(string p_name, int type) {
 		"shader/blinn_phong_330_fs.glsl");
 
 	shader = shader_lambert;
+	setColor(ofColor(200, 200, 200));
+	materialNumber = 1;
+
+	ofDisableArbTex();
+	//ofLoadImage(texture1, "texture/metal_rust.jpg");
+
+
 }
 
 object3D::object3D(string p_name, string fileName) {
 	name = p_name;
 	objectType = importation;
 	objectImport.loadModel(fileName);
-	//Évite que le modèle apparaissent à l'envers
+	//Ã‰vite que le modÃ¨le apparaissent Ã  l'envers
 	objectImport.setRotation(0, 180, 1, 0, 0);
-	//Enlève les matériaux de base pour faire marcher le shader
+	//EnlÃ¨ve les matÃ©riaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
 
 	//Chargement du shader
@@ -115,6 +127,10 @@ object3D::object3D(string p_name, string fileName) {
 		"shader/blinn_phong_330_vs.glsl",
 		"shader/blinn_phong_330_fs.glsl");
 	shader = shader_lambert;
+
+
+	setColor(ofColor(200, 200, 200));
+	materialNumber = 1;
 
 }
 
@@ -253,7 +269,7 @@ void object3D::setRotation(ofVec3f newRotation) {
 		sphere.setOrientation(newRotation);
 	}
 	else if(objectType == importation) {
-		//Permet de faire la rotation des modèle 3D
+		//Permet de faire la rotation des modÃ¨le 3D
 		objectImport.setRotation(0, newRotation.x, 1, 0, 0);
 		objectImport.setRotation(1, newRotation.y, 0, 1, 0);
 		objectImport.setRotation(2, newRotation.z, 0, 0, 1);
@@ -348,8 +364,12 @@ void object3D::changeShader(string type) {
 
 
 void object3D::draw() {
-	ofPushMatrix();
-	shader.begin();
+
+
+
+	material1.begin();
+	texture1.bind();
+
 
 	if (objectType == primitive3d) {
 		primitive.draw(OF_MESH_WIREFRAME);
@@ -417,12 +437,25 @@ void object3D::draw() {
 		}
 		toggleBoundingBox = false;
 	}
-	shader.end();
+
+
+	else if (objectType == surfaceBezier) {
+		surface.drawWireframe();
+		
+	}
+
+  	texture1.unbind();
+	material1.end();
+	//material1.end();
+
+	//shader.end();
 	ofPopMatrix();
 }
 
 void object3D::updateShader(ofLight light) {
 
+
+	//Vieux code pu utilisÃ©
 	oscillation_amplitude = 32.0f;
 	oscillation_frequency = 7500.0f;
 	float oscillation = oscillate(5124, oscillation_frequency, oscillation_amplitude) + oscillation_amplitude;
@@ -441,6 +474,22 @@ void object3D::updateShader(ofLight light) {
 		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
 		shader.end();
 	}
+}
+
+void object3D::updateMaterial() {
+
+		material1.setAmbientColor(ofColor(63, 63, 63));
+		material1.setDiffuseColor(ofColor(200, 200, 200));
+		material1.setEmissiveColor(ofColor(color.r, color.g, color.b));
+		material1.setSpecularColor(ofColor(127, 127, 127));
+		material1.setShininess(16.0f);
+
+
+
+}
+
+void object3D::setTexture(ofFileDialogResult openFileResult) {
+	ofLoadImage(texture1, openFileResult.getPath());
 }
 
 // fonction d'oscillation
