@@ -874,6 +874,16 @@ void ofApp::updateSelection() {
 	for (int i = 0; i < objectsToggle.size(); i++) {
 		if (objectsToggle[i].get()) {
 			selectedObjects.push_back(i);
+			if (mode3D) {
+				renderer.objects3d[i]->setSelected(true);
+				renderer.mainCamera.disableMouseInput();
+			}
+		}
+		else {
+			if (mode3D) {
+				renderer.objects3d[i]->setSelected(false);
+				renderer.mainCamera.enableMouseInput();
+			}
 		}
 	}
 }

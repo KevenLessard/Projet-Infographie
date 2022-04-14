@@ -31,7 +31,12 @@ void ofxBezierSurface::setup(int w, int h, int dim, int res) {
         for (j = 0; j <= cy; j++) {
             inp[i][j].x = ofMap(i, 0, cx, 0, width);
             inp[i][j].y = ofMap(j, 0, cy, 0, height);
-            inp[i][j].z = 0;
+            if (i % 2 == 0) {
+                inp[i][j].z = 30;
+            }
+            else {
+                inp[i][j].z = -30;
+            }
         }
     }
 
@@ -46,7 +51,7 @@ void ofxBezierSurface::setup(int w, int h, int dim, int res) {
 
     // interface
     updateSurface = false;
-    ctrlPntSize = 10;
+    ctrlPntSize = 3;
     up = false;
     down = false;
     left = false;
@@ -95,11 +100,6 @@ void ofxBezierSurface::drawControls() {
         }
     }
 }
-
-
-//vector<ofVec3f> ofxBezierSurface::getVertices(){
-//    return mesh.getVertices();
-//}
 
 vector<glm::vec3> ofxBezierSurface::getVertices() {
     return mesh.getVertices();
@@ -193,9 +193,7 @@ void ofxBezierSurface::reset() {
 }
 
 void ofxBezierSurface::addListeners() {
-
     bHasListener = true;
-
     ofAddListener(ofEvents().mousePressed, this, &ofxBezierSurface::mousePressed);
     ofAddListener(ofEvents().mouseDragged, this, &ofxBezierSurface::mouseDragged);
     ofAddListener(ofEvents().mouseReleased, this, &ofxBezierSurface::mouseReleased);
@@ -219,7 +217,6 @@ void ofxBezierSurface::mousePressed(ofMouseEventArgs& mouseArgs) {
     bool missing = true;
 
     tmp.set(findPoint(mouseArgs));
-
     if (!ofGetKeyPressed(OF_KEY_SHIFT)) {
         selectedPnts.clear();
     }
@@ -239,7 +236,6 @@ ofPoint ofxBezierSurface::findPoint(ofMouseEventArgs mouseArgs) {
     ofPoint pnt;
     float distance = 0;
     float nearest = -1;
-
 
     for (int i = 0; i <= cx; i++) {
         for (int j = 0; j <= cy; j++) {
@@ -264,11 +260,13 @@ void ofxBezierSurface::mouseDragged(ofMouseEventArgs& mouseArgs) {
             inp[selectedPnts[i].x][selectedPnts[i].y].y += d.y;
         }
         updateSurface = true;
+        update();
         lastMouse = mouse;
     }
 }
 
 void ofxBezierSurface::mouseReleased(ofMouseEventArgs& mouseArgs) {
+
 }
 
 void ofxBezierSurface::keyPressed(ofKeyEventArgs& keyArgs) {
@@ -293,6 +291,7 @@ void ofxBezierSurface::keyPressed(ofKeyEventArgs& keyArgs) {
                 inp[selectedPnts[i].x][selectedPnts[i].y].y += dy;
             }
             updateSurface = true;
+            update();
         }
     }
 

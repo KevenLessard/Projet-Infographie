@@ -44,8 +44,8 @@ public:
 	void changeShader(string type);
 
 	float oscillate(float time, float frequency, float amplitude);
-
-
+	void setSelected(bool b);
+	bool getSelected();
 
 private:
 	string name;
@@ -87,9 +87,13 @@ private:
 	ofMaterial material4;
 	int materialNumber;
 
+<<<<<<< HEAD
 	ofTexture texture1;
 	ofPoint points[4];
 	int cornerIndex = 0;
 	bool textureOn;
+=======
+	bool isSelected;
+>>>>>>> Kev
 };
 
