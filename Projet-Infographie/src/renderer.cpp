@@ -27,9 +27,9 @@ void Renderer::setup()
 
         speed_delta = 250.0f;
 
-        sphereCenter = ofVec3f(0, 0, 500);
+        //sphereCenter = ofVec3f(0, 0, 500);
 
-        Skybox.load();
+        skybox.load();
 }
 
 void Renderer::update()
@@ -182,7 +182,7 @@ void Renderer::draw()
     ofEnableLighting();
 
     light.enable();
-    Skybox.draw();
+    skybox.draw();
 
     if (isMode3D) {
         for (object3D* object : objects3d) {
@@ -342,7 +342,7 @@ void Renderer::addNewHouse(string name) {
     house->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(house);
 }
-
+/*
 void Renderer::addNewCurve(string name, int type) {
     if (nameAlreadyExists(name)) {
         return;
@@ -354,7 +354,7 @@ void Renderer::addNewCurve(string name, int type) {
     curve->setName(name);
     objects2D.push_back(curve);
 }
-
+*/
 void Renderer::textureSelection(string name, int index)
 {
 
@@ -572,12 +572,12 @@ void Renderer::addNewImage(string name, string keypressed) {
     image->actionResearchImages(keypressed);
     objects2D.push_back(image);
 }
-
+/*
 void Renderer::shaderActive(int index, string type) {
     objects3d[index]->changeShader(type);
 }
-
-
+*/
+/*
 // Fonction de flitrage par convolution
 // -------------------------------------------------------------------
 
@@ -706,5 +706,5 @@ void Renderer::filter()
             // écrire la couleur à l'index du pixel en cours de filtrage
             pixel_array_dst.setColor(pixel_index_img_dst, pixel_color_dst);
         }
-    }
+    } */
 
