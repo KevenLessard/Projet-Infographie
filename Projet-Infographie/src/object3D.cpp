@@ -90,26 +90,23 @@ object3D::object3D(string p_name, int type) {
 
 	shader = shader_lambert;
 	setColor(ofColor(200, 200, 200));
-<<<<<<< HEAD
 	materialNumber = 1;
 
 	ofDisableArbTex();
 	//ofLoadImage(texture1, "texture/metal_rust.jpg");
 
 
-=======
 
 	isSelected = false;
->>>>>>> Kev
 }
 
 object3D::object3D(string p_name, string fileName) {
 	name = p_name;
 	objectType = importation;
 	objectImport.loadModel(fileName);
-	//Évite que le modèle apparaissent à l'envers
+	//�vite que le mod�le apparaissent � l'envers
 	objectImport.setRotation(0, 180, 1, 0, 0);
-	//Enlève les matériaux de base pour faire marcher le shader
+	//Enl�ve les mat�riaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
 
 	//Chargement du shader
@@ -285,7 +282,7 @@ void object3D::setRotation(ofVec3f newRotation) {
 		sphere.setOrientation(newRotation);
 	}
 	else if(objectType == importation) {
-		//Permet de faire la rotation des modèle 3D
+		//Permet de faire la rotation des mod�le 3D
 		objectImport.setRotation(0, newRotation.x, 1, 0, 0);
 		objectImport.setRotation(1, newRotation.y, 0, 1, 0);
 		objectImport.setRotation(2, newRotation.z, 0, 0, 1);
@@ -479,7 +476,7 @@ void object3D::draw() {
 void object3D::updateShader(ofLight light) {
 
 
-	//Vieux code pu utilisé
+	//Vieux code pu utilis�
 	oscillation_amplitude = 32.0f;
 	oscillation_frequency = 7500.0f;
 	float oscillation = oscillate(5124, oscillation_frequency, oscillation_amplitude) + oscillation_amplitude;
