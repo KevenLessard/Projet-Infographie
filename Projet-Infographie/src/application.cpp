@@ -407,6 +407,29 @@ void ofApp::keyReleased(int key){
 
 	switch (key)
 	{
+	
+	case 43: // touche +
+		renderer.doLUT = true;
+		renderer.dirLoadIndex++;
+		if (renderer.dirLoadIndex >= (int)renderer.dir.size()) {
+			renderer.dirLoadIndex = 0;
+		}
+		renderer.loadLut(renderer.dir.getPath(renderer.dirLoadIndex));
+
+		break;
+
+	case 45: // touche -
+		renderer.doLUT = true;
+		renderer.dirLoadIndex--;
+		if (renderer.dirLoadIndex < 0)
+		{ 
+			renderer.dirLoadIndex = renderer.dir.size() - 1;
+		}
+		renderer.loadLut(renderer.dir.getPath(renderer.dirLoadIndex));
+
+		break;
+
+
 	case 49: // touche 1
 		for (int o : selectedObjects) {
 			renderer.shaderActive(o , "color_fill");

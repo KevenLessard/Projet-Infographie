@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
+#include "ofImage.h"
 #include "object3D.h"
 #include "object2D.h"
 #include "sphere.h"
@@ -165,6 +166,25 @@ public:
 	bool light_directionalOn;
 	bool light_pointOn;
 	bool light_spotOn;
+
+	//___________________________________________________________________
+	// LUT Fonctions and Parameters
+
+	void loadLut(string path);
+	void applyLut(ofPixelsRef pix);
+
+	bool doLUT;
+	ofImage grabScreen;
+	ofFbo ScreenGrabber;
+	int dirLoadIndex;
+	ofDirectory dir;
+	glm::vec3 lutPos;
+	//glm::vec3 thumbPos;
+
+	bool LUTLoaded;
+	glm::vec3 lut[32][32][32];
+
+	ofImage lutImage;
 
 private:
 	bool nameAlreadyExists(string name);
