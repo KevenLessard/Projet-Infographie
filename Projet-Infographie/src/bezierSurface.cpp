@@ -46,7 +46,7 @@ void ofxBezierSurface::setup(int w, int h, int dim, int res) {
 
     // interface
     updateSurface = false;
-    ctrlPntSize = 10;
+    ctrlPntSize = 3;
     up = false;
     down = false;
     left = false;
@@ -95,11 +95,6 @@ void ofxBezierSurface::drawControls() {
         }
     }
 }
-
-
-//vector<ofVec3f> ofxBezierSurface::getVertices(){
-//    return mesh.getVertices();
-//}
 
 vector<glm::vec3> ofxBezierSurface::getVertices() {
     return mesh.getVertices();
@@ -264,11 +259,13 @@ void ofxBezierSurface::mouseDragged(ofMouseEventArgs& mouseArgs) {
             inp[selectedPnts[i].x][selectedPnts[i].y].y += d.y;
         }
         updateSurface = true;
+        update();
         lastMouse = mouse;
     }
 }
 
 void ofxBezierSurface::mouseReleased(ofMouseEventArgs& mouseArgs) {
+
 }
 
 void ofxBezierSurface::keyPressed(ofKeyEventArgs& keyArgs) {
@@ -293,6 +290,7 @@ void ofxBezierSurface::keyPressed(ofKeyEventArgs& keyArgs) {
                 inp[selectedPnts[i].x][selectedPnts[i].y].y += dy;
             }
             updateSurface = true;
+            update();
         }
     }
 

@@ -41,8 +41,8 @@ public:
 	void changeShader(string type);
 
 	float oscillate(float time, float frequency, float amplitude);
-
-
+	void setSelected(bool b);
+	bool getSelected();
 
 private:
 	string name;
@@ -83,5 +83,6 @@ private:
 	ofMaterial material3;
 	ofMaterial material4;
 
+	bool isSelected;
 };
 

@@ -28,6 +28,7 @@ object3D::object3D(string p_name) {
 
 	shader = shader_lambert;
 
+	isSelected = false;
 }
 
 object3D::object3D(string p_name, int type) {
@@ -60,7 +61,7 @@ object3D::object3D(string p_name, int type) {
 	case 6:
 		surface = ofxBezierSurface();
 		objectType = surfaceBezier;
-		surface.setup(50, 50, 6, 6);
+		surface.setup(50, 50, 5, 5);
 		break;
 	default:
 		ofLog() << "Invalid type.";
@@ -89,6 +90,8 @@ object3D::object3D(string p_name, int type) {
 
 	shader = shader_lambert;
 	setColor(ofColor(200, 200, 200));
+
+	isSelected = false;
 }
 
 object3D::object3D(string p_name, string fileName) {
@@ -125,6 +128,7 @@ object3D::object3D(string p_name, string fileName) {
 
 	setColor(ofColor(200, 200, 200));
 
+	isSelected = false;
 }
 
 string object3D::getName() {
@@ -149,6 +153,9 @@ ofVec3f object3D::getPosition() {
 	}
 	else if (objectType == cone3d) {
 		return cone.getPosition();
+	}
+	else if (objectType == surfaceBezier) {
+		return surface.getPosition();
 	}
 }
 
@@ -192,6 +199,9 @@ ofVec3f object3D::getProportion() {
 	}
 	else if (objectType == cone3d) {
 		return cone.getScale();
+	}
+	else if (objectType == surfaceBezier) {
+		return surface.getProportion();
 	}
 }
 
@@ -252,6 +262,9 @@ void object3D::setPosition(ofVec3f newPosition) {
 	else if (objectType == cone3d) {
 		cone.setPosition(newPosition);
 	}
+	else if (objectType == surfaceBezier) {
+		surface.setPosition(newPosition);
+	}
 }
 
 void object3D::setRotation(ofVec3f newRotation) {
@@ -296,6 +309,9 @@ void object3D::setProportion(ofVec3f newProportion) {
 	}
 	else if (objectType == cone3d) {
 		cone.setScale(newProportion);
+	}
+	else if (objectType == surfaceBezier) {
+		surface.setProportion(newProportion);
 	}
 }
 
@@ -429,8 +445,13 @@ void object3D::draw() {
 		toggleBoundingBox = false;
 	}
 	else if (objectType == surfaceBezier) {
-		surface.drawWireframe();
-		
+		if (isSelected) {
+			surface.drawControls();
+			surface.drawWireframe();
+		}
+		else {
+			surface.draw();
+		}
 	}
 	material1.end();
 	//shader.end();
@@ -473,4 +494,18 @@ void object3D::updateMaterial() {
 float object3D::oscillate(float time, float frequency, float amplitude)
 {
 	return sinf(time * 2.0f * PI / frequency) * amplitude;
+}
+
+bool object3D::getSelected() {
+	return isSelected;
+}
+
+void object3D::setSelected(bool b) {
+	isSelected = b;
+	if (isSelected && objectType == surfaceBezier) {
+		surface.addListeners();
+	}
+	else {
+		surface.removeListeners();
+	}
 }
