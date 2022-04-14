@@ -61,7 +61,7 @@ object3D::object3D(string p_name, int type) {
 	case 6:
 		surface = ofxBezierSurface();
 		objectType = surfaceBezier;
-		surface.setup(50, 50, 5, 5);
+		surface.setup(200, 200, 10, 10);
 		break;
 	default:
 		ofLog() << "Invalid type.";
