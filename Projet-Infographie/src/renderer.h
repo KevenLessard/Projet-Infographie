@@ -10,8 +10,6 @@
 #include "ofxVectorGraphics.h"
 
 
-
-
 class Renderer
 {
 public:
