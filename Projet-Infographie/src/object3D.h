@@ -69,11 +69,12 @@ public:
 	ofImage texture_metallic;
 	ofImage texture_roughness;
 	ofImage texture_occlusion;
-
-	ofLight light;
 	ofColor light_color;
 	float light_intensity;
 	bool light_motion;
+
+	float center_x;
+	float center_y;
 
 	float tone_mapping_exposure;
 	float tone_mapping_gamma;
@@ -105,6 +106,7 @@ private:
 	ofShader shader_gouraud;
 	ofShader shader_phong;
 	ofShader shader_blinn_phong;
+	ofShader shader_pbr;
 	ofShader shader;
 	ofLight light;
 	float oscillation;

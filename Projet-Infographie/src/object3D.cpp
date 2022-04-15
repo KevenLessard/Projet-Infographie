@@ -94,7 +94,47 @@ object3D::object3D(string p_name, int type) {
 		"shader/blinn_phong_330_vs.glsl",
 		"shader/blinn_phong_330_fs.glsl");
 
+	shader_pbr.load(
+		"shader/pbr_330_vs.glsl",
+		"shader/pbr_330_fs.glsl");
 	shader = shader_lambert;
+
+	// charger les textures du matériau
+	texture_diffuse.load("texture/metal_plate_diffuse_1k.jpg");
+	texture_metallic.load("texture/metal_plate_metallic_1k.jpg");
+	texture_roughness.load("texture/metal_plate_roughness_1k.jpg");
+	texture_occlusion.load("texture/metal_plate_ao_1k.jpg");
+
+	// paramètres des textures du matériau
+	texture_diffuse.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_metallic.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_roughness.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_occlusion.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+
+	// paramètres du matériau
+	material_color_ambient = ofColor(63, 63, 63);
+	material_color_diffuse = ofColor(255, 255, 255);
+	material_color_specular = ofColor(255, 255, 255);
+
+	material_metallic = 0.5f;
+	material_roughness = 0.5f;
+	material_occlusion = 1.0f;
+	material_brightness = 1.0f;
+
+	material_fresnel_ior = glm::vec3(0.04f, 0.04f, 0.04f);
+
+	// paramètres de la lumière
+	light_color = ofColor(255, 255, 255);
+	light_intensity = 1.0f;
+	light_motion = true;
+
+	// paramètres de mappage tonal
+	tone_mapping_exposure = 1.0f;
+	tone_mapping_toggle = true;
+	tone_mapping_gamma = 2.2f;
+
+	shader_name = "pbr";
+
 	setColor(ofColor(200, 200, 200));
 
 	ofDisableArbTex();
@@ -109,10 +149,12 @@ object3D::object3D(string p_name, string fileName) {
 	objectImport.loadModel(fileName);
 	//�vite que le mod�le apparaissent � l'envers
 	objectImport.setRotation(0, 180, 1, 0, 0);
+	ofDisableArbTex();
 	//Enl�ve les mat�riaux de base pour faire marcher le shader
 	objectImport.disableMaterials();
 
-	//Chargement du shader
+
+	//Chargement des shaders
 	shader_color_fill.load(
 		"shader/color_fill_330_vs.glsl",
 		"shader/color_fill_330_fs.glsl");
@@ -132,12 +174,51 @@ object3D::object3D(string p_name, string fileName) {
 	shader_blinn_phong.load(
 		"shader/blinn_phong_330_vs.glsl",
 		"shader/blinn_phong_330_fs.glsl");
+
+	shader_pbr.load(
+		"shader/pbr_330_vs.glsl",
+		"shader/pbr_330_fs.glsl");
 	shader = shader_lambert;
 
+	// charger les textures du matériau
+	texture_diffuse.load("texture/metal_plate_diffuse_1k.jpg");
+	texture_metallic.load("texture/metal_plate_metallic_1k.jpg");
+	texture_roughness.load("texture/metal_plate_roughness_1k.jpg");
+	texture_occlusion.load("texture/metal_plate_ao_1k.jpg");
+
+	// paramètres des textures du matériau
+	texture_diffuse.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_metallic.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_roughness.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+	texture_occlusion.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
+
+	// paramètres du matériau
+	material_color_ambient = ofColor(63, 63, 63);
+	material_color_diffuse = ofColor(255, 255, 255);
+	material_color_specular = ofColor(255, 255, 255);
+
+	material_metallic = 0.5f;
+	material_roughness = 0.5f;
+	material_occlusion = 1.0f;
+	material_brightness = 1.0f;
+
+	material_fresnel_ior = glm::vec3(0.04f, 0.04f, 0.04f);
+
+	// paramètres de la lumière
+	light_color = ofColor(255, 255, 255);
+	light_intensity = 1.0f;
+	light_motion = true;
+
+	// paramètres de mappage tonal
+	tone_mapping_exposure = 1.0f;
+	tone_mapping_toggle = true;
+
+	shader_name = "pbr";
 
 	setColor(ofColor(200, 200, 200));
 	materialSelected = 3;
 	isSelected = false;
+
 }
 
 string object3D::getName() {
@@ -384,9 +465,11 @@ void object3D::changeShader(string type) {
 void object3D::draw() {
 	//material1.begin();
 	//texture1.bind();
-	shader.begin();
+	//shader.begin();
 
+	shader_pbr.begin();
 
+	ofPushMatrix();
 	if (objectType == primitive3d) {
 		primitive.draw(OF_MESH_WIREFRAME);
 		primitive.drawAxes(10);
@@ -475,11 +558,11 @@ void object3D::draw() {
 			quad.draw();
 		}
 	}
-
+	ofPopMatrix();
   	//texture1.unbind();
 	//material1.end();
-
-	shader.end();
+	shader_pbr.end();
+	//shader.end();
 	//ofPopMatrix();
 }
 
@@ -507,7 +590,6 @@ void object3D::draw(ofVec3f camPosition) {
 
 void object3D::updateShader(ofLight light) {
 
-
 	//Vieux code pu utilis�
 	oscillation_amplitude = 32.0f;
 	oscillation_frequency = 7500.0f;
@@ -519,34 +601,37 @@ void object3D::updateShader(ofLight light) {
 		shader.end();
 	}
 
-	else if (shader_name == "PBR") {
-		shader.begin();
+	else if (shader_name == "pbr") {
 
-		shader.setUniform3f("material_color_ambient", 63.0f, 63.0f, 63.0f);
-		shader.setUniform3f("material_color_diffuse", 255.0f, 255.0f,255.0f);
-		shader.setUniform3f("material_color_specular", 255.0f, 255.0f, 255.0f);
+		// passer les attributs uniformes au shader de sommets
+		shader_pbr.begin();
 
-		shader.setUniform1f("material_brightness", 1.0f);
-		shader.setUniform1f("material_metallic", material_metallic);
-		shader.setUniform1f("material_roughness", material_roughness);
-		shader.setUniform1f("material_occlusion", 1.0f);
+		shader_pbr.setUniform3f("material_color_ambient", material_color_ambient.r / 255.0f, material_color_ambient.g / 255.0f, material_color_ambient.b / 255.0f);
+		shader_pbr.setUniform3f("material_color_diffuse", material_color_diffuse.r / 255.0f, material_color_diffuse.g / 255.0f, material_color_diffuse.b / 255.0f);
+		shader_pbr.setUniform3f("material_color_specular", material_color_specular.r / 255.0f, material_color_specular.g / 255.0f, material_color_specular.b / 255.0f);
 
-		shader.setUniform3f("material_fresnel_ior", 0.04f, 0.04f, 0.04f);
+		shader_pbr.setUniform1f("material_brightness", material_brightness);
+		shader_pbr.setUniform1f("material_metallic", material_metallic);
+		shader_pbr.setUniform1f("material_roughness", material_roughness);
+		shader_pbr.setUniform1f("material_occlusion", material_occlusion);
 
-		shader.setUniformTexture("texture_diffuse", texture_diffuse.getTexture(), 1);
-		shader.setUniformTexture("texture_metallic", texture_metallic.getTexture(), 2);
-		shader.setUniformTexture("texture_roughness", texture_roughness.getTexture(), 3);
-		shader.setUniformTexture("texture_occlusion", texture_occlusion.getTexture(), 4);
+		shader_pbr.setUniform3f("material_fresnel_ior", material_fresnel_ior);
 
-		shader.setUniform1f("light_intensity", 1.0f);
-		shader.setUniform3f("light_color", 255.0f, 255.0f, 255.0f);
-		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
+		shader_pbr.setUniformTexture("texture_diffuse", texture_diffuse.getTexture(), 1);
+		shader_pbr.setUniformTexture("texture_metallic", texture_metallic.getTexture(), 2);
+		shader_pbr.setUniformTexture("texture_roughness", texture_roughness.getTexture(), 3);
+		shader_pbr.setUniformTexture("texture_occlusion", texture_occlusion.getTexture(), 4);
 
-		shader.setUniform1f("tone_mapping_exposure", 1.0f);
-		shader.setUniform1f("tone_mapping_gamma", 2.2f);
-		shader.setUniform1i("tone_mapping_toggle", 1);
+		shader_pbr.setUniform1f("light_intensity", light_intensity);
+		shader_pbr.setUniform3f("light_color", light_color.r / 255.0f, light_color.g / 255.0f, light_color.b / 255.0f);
+		shader_pbr.setUniform3f("light_position", light.getGlobalPosition());
 
-		shader.end();
+		shader_pbr.setUniform1f("tone_mapping_exposure", tone_mapping_exposure);
+		shader_pbr.setUniform1f("tone_mapping_gamma", 2.2f);
+		//shader_pbr.setUniform1f("tone_mapping_gamma", tone_mapping_gamma);
+		shader_pbr.setUniform1i("tone_mapping_toggle", tone_mapping_toggle);
+
+		shader_pbr.end();
 	}
 
 
@@ -556,7 +641,8 @@ void object3D::updateShader(ofLight light) {
 		shader.setUniform3f("color_diffuse", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 		shader.setUniform3f("color_specular", 1.0f, 1.0f, 0.0f);
 		shader.setUniform1f("brightness", oscillation);
-		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
+		shader.setUniform3f("light_position", light.getGlobalPosition());
+		//shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
 		shader.end();
 	}
 }
