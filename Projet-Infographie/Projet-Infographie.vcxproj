@@ -185,6 +185,7 @@
     <ClCompile Include="src\bezierSurface.cpp" />
     <ClCompile Include="src\object2D.cpp" />
     <ClCompile Include="src\object3D.cpp" />
+    <ClCompile Include="src\Quad.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="src\sphere.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="src\bezierSurface.h" />
     <ClInclude Include="src\object2D.h" />
     <ClInclude Include="src\object3D.h" />
+    <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\renderer.h" />
     <ClInclude Include="src\sphere.h" />
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h" />

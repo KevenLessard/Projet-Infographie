@@ -242,7 +242,12 @@ void Renderer::draw()
 
         for (object3D* object : objects3d) {
             ofPushMatrix();
-            object->draw();
+            if (object->objectType == 7) {
+                object->draw(mainCamera.getPosition());
+            }
+            else {
+                object->draw();
+            }
             ofPopMatrix();
         }
     } else {
@@ -476,6 +481,17 @@ void Renderer::addNewSurface(string name) {
     }
     object3D* surface = new object3D(name, 6);
     objects3d.push_back(surface);
+}
+
+void Renderer::addNewQuad(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Quad " + to_string(objects3d.size());
+    }
+    object3D* quad = new object3D(name, 7);
+    objects3d.push_back(quad);
 }
 
 

@@ -1,10 +1,12 @@
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
 #include "bezierSurface.h"
+#include "Quad.h"
 
 #pragma once
 
-enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier };
+enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d
+};
 // énumération des types de shader
 enum class ShaderType { color_fill, lambert, gouraud, phong, blinn_phong };
 
@@ -15,6 +17,8 @@ public:
 	object3D(string name);
 	object3D(string name, int type);
 	object3D(string name, string fileName);
+
+	ObjectType objectType;
 
 	ofVec3f getPosition();
 	ofVec3f getRotation();
@@ -40,6 +44,7 @@ public:
 
 	void toggleRotation();
 	void draw();
+	void draw(ofVec3f camPosition);
 	void drawBoundingBox();
 	void changeShader(string type);
 
@@ -49,7 +54,6 @@ public:
 
 private:
 	string name;
-	ObjectType objectType;
 	ofVec3f position;
 	ofVec3f rotation;
 	ofVec3f proportion;
@@ -67,7 +71,7 @@ private:
 	ofCylinderPrimitive cylinder;
 	ofConePrimitive cone;
 	ofxBezierSurface surface;
-
+	ofx::Quad quad;
 	string shader_name;
 	ofShader shader_color_fill;
 	ofShader shader_lambert;
@@ -91,5 +95,8 @@ private:
 	int cornerIndex = 0;
 	bool textureOn;
 	bool isSelected;
+
+	void quadInit();
+	ofEasyCam cam;
 };
 

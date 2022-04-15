@@ -92,6 +92,7 @@ public:
 	void addNewCylinder(string name);
 	void addNewCone(string name);
 	void addNewSurface(string name);
+	void addNewQuad(string name);
 	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);

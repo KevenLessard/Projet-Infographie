@@ -35,6 +35,7 @@ class ofApp : public ofBaseApp {
 	ofxButton newTVButton;
 	ofxButton newWolfButton;
 	ofxButton newSurfaceButton;
+	ofxButton newQuadButton;
 
 	//Lumières
 	ofxButton newLight1;
@@ -158,6 +159,7 @@ private:
 	void addNewTV();
 	void addAnimatedWolf();
 	void addBezierSurface();
+	void addQuad();
 	void deleteObject();
 	void cameraLookAt();
 	void switchProjectionMode();

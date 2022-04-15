@@ -33,19 +33,6 @@ void ofApp::setup(){
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panel", "Hierarchy"));
 
-	//Panneau de lumières
-	guiLights.setup();
-	guiLights.setPosition(ofGetWindowWidth() - guiLights.getWidth(), guiProperties3D.getHeight());
-	guiLights.add(labelLight.setup("Panel", "Lights"));
-	guiLights.add(newLight1.setup("Ambient Light"));
-	guiLights.add(newLight2.setup("Directional Light"));
-	guiLights.add(newLight3.setup("Cursor Light"));
-	guiLights.add(newLight4.setup("SpotLight"));
-	newLight1.addListener(this, &ofApp::addNewLight1);
-	newLight2.addListener(this, &ofApp::addNewLight2);
-	newLight3.addListener(this, &ofApp::addNewLight3);
-	newLight4.addListener(this, &ofApp::addNewLight4);
-
 	//Panneau d'ajout d'objects 3D
 	guiObjects3D.setup();
 	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
@@ -60,6 +47,7 @@ void ofApp::setup(){
 	guiObjects3D.add(newTVButton.setup("tv.fbx"));
 	guiObjects3D.add(newWolfButton.setup("Animated Wolf"));
 	guiObjects3D.add(newSurfaceButton.setup("Bezier surface"));
+	guiObjects3D.add(newQuadButton.setup("Quad"));
 	guiObjects3D.add(deleteButton.setup("Delete object"));
 
 	newObjectName.set("Name: ", "");
@@ -73,6 +61,7 @@ void ofApp::setup(){
 	newTVButton.addListener(this, &ofApp::addNewTV);
 	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
 	newSurfaceButton.addListener(this, &ofApp::addBezierSurface);
+	newQuadButton.addListener(this, &ofApp::addQuad);
 	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
@@ -90,6 +79,19 @@ void ofApp::setup(){
 	setAnimationButton.addListener(this, &ofApp::setAnimation);
 	guiCamera3D.add(toggleRotationButton.setup("Rotate 3D models"));
 	toggleRotationButton.addListener(this, &ofApp::toggleRotation);
+
+	//Panneau de lumières
+	guiLights.setup();
+	guiLights.setPosition(guiCamera3D.getWidth(), ofGetWindowHeight() - guiLights.getHeight());
+	guiLights.add(labelLight.setup("Panel", "Lights"));
+	guiLights.add(newLight1.setup("Ambient Light"));
+	guiLights.add(newLight2.setup("Directional Light"));
+	guiLights.add(newLight3.setup("Cursor Light"));
+	guiLights.add(newLight4.setup("SpotLight"));
+	newLight1.addListener(this, &ofApp::addNewLight1);
+	newLight2.addListener(this, &ofApp::addNewLight2);
+	newLight3.addListener(this, &ofApp::addNewLight3);
+	newLight4.addListener(this, &ofApp::addNewLight4);
 	//____________________________________________________________________
 
 	//Panneau de proprietes 2D
@@ -711,6 +713,7 @@ void ofApp::windowResized(int w, int h){
 		guiProperties3D.setPosition(w - guiProperties3D.getWidth(), 0);
 		guiCamera3D.setPosition(0, h - guiCamera3D.getHeight());
 		guiObjects3D.setPosition(w - guiObjects3D.getWidth(), h - guiObjects3D.getHeight());
+		guiLights.setPosition(guiCamera3D.getWidth(), h - guiLights.getHeight());
 	} else {
 		guiHierarchy.setPosition(0, 0);
 		guiProperties2D.setPosition(w - guiProperties2D.getWidth(), 0);
@@ -794,6 +797,12 @@ void ofApp::addAnimatedWolf() {
 
 void ofApp::addBezierSurface() {
 	renderer.addNewSurface(newObjectName);
+	newToggleObject();
+	newObjectName.set("");
+}
+
+void ofApp::addQuad() {
+	renderer.addNewQuad(newObjectName);
 	newToggleObject();
 	newObjectName.set("");
 }

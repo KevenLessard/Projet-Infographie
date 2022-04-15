@@ -1,4 +1,5 @@
 #include "object3D.h"
+#include "renderer.h"
 
 object3D::object3D(string p_name) {
 	name = p_name;
@@ -63,6 +64,11 @@ object3D::object3D(string p_name, int type) {
 		objectType = surfaceBezier;
 		surface.setup(200, 200, 10, 10);
 		break;
+	case 7:
+		quad = ofx::Quad();
+		objectType = quad3d;
+		quadInit();
+		break;
 	default:
 		ofLog() << "Invalid type.";
 	}
@@ -94,8 +100,6 @@ object3D::object3D(string p_name, int type) {
 
 	ofDisableArbTex();
 	//ofLoadImage(texture1, "texture/metal_rust.jpg");
-
-
 
 	isSelected = false;
 }
@@ -452,8 +456,6 @@ void object3D::draw() {
 		toggleBoundingBox = false;
 		ofPopMatrix();
 	}
-
-
 	else if (objectType == surfaceBezier) {
 		ofPushMatrix();
 		ofFill();
@@ -466,6 +468,14 @@ void object3D::draw() {
 		}
 		ofPopMatrix();
 	}
+	else if (objectType == quad3d) {
+		if (isSelected) {
+			quad.drawWireframe();
+		}
+		else {
+			quad.draw();
+		}
+	}
 
   	//texture1.unbind();
 	material1.end();
@@ -473,6 +483,28 @@ void object3D::draw() {
 
 	//shader.end();
 	//ofPopMatrix();
+}
+
+void object3D::draw(ofVec3f camPosition) {
+	material1.begin();
+	double distance = abs(camPosition.x) + abs(camPosition.y) + abs(camPosition.z);
+	int nbIteration = 0;
+	if (distance > 2000) {
+		nbIteration = 4;
+	}
+	else if (distance > 1500) {
+		nbIteration = 2;
+	}
+	else if (distance > 1000) {
+		nbIteration = 1;
+	}
+	if (isSelected) {
+		quad.subdivide(nbIteration).drawWireframe();
+	}
+	else {
+		quad.subdivide(nbIteration).draw(true);
+	}
+	material1.end();
 }
 
 void object3D::updateShader(ofLight light) {
@@ -533,4 +565,22 @@ void object3D::setSelected(bool b) {
 	else {
 		surface.removeListeners();
 	}
+}
+
+void object3D::quadInit() {
+	auto v0 = quad.addVertex({ 100.0, -100.0, 100.0 });
+	auto v1 = quad.addVertex({ 100.0, 100.0, 100.0 });
+	auto v2 = quad.addVertex({ -100.0, 100.0, 100.0 });
+	auto v3 = quad.addVertex({ -100.0, -100.0, 100.0 });
+	auto v4 = quad.addVertex({ 100.0, -100.0, -100.0 });
+	auto v5 = quad.addVertex({ -100.0, -100.0, -100.0 });
+	auto v6 = quad.addVertex({ -100.0, 100.0, -100.0 });
+	auto v7 = quad.addVertex({ 100.0, 100.0, -100.0 });
+
+	quad.addFace(v0, v1, v2, v3);
+	quad.addFace(v4, v5, v6, v7);
+	quad.addFace(v0, v4, v7, v1);
+	quad.addFace(v3, v2, v6, v5);
+	quad.addFace(v1, v7, v6, v2);
+	quad.addFace(v0, v3, v5, v4);
 }
