@@ -26,7 +26,7 @@ object3D::object3D(string p_name) {
 		"shader/blinn_phong_330_vs.glsl",
 		"shader/blinn_phong_330_fs.glsl");
 
-	shader = shader_lambert;
+
 
 }
 
@@ -90,6 +90,7 @@ object3D::object3D(string p_name, int type) {
 	shader = shader_lambert;
 	setColor(ofColor(200, 200, 200));
 	materialNumber = 1;
+
 
 	ofDisableArbTex();
 	//ofLoadImage(texture1, "texture/metal_rust.jpg");
@@ -366,10 +367,14 @@ void object3D::changeShader(string type) {
 void object3D::draw() {
 
 
-
+	//shader.begin();
 	material1.begin();
+
+	//material1.
+	
 	texture1.bind();
 
+	cout << shader_name;
 
 	if (objectType == primitive3d) {
 		primitive.draw(OF_MESH_WIREFRAME);
@@ -443,12 +448,10 @@ void object3D::draw() {
 		surface.drawWireframe();
 		
 	}
-
-  	texture1.unbind();
+  	//texture1.unbind();
 	material1.end();
-	//material1.end();
 
-	//shader.end();
+	shader.end();
 	ofPopMatrix();
 }
 

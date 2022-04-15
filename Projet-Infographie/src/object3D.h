@@ -76,6 +76,7 @@ private:
 	ofShader shader_phong;
 	ofShader shader_blinn_phong;
 	ofShader shader;
+	ofShader test;
 	ofLight light;
 	float oscillation;
 	float oscillation_frequency;
