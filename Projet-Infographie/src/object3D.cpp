@@ -380,11 +380,8 @@ void object3D::changeShader(string type) {
 
 
 void object3D::draw() {
-
-
-
 	material1.begin();
-	texture1.bind();
+	//texture1.bind();
 
 
 	if (objectType == primitive3d) {
@@ -445,6 +442,7 @@ void object3D::draw() {
 		toggleBoundingBox = false;
 	}
 	else if (objectType == cone3d) {
+		ofPushMatrix();
 		cone.draw(OF_MESH_FILL);
 		if(toggleBoundingBox == true){
 			float sizeBase = cone.getRadius() * 2 * cone.getGlobalScale().x;
@@ -452,10 +450,13 @@ void object3D::draw() {
 			ofDrawBox(cone.getPosition(), sizeBase, cone.getHeight() * cone.getGlobalScale().x, sizeBase);
 		}
 		toggleBoundingBox = false;
+		ofPopMatrix();
 	}
 
 
 	else if (objectType == surfaceBezier) {
+		ofPushMatrix();
+		ofFill();
 		if (isSelected) {
 			surface.drawControls();
 			surface.drawWireframe();
@@ -463,14 +464,15 @@ void object3D::draw() {
 		else {
 			surface.draw();
 		}
+		ofPopMatrix();
 	}
 
-  	texture1.unbind();
+  	//texture1.unbind();
 	material1.end();
 	//material1.end();
 
 	//shader.end();
-	ofPopMatrix();
+	//ofPopMatrix();
 }
 
 void object3D::updateShader(ofLight light) {

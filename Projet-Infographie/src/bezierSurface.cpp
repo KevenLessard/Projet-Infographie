@@ -233,6 +233,7 @@ void ofxBezierSurface::mousePressed(ofMouseEventArgs& mouseArgs) {
 }
 
 ofPoint ofxBezierSurface::findPoint(ofMouseEventArgs mouseArgs) {
+    ofLog() << "Souris: " << mouseArgs.x << ", " << mouseArgs.y;
     ofPoint pnt;
     float distance = 0;
     float nearest = -1;

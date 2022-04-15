@@ -68,7 +68,6 @@ private:
 	ofConePrimitive cone;
 	ofxBezierSurface surface;
 
-
 	string shader_name;
 	ofShader shader_color_fill;
 	ofShader shader_lambert;
