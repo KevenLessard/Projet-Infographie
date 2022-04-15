@@ -19,6 +19,9 @@
     <ClCompile Include="src\object3D.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\Quad.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
     <ClCompile Include="src\renderer.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -72,9 +75,6 @@
     </ClCompile>
     <ClCompile Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS.cpp">
       <Filter>addons\ofxVectorGraphics\libs</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Quad.cpp">
-      <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +138,9 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\object3D.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Quad.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer.h">
@@ -328,9 +331,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS_Types.hpp">
       <Filter>addons\ofxVectorGraphics\libs</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Quad.h">
-      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

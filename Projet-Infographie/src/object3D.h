@@ -41,6 +41,7 @@ public:
 	//Materiel test
 
 	void updateMaterial();
+	void setMaterial(int material);
 
 	void toggleRotation();
 	void draw();
@@ -51,6 +52,32 @@ public:
 	float oscillate(float time, float frequency, float amplitude);
 	void setSelected(bool b);
 	bool getSelected();
+
+	//PBR
+	ofColor material_color_ambient;
+	ofColor material_color_diffuse;
+	ofColor material_color_specular;
+
+	float material_metallic;
+	float material_roughness;
+	float material_occlusion;
+	float material_brightness;
+
+	glm::vec3 material_fresnel_ior;
+
+	ofImage texture_diffuse;
+	ofImage texture_metallic;
+	ofImage texture_roughness;
+	ofImage texture_occlusion;
+
+	ofLight light;
+	ofColor light_color;
+	float light_intensity;
+	bool light_motion;
+
+	float tone_mapping_exposure;
+	float tone_mapping_gamma;
+	bool tone_mapping_toggle;
 
 private:
 	string name;
@@ -85,16 +112,14 @@ private:
 	float oscillation_amplitude;
 
 	ofMaterial material1;
-	ofMaterial material2;
-	ofMaterial material3;
-	ofMaterial material4;
-	int materialNumber;
+	int materialSelected;
 
 	ofTexture texture1;
 	ofPoint points[4];
 	int cornerIndex = 0;
 	bool textureOn;
 	bool isSelected;
+
 
 	void quadInit();
 	ofEasyCam cam;

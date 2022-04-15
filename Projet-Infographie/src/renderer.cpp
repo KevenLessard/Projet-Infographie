@@ -118,16 +118,16 @@ void Renderer::update()
     }
     
     //Code pour envoyer lumière sur shader
-    //light.setPointLight();
-    //light.setDiffuseColor(255);
-    //light.setGlobalPosition(center_x, center_y, 255.0f);
-    //
-    //
-    //if (isMode3D) {
-    //    for (object3D* object : objects3d) {
-    //        object->updateShader(light);
-    //    }
-    //}
+    light.setPointLight();
+    light.setDiffuseColor(200);
+    light.setGlobalPosition(center_x, center_y, 255.0f);
+    
+    
+    if (isMode3D) {
+        for (object3D* object : objects3d) {
+            object->updateShader(light);
+        }
+    }
 
 }
 

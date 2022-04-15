@@ -72,8 +72,8 @@ object3D::object3D(string p_name, int type) {
 	default:
 		ofLog() << "Invalid type.";
 	}
+
 	//Chargement du shader
-		//Chargement du shader
 	shader_color_fill.load(
 		"shader/color_fill_330_vs.glsl",
 		"shader/color_fill_330_fs.glsl");
@@ -96,7 +96,6 @@ object3D::object3D(string p_name, int type) {
 
 	shader = shader_lambert;
 	setColor(ofColor(200, 200, 200));
-	materialNumber = 1;
 
 	ofDisableArbTex();
 	//ofLoadImage(texture1, "texture/metal_rust.jpg");
@@ -137,8 +136,7 @@ object3D::object3D(string p_name, string fileName) {
 
 
 	setColor(ofColor(200, 200, 200));
-	materialNumber = 1;
-
+	materialSelected = 3;
 	isSelected = false;
 }
 
@@ -384,8 +382,9 @@ void object3D::changeShader(string type) {
 
 
 void object3D::draw() {
-	material1.begin();
+	//material1.begin();
 	//texture1.bind();
+	shader.begin();
 
 
 	if (objectType == primitive3d) {
@@ -478,10 +477,9 @@ void object3D::draw() {
 	}
 
   	//texture1.unbind();
-	material1.end();
 	//material1.end();
 
-	//shader.end();
+	shader.end();
 	//ofPopMatrix();
 }
 
@@ -520,6 +518,38 @@ void object3D::updateShader(ofLight light) {
 		shader.setUniform3f("color", color.r / 255.0f, color.g / 255.0f, color.b / 255.0f);
 		shader.end();
 	}
+
+	else if (shader_name == "PBR") {
+		shader.begin();
+
+		shader.setUniform3f("material_color_ambient", 63.0f, 63.0f, 63.0f);
+		shader.setUniform3f("material_color_diffuse", 255.0f, 255.0f,255.0f);
+		shader.setUniform3f("material_color_specular", 255.0f, 255.0f, 255.0f);
+
+		shader.setUniform1f("material_brightness", 1.0f);
+		shader.setUniform1f("material_metallic", material_metallic);
+		shader.setUniform1f("material_roughness", material_roughness);
+		shader.setUniform1f("material_occlusion", 1.0f);
+
+		shader.setUniform3f("material_fresnel_ior", 0.04f, 0.04f, 0.04f);
+
+		shader.setUniformTexture("texture_diffuse", texture_diffuse.getTexture(), 1);
+		shader.setUniformTexture("texture_metallic", texture_metallic.getTexture(), 2);
+		shader.setUniformTexture("texture_roughness", texture_roughness.getTexture(), 3);
+		shader.setUniformTexture("texture_occlusion", texture_occlusion.getTexture(), 4);
+
+		shader.setUniform1f("light_intensity", 1.0f);
+		shader.setUniform3f("light_color", 255.0f, 255.0f, 255.0f);
+		shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
+
+		shader.setUniform1f("tone_mapping_exposure", 1.0f);
+		shader.setUniform1f("tone_mapping_gamma", 2.2f);
+		shader.setUniform1i("tone_mapping_toggle", 1);
+
+		shader.end();
+	}
+
+
 	else {
 		shader.begin();
 		shader.setUniform3f("color_ambient", 0.1f, 0.1f, 0.1f);
@@ -531,14 +561,60 @@ void object3D::updateShader(ofLight light) {
 	}
 }
 
+void object3D::setMaterial(int material) {
+	// 1 = Basique et couleur modifiable
+	// 2 = Obsidian
+	// 3 = Bronze
+	// 4 = Gold
+	// 5 = Silver
+	materialSelected = material;
+}
+
 void object3D::updateMaterial() {
 
+	//Materiel basic avec couleur modifiable
+	if (materialSelected == 1) {
 		material1.setAmbientColor(ofColor(63, 63, 63));
 		material1.setDiffuseColor(ofColor(200, 200, 200));
 		material1.setEmissiveColor(ofColor(color.r, color.g, color.b));
 		material1.setSpecularColor(ofColor(127, 127, 127));
 		material1.setShininess(16.0f);
+	}
 
+	//Obsidian
+	if (materialSelected == 2) {
+		material1.setAmbientColor(ofFloatColor(0.05375, 0.05, 0.06625));
+		material1.setDiffuseColor(ofFloatColor(0.18275, 0.17, 0.22525));
+		material1.setSpecularColor(ofFloatColor(0.332741, 0.328634, 0.346435));
+		material1.setEmissiveColor(ofFloatColor(0.01, 0.01, 0));
+		material1.setShininess(30.0f);
+	}
+	//Bronze
+	if (materialSelected == 3) {
+		material1.setAmbientColor(ofFloatColor(0.2125, 0.1275, 0.054));
+		material1.setDiffuseColor(ofFloatColor(0.714, 0.4284, 0.18144));
+		material1.setSpecularColor(ofFloatColor(0.393548, 0.271906, 0.166721));
+		material1.setEmissiveColor(ofFloatColor(0.1, 0, 0));
+		material1.setShininess(20.0f);
+	}
+
+	//Gold
+	if (materialSelected == 4) {
+		material1.setAmbientColor(ofFloatColor(0.24725, 0.1995, 0.0745));
+		material1.setDiffuseColor(ofFloatColor(0.75164, 0.60648, 0.22648));
+		material1.setSpecularColor(ofFloatColor(0.628281, 0.555802, 0.366065));
+		material1.setEmissiveColor(ofFloatColor(0.1, 0.05, 0));
+		material1.setShininess(40.0f);
+	}
+
+	//Silver
+	if (materialSelected == 5) {
+		material1.setAmbientColor(ofFloatColor(0.19225, 0.19225, 0.19225));
+		material1.setDiffuseColor(ofFloatColor(0.50754, 0.50754, 0.50754));
+		material1.setSpecularColor(ofFloatColor(0.508273, 0.508273, 0.508273));
+		material1.setEmissiveColor(ofFloatColor(0.1, 0.1, 0.1));
+		material1.setShininess(40.0f);
+	}
 
 
 }
