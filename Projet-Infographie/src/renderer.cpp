@@ -47,7 +47,7 @@ void Renderer::setup()
         }
 
         lutImage.allocate(1024, 768, OF_IMAGE_COLOR);
-        ScreenGrabber.allocate(1024, 768, OF_IMAGE_COLOR);
+        //ScreenGrabber.allocate(1024, 768, OF_IMAGE_COLOR);
         //ofBackground(0);
 
         
@@ -276,30 +276,33 @@ void Renderer::draw()
         for (object3D* object : objects3d) {
             ofPushMatrix();
             object->draw();
+            if (doLUT) {
+                //grabScreen.draw(ofGetWindowWidth() - 100, ofGetWindowHeight() - 100);
+                applyLut(lutImage);
+                lutImage.draw(lutPos.x, lutPos.y);
+
+                
+                ofDrawBitmapString(dir.getName(dirLoadIndex), lutPos.x + 500, -lutPos.y + 50);
+                
+            }
             ofPopMatrix();
         }
-        if (doLUT) {
-            ScreenGrabber.begin();
-            ScreenGrabber.clear();
-            lutImage.draw(lutPos.x, lutPos.y);
-            grabScreen.draw(ofGetWindowWidth()-100, ofGetWindowHeight()-100);
-            ScreenGrabber.end();
-            ofDrawBitmapString(dir.getName(dirLoadIndex), lutPos.x, -lutPos.y + 50);
-            ScreenGrabber.draw(0, 0);
-        }
+    }
+        
         else {
             for (Object2D* object : objects2D) {
                 ofPushMatrix();
                 ofFill();
                 object->draw();
+                if (doLUT) {
+
+                    lutImage.draw(lutPos.x, lutPos.y);
+                    //grabScreen.draw(ofGetWindowWidth() - 100, ofGetWindowHeight() - 100);
+                    ofDrawBitmapString(dir.getName(dirLoadIndex), lutPos.x, -lutPos.y + 50);
+                }
                 ofPopMatrix();
             }
-            if (doLUT) {
-
-                lutImage.draw(lutPos.x, lutPos.y);
-                grabScreen.draw(ofGetWindowWidth()-100, ofGetWindowHeight()-100);
-                ofDrawBitmapString(dir.getName(dirLoadIndex), lutPos.x, -lutPos.y + 50);
-            }
+           
         }
 
         ofDisableLighting();
@@ -324,8 +327,7 @@ void Renderer::draw()
         if (magnifyingGlassEnabled)
             draw_MagnifyingGlass(mouse_current_x, mouse_current_y);
 
-    }
-}
+};
 
 //Ajout d'un cercle au vecteur 2D
 void Renderer::addNewCircle(string name) {
@@ -795,6 +797,7 @@ void Renderer::loadLut(string path)
             }
         }
     }
+    ofLog() << "Lut loaded";
 
     LUTLoaded = true;
 

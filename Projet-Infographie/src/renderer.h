@@ -173,7 +173,7 @@ public:
 
 	bool doLUT;
 	ofImage grabScreen;
-	ofFbo ScreenGrabber;
+	//ofFbo ScreenGrabber;
 	int dirLoadIndex;
 	ofDirectory dir;
 	glm::vec3 lutPos;
