@@ -185,6 +185,7 @@
     <ClCompile Include="src\object2D.cpp" />
     <ClCompile Include="src\object3D.cpp" />
     <ClCompile Include="src\renderer.cpp" />
+    <ClCompile Include="src\Skybox.cpp" />
     <ClCompile Include="src\sphere.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.cpp" />
@@ -200,8 +201,6 @@
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxSlider.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxSliderGroup.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxGui\src\ofxToggle.cpp" />
-    <ClCompile Include="..\..\..\..\addons\ofxSkyBox\src\ofxCubeMap.cpp" />
-    <ClCompile Include="..\..\..\..\addons\ofxSkyBox\src\ofxSkyBox.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxVectorGraphics\src\ofxVectorGraphics.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS.cpp" />
   </ItemGroup>
@@ -210,6 +209,7 @@
     <ClInclude Include="src\object2D.h" />
     <ClInclude Include="src\object3D.h" />
     <ClInclude Include="src\renderer.h" />
+    <ClInclude Include="src\Skybox.h" />
     <ClInclude Include="src\sphere.h" />
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h" />
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.h" />
@@ -269,8 +269,6 @@
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxSlider.h" />
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxSliderGroup.h" />
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxToggle.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxSkyBox\src\ofxCubeMap.h" />
-    <ClInclude Include="..\..\..\..\addons\ofxSkyBox\src\ofxSkyBox.h" />
     <ClInclude Include="..\..\..\..\addons\ofxVectorGraphics\src\ofxVectorGraphics.h" />
     <ClInclude Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS.hpp" />
     <ClInclude Include="..\..\..\..\addons\ofxVectorGraphics\libs\CreEPS_Types.hpp" />

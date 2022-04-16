@@ -5,7 +5,8 @@
 #include "object3D.h"
 #include "object2D.h"
 #include "sphere.h"
-#include "ofxSkyBox.h"
+#include "SkyBox.h"
+#include "ofxCubeMap.h"
 
 #include "ofxVectorGraphics.h"
 
@@ -141,8 +142,8 @@ public:
 	ofParameter<ofColor> color_picker;
 	ofLight light;
 
-	ofxSkyBox skybox;
-	ofVec3f sphereCenter;
+	Skybox skybox;
+	
 
 
 
