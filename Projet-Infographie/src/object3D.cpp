@@ -111,30 +111,6 @@ object3D::object3D(string p_name, int type) {
 	texture_roughness.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	texture_occlusion.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 
-	// paramètres du matériau
-	material_color_ambient = ofColor(63, 63, 63);
-	material_color_diffuse = ofColor(255, 255, 255);
-	material_color_specular = ofColor(255, 255, 255);
-
-	material_metallic = 0.5f;
-	material_roughness = 0.5f;
-	material_occlusion = 1.0f;
-	material_brightness = 1.0f;
-
-	material_fresnel_ior = glm::vec3(0.04f, 0.04f, 0.04f);
-
-	// paramètres de la lumière
-	light_color = ofColor(255, 255, 255);
-	light_intensity = 1.0f;
-	light_motion = true;
-
-	// paramètres de mappage tonal
-	tone_mapping_exposure = 1.0f;
-	tone_mapping_toggle = true;
-	tone_mapping_gamma = 2.2f;
-
-	shader_name = "pbr";
-
 	setColor(ofColor(200, 200, 200));
 
 	ofDisableArbTex();
@@ -192,31 +168,7 @@ object3D::object3D(string p_name, string fileName) {
 	texture_roughness.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	texture_occlusion.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 
-	// paramètres du matériau
-	material_color_ambient = ofColor(63, 63, 63);
-	material_color_diffuse = ofColor(255, 255, 255);
-	material_color_specular = ofColor(255, 255, 255);
-
-	material_metallic = 0.5f;
-	material_roughness = 0.5f;
-	material_occlusion = 1.0f;
-	material_brightness = 1.0f;
-
-	material_fresnel_ior = glm::vec3(0.04f, 0.04f, 0.04f);
-
-	// paramètres de la lumière
-	light_color = ofColor(255, 255, 255);
-	light_intensity = 1.0f;
-	light_motion = true;
-
-	// paramètres de mappage tonal
-	tone_mapping_exposure = 1.0f;
-	tone_mapping_toggle = true;
-
-	shader_name = "pbr";
-
 	setColor(ofColor(200, 200, 200));
-	materialSelected = 3;
 	isSelected = false;
 
 }
@@ -458,16 +410,43 @@ void object3D::changeShader(string type) {
 	if (type == "blinn_phong") {
 		shader = shader_blinn_phong;
 	}
+
+	shaderOnMaterialOff = 1;
+
+	//Shader pbr à son shader à part shader_pbr
+
 	shader_name = type;
 }
 
 
-void object3D::draw() {
-	//material1.begin();
-	//texture1.bind();
-	//shader.begin();
+//Bonne chance que j'utilise pas-------------------------------------------------------------------------------------------------------
+void object3D::switchMaterialShader(string type) {
+	if (type == "shader") {
+		shaderOnMaterialOff = 1;
+	}
 
-	shader_pbr.begin();
+	if (type == "material") {
+		shaderOnMaterialOff = 0;
+	}
+}
+
+
+void object3D::draw() {
+	if (shaderOnMaterialOff)
+	{
+		if (shader_name == "pbr")
+		{
+			shader_pbr.begin();
+		}
+		else {
+			shader.begin();
+		}
+	}
+	if (shaderOnMaterialOff == false) {
+		material1.begin();
+		//texture1.bind();
+	}
+
 
 	ofPushMatrix();
 	if (objectType == primitive3d) {
@@ -559,11 +538,11 @@ void object3D::draw() {
 		}
 	}
 	ofPopMatrix();
-  	//texture1.unbind();
-	//material1.end();
+  	texture1.unbind();
+	material1.end();
 	shader_pbr.end();
-	//shader.end();
-	//ofPopMatrix();
+	shader.end();
+	
 }
 
 void object3D::draw(ofVec3f camPosition) {
@@ -602,6 +581,17 @@ void object3D::updateShader(ofLight light) {
 	}
 
 	else if (shader_name == "pbr") {
+		//Doit créer setter
+		material_metallic = 0.5f;
+		material_roughness = 0.5f;
+		//-----------------
+
+		material_color_ambient = ofColor(63, 63, 63);
+		material_color_diffuse = ofColor(255, 255, 255);
+		material_color_specular = ofColor(255, 255, 255);
+		light_color = ofColor(255, 255, 255);
+		light_motion = true;//Pas sûr que c'est obligatoire
+		tone_mapping_toggle = true;//Pas sûr lui aussi
 
 		// passer les attributs uniformes au shader de sommets
 		shader_pbr.begin();
@@ -610,23 +600,23 @@ void object3D::updateShader(ofLight light) {
 		shader_pbr.setUniform3f("material_color_diffuse", material_color_diffuse.r / 255.0f, material_color_diffuse.g / 255.0f, material_color_diffuse.b / 255.0f);
 		shader_pbr.setUniform3f("material_color_specular", material_color_specular.r / 255.0f, material_color_specular.g / 255.0f, material_color_specular.b / 255.0f);
 
-		shader_pbr.setUniform1f("material_brightness", material_brightness);
+		shader_pbr.setUniform1f("material_brightness", 1.0f);
 		shader_pbr.setUniform1f("material_metallic", material_metallic);
 		shader_pbr.setUniform1f("material_roughness", material_roughness);
-		shader_pbr.setUniform1f("material_occlusion", material_occlusion);
+		shader_pbr.setUniform1f("material_occlusion", 1.0f);
 
-		shader_pbr.setUniform3f("material_fresnel_ior", material_fresnel_ior);
+		shader_pbr.setUniform3f("material_fresnel_ior", glm::vec3(0.04f, 0.04f, 0.04f));
 
 		shader_pbr.setUniformTexture("texture_diffuse", texture_diffuse.getTexture(), 1);
 		shader_pbr.setUniformTexture("texture_metallic", texture_metallic.getTexture(), 2);
 		shader_pbr.setUniformTexture("texture_roughness", texture_roughness.getTexture(), 3);
 		shader_pbr.setUniformTexture("texture_occlusion", texture_occlusion.getTexture(), 4);
 
-		shader_pbr.setUniform1f("light_intensity", light_intensity);
+		shader_pbr.setUniform1f("light_intensity", 1.0f);
 		shader_pbr.setUniform3f("light_color", light_color.r / 255.0f, light_color.g / 255.0f, light_color.b / 255.0f);
 		shader_pbr.setUniform3f("light_position", light.getGlobalPosition());
 
-		shader_pbr.setUniform1f("tone_mapping_exposure", tone_mapping_exposure);
+		shader_pbr.setUniform1f("tone_mapping_exposure", 1.0f);
 		shader_pbr.setUniform1f("tone_mapping_gamma", 2.2f);
 		//shader_pbr.setUniform1f("tone_mapping_gamma", tone_mapping_gamma);
 		shader_pbr.setUniform1i("tone_mapping_toggle", tone_mapping_toggle);
@@ -647,19 +637,21 @@ void object3D::updateShader(ofLight light) {
 	}
 }
 
-void object3D::setMaterial(int material) {
-	// 1 = Basique et couleur modifiable
-	// 2 = Obsidian
-	// 3 = Bronze
-	// 4 = Gold
-	// 5 = Silver
+void object3D::setMaterial(string material) {
+	//basic (couleur modifiable)
+	//obsidian
+	//bronze
+	//gold
+	//silver
 	materialSelected = material;
+
+	shaderOnMaterialOff = 0;
 }
 
 void object3D::updateMaterial() {
 
 	//Materiel basic avec couleur modifiable
-	if (materialSelected == 1) {
+	if (materialSelected == "basic") {
 		material1.setAmbientColor(ofColor(63, 63, 63));
 		material1.setDiffuseColor(ofColor(200, 200, 200));
 		material1.setEmissiveColor(ofColor(color.r, color.g, color.b));
@@ -668,7 +660,7 @@ void object3D::updateMaterial() {
 	}
 
 	//Obsidian
-	if (materialSelected == 2) {
+	if (materialSelected == "obsidian") {
 		material1.setAmbientColor(ofFloatColor(0.05375, 0.05, 0.06625));
 		material1.setDiffuseColor(ofFloatColor(0.18275, 0.17, 0.22525));
 		material1.setSpecularColor(ofFloatColor(0.332741, 0.328634, 0.346435));
@@ -676,7 +668,7 @@ void object3D::updateMaterial() {
 		material1.setShininess(30.0f);
 	}
 	//Bronze
-	if (materialSelected == 3) {
+	if (materialSelected == "bronze") {
 		material1.setAmbientColor(ofFloatColor(0.2125, 0.1275, 0.054));
 		material1.setDiffuseColor(ofFloatColor(0.714, 0.4284, 0.18144));
 		material1.setSpecularColor(ofFloatColor(0.393548, 0.271906, 0.166721));
@@ -685,7 +677,7 @@ void object3D::updateMaterial() {
 	}
 
 	//Gold
-	if (materialSelected == 4) {
+	if (materialSelected == "gold") {
 		material1.setAmbientColor(ofFloatColor(0.24725, 0.1995, 0.0745));
 		material1.setDiffuseColor(ofFloatColor(0.75164, 0.60648, 0.22648));
 		material1.setSpecularColor(ofFloatColor(0.628281, 0.555802, 0.366065));
@@ -694,7 +686,7 @@ void object3D::updateMaterial() {
 	}
 
 	//Silver
-	if (materialSelected == 5) {
+	if (materialSelected == "silver") {
 		material1.setAmbientColor(ofFloatColor(0.19225, 0.19225, 0.19225));
 		material1.setDiffuseColor(ofFloatColor(0.50754, 0.50754, 0.50754));
 		material1.setSpecularColor(ofFloatColor(0.508273, 0.508273, 0.508273));

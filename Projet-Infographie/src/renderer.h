@@ -104,6 +104,7 @@ public:
 	void setObjectColor(int index, ofColor newColor);
 
 
+
 	string getObject3dName(int index);
 	string getObject2dName(int index);
 	void setAnimation(int index);
@@ -113,6 +114,8 @@ public:
 	void lightingOn();
 	void lightingOff();
 	void setTexture(int index);
+	void shaderActive(int index, string type);
+	void setMaterial(int index, string material);
 
 	//2D
 
@@ -126,9 +129,8 @@ public:
 	void addNewCurve(string name, int type);
 	void moveCurve(int index, int pointIndex, ofVec3f newPosition);
 
-	void shaderActive(int index, string type);
-	void addNewImage(string name, string keypressed);
 
+	void addNewImage(string name, string keypressed);
 	bool squareDraw = false;
 	bool circleDraw = false;
 	bool RectangleDraw = false;

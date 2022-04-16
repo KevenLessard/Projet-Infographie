@@ -37,11 +37,12 @@ public:
 	void setAnimation();
 	void setTexture(ofFileDialogResult openFileResult);
 	void updateShader(ofLight light);
+	void switchMaterialShader(string type);
 
 	//Materiel test
 
 	void updateMaterial();
-	void setMaterial(int material);
+	void setMaterial(string material);
 
 	void toggleRotation();
 	void draw();
@@ -114,13 +115,14 @@ private:
 	float oscillation_amplitude;
 
 	ofMaterial material1;
-	int materialSelected;
+	string materialSelected;
 
 	ofTexture texture1;
 	ofPoint points[4];
 	int cornerIndex = 0;
 	bool textureOn;
 	bool isSelected;
+	bool shaderOnMaterialOff;
 
 
 	void quadInit();

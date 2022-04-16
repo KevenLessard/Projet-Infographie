@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "ofMain.h"
 #include "ofxGui.h"
@@ -37,11 +37,27 @@ class ofApp : public ofBaseApp {
 	ofxButton newSurfaceButton;
 	ofxButton newQuadButton;
 
-	//Lumi�res
+	//Lumières
 	ofxButton newLight1;
 	ofxButton newLight2;
 	ofxButton newLight3;
 	ofxButton newLight4;
+
+	//Matériaux(Classique)
+	ofxButton basicMaterialButton;
+	ofxButton obsidianMaterialButton;
+	ofxButton bronzeMaterialButton;
+	ofxButton goldMaterialButton;
+	ofxButton silverMaterialButton;
+
+	//Matériaux(Shader Illumination)
+	ofxButton color_pĥillButton;
+	ofxButton lambertButton;
+	ofxButton phongButton;
+	ofxButton blinn_phongButton;
+	//Matériaux(PBR)
+	ofxButton pbrButton;
+
 
 	//___________________________
 

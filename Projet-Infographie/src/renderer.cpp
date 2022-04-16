@@ -682,6 +682,10 @@ void Renderer::shaderActive(int index, string type) {
     objects3d[index]->changeShader(type);
 }
 
+void Renderer::setMaterial(int index, string type) {
+    objects3d[index]->setMaterial(type);
+}
+
 void Renderer::addNewLight(int light) {
     if (light == 1 && light_ambientOn == true) {
         light_ambientOn = false;
