@@ -6,6 +6,7 @@
 class ofxBezierSurface {
 public:
     ofxBezierSurface() {};
+    ofxBezierSurface(ofEasyCam* p_cam);
     void setup(int w, int h, int dim, int res);
     void update();
     void draw();
@@ -58,4 +59,5 @@ private:
     bool left;
     bool right;
     bool found;
+    ofEasyCam* cam;
 };

@@ -30,6 +30,7 @@ object3D::object3D(string p_name) {
 	shader = shader_lambert;
 
 	isSelected = false;
+
 }
 
 object3D::object3D(string p_name, int type) {
@@ -58,11 +59,6 @@ object3D::object3D(string p_name, int type) {
 	case 5:
 		cone = ofConePrimitive();
 		objectType = cone3d;
-		break;
-	case 6:
-		surface = ofxBezierSurface();
-		objectType = surfaceBezier;
-		surface.setup(200, 200, 10, 10);
 		break;
 	case 7:
 		quad = ofx::Quad();
@@ -106,6 +102,22 @@ object3D::object3D(string p_name, int type) {
 	ofDisableArbTex();
 	//ofLoadImage(texture1, "texture/metal_rust.jpg");
 
+	isSelected = false;
+}
+
+object3D::object3D(string p_name, int type, ofEasyCam *p_cam) {
+	name = p_name;
+	if (type == 8) {
+		delaunay = ofxDelaunay();
+		objectType = delaunayTriangle;
+		ofAddListener(ofEvents().mouseReleased, this, &object3D::mouseReleased);
+		cam = p_cam;
+	}
+	else if (type == 6) {
+		surface = ofxBezierSurface(p_cam);
+		objectType = surfaceBezier;
+		surface.setup(200, 200, 10, 10);
+	}
 	isSelected = false;
 }
 
@@ -482,7 +494,14 @@ void object3D::draw() {
 		}
 	}
 	else if (objectType == delaunayTriangle) {
-		delaunay.draw();
+		if (isSelected) {
+			ofNoFill();
+			delaunay.draw();
+			ofFill();
+		}
+		else {
+			delaunay.draw();
+		}
 	}
 
   	//texture1.unbind();
@@ -543,15 +562,11 @@ void object3D::updateShader(ofLight light) {
 }
 
 void object3D::updateMaterial() {
-
 		material1.setAmbientColor(ofColor(63, 63, 63));
 		material1.setDiffuseColor(ofColor(200, 200, 200));
 		material1.setEmissiveColor(ofColor(color.r, color.g, color.b));
 		material1.setSpecularColor(ofColor(127, 127, 127));
 		material1.setShininess(16.0f);
-
-
-
 }
 
 void object3D::setTexture(ofFileDialogResult openFileResult) {
@@ -598,7 +613,9 @@ void object3D::quadInit() {
 
 void object3D::mouseReleased(ofMouseEventArgs& mouseArgs) {
 	if (isSelected) {
-		delaunay.addPoint(ofPoint(mouseArgs.x, mouseArgs.y));
+		ofPoint point(mouseArgs.x, mouseArgs.y);
+		ofPoint actualPoint = cam->screenToWorld(point);
+		delaunay.addPoint(actualPoint);
 		delaunay.triangulate();
 	}
 }

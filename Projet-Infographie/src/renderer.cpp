@@ -128,7 +128,6 @@ void Renderer::update()
     //        object->updateShader(light);
     //    }
     //}
-
 }
 
 // fonction de dessin du curseur
@@ -479,7 +478,7 @@ void Renderer::addNewSurface(string name) {
     if (name == "") {
         name = "Surface " + to_string(objects3d.size());
     }
-    object3D* surface = new object3D(name, 6);
+    object3D* surface = new object3D(name, 6, &mainCamera);
     objects3d.push_back(surface);
 }
 
@@ -501,7 +500,7 @@ void Renderer::addNewDelauney(string name) {
     if (name == "") {
         name = "Delaunay " + to_string(objects3d.size());
     }
-    object3D* delaunay = new object3D(name, 8);
+    object3D* delaunay = new object3D(name, 8, &mainCamera);
     objects3d.push_back(delaunay);
 }
 

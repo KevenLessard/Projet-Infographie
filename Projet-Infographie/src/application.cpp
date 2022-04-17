@@ -860,12 +860,9 @@ void ofApp::toggleListener(bool& value) {
 			colorPicker = color;
 		}
 		else {
-			ofLog() << "Test 2D";
 			if (renderer.objects2D[selectedObjects[0]]->isCurve) {
-				ofLog() << "Test curveSelected";
 ;				vector<ofVec2f> points(renderer.objects2D[selectedObjects[0]]->getPoints());
 				for (int i = 1; i < 8; i++) {
-					ofLog() << points[i - 1];
 					string name = "Control point " + ofToString(i);
 					controlPoints[i - 1]->setup(name, points[i-1], ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
 				}

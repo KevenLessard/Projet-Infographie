@@ -17,6 +17,7 @@ class object3D
 public:
 	object3D(string name);
 	object3D(string name, int type);
+	object3D(string name, int type, ofEasyCam *p_cam);
 	object3D(string name, string fileName);
 
 	ObjectType objectType;
@@ -101,6 +102,6 @@ private:
 	bool isSelected;
 
 	void quadInit();
-	ofEasyCam cam;
+	ofEasyCam * cam;
 };
 

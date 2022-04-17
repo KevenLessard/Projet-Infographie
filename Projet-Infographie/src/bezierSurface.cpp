@@ -1,5 +1,9 @@
 #include "bezierSurface.h"
 
+ofxBezierSurface::ofxBezierSurface(ofEasyCam* p_cam) {
+    cam = p_cam;
+}
+
 void ofxBezierSurface::setup(int w, int h, int dim, int res) {
     width = w;
     height = h;
@@ -229,17 +233,18 @@ void ofxBezierSurface::mousePressed(ofMouseEventArgs& mouseArgs) {
     if (missing)
         selectedPnts.push_back(tmp);
 
-    lastMouse = ofPoint(mouseArgs.x, mouseArgs.y);
+    lastMouse = cam->screenToWorld(ofPoint(mouseArgs.x, mouseArgs.y));
 }
 
 ofPoint ofxBezierSurface::findPoint(ofMouseEventArgs mouseArgs) {
-    ofPoint pnt;
+    ofPoint mousePoint = cam->screenToWorld(ofPoint(mouseArgs.x, mouseArgs.y));
+    ofPoint pnt = mousePoint;
     float distance = 0;
     float nearest = -1;
 
     for (int i = 0; i <= cx; i++) {
         for (int j = 0; j <= cy; j++) {
-            distance = ofDist(inp[i][j].x, inp[i][j].y, mouseArgs.x, mouseArgs.y);
+            distance = ofDist(inp[i][j].x, inp[i][j].y, mousePoint.x, mousePoint.y);
             if (nearest == -1)
                 nearest = distance;
             if (distance < nearest) {
@@ -253,7 +258,7 @@ ofPoint ofxBezierSurface::findPoint(ofMouseEventArgs mouseArgs) {
 
 void ofxBezierSurface::mouseDragged(ofMouseEventArgs& mouseArgs) {
     if (selectedPnts.size() > 0) {
-        ofPoint mouse = ofPoint(mouseArgs.x, mouseArgs.y);
+        ofPoint mouse = cam->screenToWorld(ofPoint(mouseArgs.x, mouseArgs.y));
         ofPoint d = ofPoint(mouse.x - lastMouse.x, mouse.y - lastMouse.y);
         for (int i = 0; i < selectedPnts.size(); i++) {
             inp[selectedPnts[i].x][selectedPnts[i].y].x += d.x;
