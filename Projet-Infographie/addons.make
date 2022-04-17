@@ -1,3 +1,4 @@
 ofxAssimpModelLoader
+ofxDelaunay
 ofxGui
 ofxVectorGraphics

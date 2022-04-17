@@ -48,6 +48,7 @@ void ofApp::setup(){
 	guiObjects3D.add(newWolfButton.setup("Animated Wolf"));
 	guiObjects3D.add(newSurfaceButton.setup("Bezier surface"));
 	guiObjects3D.add(newQuadButton.setup("Quad"));
+	guiObjects3D.add(newDelaunayButton.setup("Delaunay"));
 	guiObjects3D.add(deleteButton.setup("Delete object"));
 
 	newObjectName.set("Name: ", "");
@@ -62,6 +63,7 @@ void ofApp::setup(){
 	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
 	newSurfaceButton.addListener(this, &ofApp::addBezierSurface);
 	newQuadButton.addListener(this, &ofApp::addQuad);
+	newDelaunayButton.addListener(this, &ofApp::addDelaunay);
 	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
@@ -249,7 +251,6 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	renderer.draw();
-
 	exportImage();
 
 	if (mode3D==true) {
@@ -803,6 +804,12 @@ void ofApp::addBezierSurface() {
 
 void ofApp::addQuad() {
 	renderer.addNewQuad(newObjectName);
+	newToggleObject();
+	newObjectName.set("");
+}
+
+void ofApp::addDelaunay() {
+	renderer.addNewDelauney(newObjectName);
 	newToggleObject();
 	newObjectName.set("");
 }

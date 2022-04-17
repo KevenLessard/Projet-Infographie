@@ -494,6 +494,17 @@ void Renderer::addNewQuad(string name) {
     objects3d.push_back(quad);
 }
 
+void Renderer::addNewDelauney(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Delaunay " + to_string(objects3d.size());
+    }
+    object3D* delaunay = new object3D(name, 8);
+    objects3d.push_back(delaunay);
+}
+
 
 void Renderer::import3dModel(std::string file_name) {
     string name = file_name + to_string(objects3d.size());

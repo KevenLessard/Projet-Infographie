@@ -69,6 +69,11 @@ object3D::object3D(string p_name, int type) {
 		objectType = quad3d;
 		quadInit();
 		break;
+	case 8:
+		delaunay = ofxDelaunay();
+		objectType = delaunayTriangle;
+		ofAddListener(ofEvents().mouseReleased, this, &object3D::mouseReleased);
+		break;
 	default:
 		ofLog() << "Invalid type.";
 	}
@@ -476,6 +481,9 @@ void object3D::draw() {
 			quad.draw();
 		}
 	}
+	else if (objectType == delaunayTriangle) {
+		delaunay.draw();
+	}
 
   	//texture1.unbind();
 	material1.end();
@@ -490,19 +498,22 @@ void object3D::draw(ofVec3f camPosition) {
 	double distance = abs(camPosition.x) + abs(camPosition.y) + abs(camPosition.z);
 	int nbIteration = 0;
 	if (distance > 2000) {
-		nbIteration = 4;
+		nbIteration = 0;
 	}
 	else if (distance > 1500) {
-		nbIteration = 2;
+		nbIteration = 1;
 	}
 	else if (distance > 1000) {
-		nbIteration = 1;
+		nbIteration = 2;
+	}
+	else if (distance <= 1000) {
+		nbIteration = 4;
 	}
 	if (isSelected) {
 		quad.subdivide(nbIteration).drawWireframe();
 	}
 	else {
-		quad.subdivide(nbIteration).draw(true);
+		quad.subdivide(nbIteration).draw();
 	}
 	material1.end();
 }
@@ -583,4 +594,11 @@ void object3D::quadInit() {
 	quad.addFace(v3, v2, v6, v5);
 	quad.addFace(v1, v7, v6, v2);
 	quad.addFace(v0, v3, v5, v4);
+}
+
+void object3D::mouseReleased(ofMouseEventArgs& mouseArgs) {
+	if (isSelected) {
+		delaunay.addPoint(ofPoint(mouseArgs.x, mouseArgs.y));
+		delaunay.triangulate();
+	}
 }
