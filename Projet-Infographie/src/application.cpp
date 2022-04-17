@@ -48,6 +48,7 @@ void ofApp::setup(){
 	guiObjects3D.add(newWolfButton.setup("Animated Wolf"));
 	guiObjects3D.add(newSurfaceButton.setup("Bezier surface"));
 	guiObjects3D.add(newQuadButton.setup("Quad"));
+	guiObjects3D.add(newDelaunayButton.setup("Delaunay"));
 	guiObjects3D.add(deleteButton.setup("Delete object"));
 
 	newObjectName.set("Name: ", "");
@@ -62,6 +63,7 @@ void ofApp::setup(){
 	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
 	newSurfaceButton.addListener(this, &ofApp::addBezierSurface);
 	newQuadButton.addListener(this, &ofApp::addQuad);
+	newDelaunayButton.addListener(this, &ofApp::addDelaunay);
 	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
@@ -249,7 +251,6 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	renderer.draw();
-
 	exportImage();
 
 	if (mode3D==true) {
@@ -807,6 +808,12 @@ void ofApp::addQuad() {
 	newObjectName.set("");
 }
 
+void ofApp::addDelaunay() {
+	renderer.addNewDelauney(newObjectName);
+	newToggleObject();
+	newObjectName.set("");
+}
+
 void ofApp::deleteObject() {
 	for (int i = 0; i < selectedObjects.size(); i++) {
 		int index = selectedObjects[i];
@@ -853,12 +860,9 @@ void ofApp::toggleListener(bool& value) {
 			colorPicker = color;
 		}
 		else {
-			ofLog() << "Test 2D";
 			if (renderer.objects2D[selectedObjects[0]]->isCurve) {
-				ofLog() << "Test curveSelected";
 ;				vector<ofVec2f> points(renderer.objects2D[selectedObjects[0]]->getPoints());
 				for (int i = 1; i < 8; i++) {
-					ofLog() << points[i - 1];
 					string name = "Control point " + ofToString(i);
 					controlPoints[i - 1]->setup(name, points[i-1], ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
 				}

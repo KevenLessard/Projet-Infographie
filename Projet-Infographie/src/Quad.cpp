@@ -135,6 +135,7 @@ void Quad::draw(bool smoothShading)
     // If mesh has changed, build OpenFrameworks tri mesh out of quad mesh
     // and draw tri mesh
     if (_redrawMesh) {
+        ofLog() << "Redraw mesh";
         _mesh.clear();
         calculateNormals();
 

@@ -30,6 +30,7 @@ object3D::object3D(string p_name) {
 	shader = shader_lambert;
 
 	isSelected = false;
+
 }
 
 object3D::object3D(string p_name, int type) {
@@ -59,15 +60,15 @@ object3D::object3D(string p_name, int type) {
 		cone = ofConePrimitive();
 		objectType = cone3d;
 		break;
-	case 6:
-		surface = ofxBezierSurface();
-		objectType = surfaceBezier;
-		surface.setup(200, 200, 10, 10);
-		break;
 	case 7:
 		quad = ofx::Quad();
 		objectType = quad3d;
 		quadInit();
+		break;
+	case 8:
+		delaunay = ofxDelaunay();
+		objectType = delaunayTriangle;
+		ofAddListener(ofEvents().mouseReleased, this, &object3D::mouseReleased);
 		break;
 	default:
 		ofLog() << "Invalid type.";
@@ -116,6 +117,22 @@ object3D::object3D(string p_name, int type) {
 	ofDisableArbTex();
 	//ofLoadImage(texture1, "texture/metal_rust.jpg");
 
+	isSelected = false;
+}
+
+object3D::object3D(string p_name, int type, ofEasyCam *p_cam) {
+	name = p_name;
+	if (type == 8) {
+		delaunay = ofxDelaunay();
+		objectType = delaunayTriangle;
+		ofAddListener(ofEvents().mouseReleased, this, &object3D::mouseReleased);
+		cam = p_cam;
+	}
+	else if (type == 6) {
+		surface = ofxBezierSurface(p_cam);
+		objectType = surfaceBezier;
+		surface.setup(200, 200, 10, 10);
+	}
 	isSelected = false;
 }
 
@@ -539,6 +556,18 @@ void object3D::draw() {
 	}
 	ofPopMatrix();
   	texture1.unbind();
+	else if (objectType == delaunayTriangle) {
+		if (isSelected) {
+			ofNoFill();
+			delaunay.draw();
+			ofFill();
+		}
+		else {
+			delaunay.draw();
+		}
+	}
+
+  	//texture1.unbind();
 	material1.end();
 	shader_pbr.end();
 	shader.end();
@@ -550,19 +579,22 @@ void object3D::draw(ofVec3f camPosition) {
 	double distance = abs(camPosition.x) + abs(camPosition.y) + abs(camPosition.z);
 	int nbIteration = 0;
 	if (distance > 2000) {
-		nbIteration = 4;
+		nbIteration = 0;
 	}
 	else if (distance > 1500) {
-		nbIteration = 2;
+		nbIteration = 1;
 	}
 	else if (distance > 1000) {
-		nbIteration = 1;
+		nbIteration = 2;
+	}
+	else if (distance <= 1000) {
+		nbIteration = 4;
 	}
 	if (isSelected) {
 		quad.subdivide(nbIteration).drawWireframe();
 	}
 	else {
-		quad.subdivide(nbIteration).draw(true);
+		quad.subdivide(nbIteration).draw();
 	}
 	material1.end();
 }
@@ -737,4 +769,13 @@ void object3D::quadInit() {
 	quad.addFace(v3, v2, v6, v5);
 	quad.addFace(v1, v7, v6, v2);
 	quad.addFace(v0, v3, v5, v4);
+}
+
+void object3D::mouseReleased(ofMouseEventArgs& mouseArgs) {
+	if (isSelected) {
+		ofPoint point(mouseArgs.x, mouseArgs.y);
+		ofPoint actualPoint = cam->screenToWorld(point);
+		delaunay.addPoint(actualPoint);
+		delaunay.triangulate();
+	}
 }

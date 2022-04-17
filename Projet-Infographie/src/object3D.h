@@ -2,10 +2,11 @@
 #include "ofxAssimpModelLoader.h"
 #include "bezierSurface.h"
 #include "Quad.h"
+#include "ofxDelaunay.h"
 
 #pragma once
 
-enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d
+enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d, delaunayTriangle
 };
 // énumération des types de shader
 enum class ShaderType { color_fill, lambert, gouraud, phong, blinn_phong };
@@ -16,6 +17,7 @@ class object3D
 public:
 	object3D(string name);
 	object3D(string name, int type);
+	object3D(string name, int type, ofEasyCam *p_cam);
 	object3D(string name, string fileName);
 
 	ObjectType objectType;
@@ -38,6 +40,8 @@ public:
 	void setTexture(ofFileDialogResult openFileResult);
 	void updateShader(ofLight light);
 	void switchMaterialShader(string type);
+
+	void mouseReleased(ofMouseEventArgs& mouseArgs);
 
 	//Materiel test
 
@@ -101,6 +105,7 @@ private:
 	ofConePrimitive cone;
 	ofxBezierSurface surface;
 	ofx::Quad quad;
+	ofxDelaunay delaunay;
 	string shader_name;
 	ofShader shader_color_fill;
 	ofShader shader_lambert;
@@ -126,6 +131,6 @@ private:
 
 
 	void quadInit();
-	ofEasyCam cam;
+	ofEasyCam * cam;
 };
 

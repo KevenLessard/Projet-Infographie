@@ -479,7 +479,7 @@ void Renderer::addNewSurface(string name) {
     if (name == "") {
         name = "Surface " + to_string(objects3d.size());
     }
-    object3D* surface = new object3D(name, 6);
+    object3D* surface = new object3D(name, 6, &mainCamera);
     objects3d.push_back(surface);
 }
 
@@ -492,6 +492,17 @@ void Renderer::addNewQuad(string name) {
     }
     object3D* quad = new object3D(name, 7);
     objects3d.push_back(quad);
+}
+
+void Renderer::addNewDelauney(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "Delaunay " + to_string(objects3d.size());
+    }
+    object3D* delaunay = new object3D(name, 8, &mainCamera);
+    objects3d.push_back(delaunay);
 }
 
 

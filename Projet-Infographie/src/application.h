@@ -7,7 +7,6 @@
 //#include "gestionImages.h"
 
 class ofApp : public ofBaseApp {
-
 	Renderer renderer;
 	//GestionImages gestionImages;
 
@@ -36,6 +35,7 @@ class ofApp : public ofBaseApp {
 	ofxButton newWolfButton;
 	ofxButton newSurfaceButton;
 	ofxButton newQuadButton;
+	ofxButton newDelaunayButton;
 
 	//Lumières
 	ofxButton newLight1;
@@ -176,6 +176,7 @@ private:
 	void addAnimatedWolf();
 	void addBezierSurface();
 	void addQuad();
+	void addDelaunay();
 	void deleteObject();
 	void cameraLookAt();
 	void switchProjectionMode();
