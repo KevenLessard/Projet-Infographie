@@ -28,6 +28,10 @@ object3D::object3D(string p_name) {
 		"shader/blinn_phong_330_fs.glsl");
 
 	shader = shader_lambert;
+	shaderOnMaterialOff = true;
+	boolTopologie = false;
+	material_metallic = 0.5f;
+	material_roughness = 0.5f;
 
 	isSelected = false;
 
@@ -117,6 +121,12 @@ object3D::object3D(string p_name, int type) {
 	ofDisableArbTex();
 	//ofLoadImage(texture1, "texture/metal_rust.jpg");
 
+	shader = shader_lambert;
+	shaderOnMaterialOff = true;
+	boolTopologie = false;
+	material_metallic = 0.5f;
+	material_roughness = 0.5f;
+
 	isSelected = false;
 }
 
@@ -171,7 +181,6 @@ object3D::object3D(string p_name, string fileName) {
 	shader_pbr.load(
 		"shader/pbr_330_vs.glsl",
 		"shader/pbr_330_fs.glsl");
-	shader = shader_lambert;
 
 	// charger les textures du matériau
 	texture_diffuse.load("texture/metal_plate_diffuse_1k.jpg");
@@ -187,6 +196,12 @@ object3D::object3D(string p_name, string fileName) {
 
 	setColor(ofColor(200, 200, 200));
 	isSelected = false;
+
+	shader = shader_lambert;
+	shaderOnMaterialOff = true;
+	boolTopologie = false;
+	material_metallic = 0.5f;
+	material_roughness = 0.5f;
 
 }
 
@@ -296,6 +311,14 @@ ofNode object3D::getNode() {
 
 ofColor object3D::getColor() {
 	return color;
+}
+
+float object3D::getMetallic() {
+	return material_metallic;
+}
+
+float object3D::getRoughness() {
+	return material_roughness;
 }
 
 void object3D::setName(string newName) {
@@ -448,6 +471,14 @@ void object3D::setMaterial(string material) {
 	boolTopologie = 0;
 }
 
+void object3D::setMetallic(float value) {
+	material_metallic = value;
+}
+
+void object3D::setRoughness(float value) {
+	material_roughness = value;
+}
+
 void object3D::setTopologie() {
 	boolTopologie = 1;
 }
@@ -472,7 +503,6 @@ void object3D::draw() {
 		material1.begin();
 	}
 
-	cout << shaderOnMaterialOff << materialSelected;
 	if (shaderOnMaterialOff && boolTopologie == false)
 	{
 		if (shader_name == "pbr")
@@ -486,7 +516,6 @@ void object3D::draw() {
 	if (shaderOnMaterialOff == false && boolTopologie == false) {
 		updateMaterial();
 		material1.begin();
-		cout << shaderOnMaterialOff << materialSelected;
 		texture1.bind();
 	}
 	
@@ -643,8 +672,10 @@ void object3D::updateShader(ofLight light) {
 
 	else if (shader_name == "pbr") {
 		//Doit créer setter
-		material_metallic = 0.5f;
-		material_roughness = 0.5f;
+		//material_metallic = 0.5f;
+		//material_roughness = 0.5f;
+		
+		cout << material_metallic;
 		//-----------------
 
 		material_color_ambient = ofColor(63, 63, 63);

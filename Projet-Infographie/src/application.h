@@ -73,6 +73,10 @@ class ofApp : public ofBaseApp {
 	void changeShaderBlinnPhong();
 	void changeShaderGouraud();
 	void changeShaderPBR();
+	ofParameter<float> slider_metallic;
+	ofParameter<float> slider_roughness;
+	float material_metallic;
+	float material_roughness;
 
 
 	//___________________________

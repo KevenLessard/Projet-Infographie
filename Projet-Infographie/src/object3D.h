@@ -43,8 +43,7 @@ public:
 	void mouseReleased(ofMouseEventArgs& mouseArgs);
 	void setTopologie();
 
-	//Materiel test
-
+	//Materiel
 	void updateMaterial();
 	void setMaterial(string material);
 
@@ -62,6 +61,11 @@ public:
 	ofColor material_color_ambient;
 	ofColor material_color_diffuse;
 	ofColor material_color_specular;
+
+	void setMetallic(float value);
+	void setRoughness(float value);
+	float getMetallic();
+	float getRoughness();
 
 	float material_metallic;
 	float material_roughness;
