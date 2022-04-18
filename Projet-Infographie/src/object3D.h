@@ -6,8 +6,7 @@
 
 #pragma once
 
-enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d, delaunayTriangle
-};
+enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d, delaunayTriangle};
 // énumération des types de shader
 enum class ShaderType { color_fill, lambert, gouraud, phong, blinn_phong };
 
@@ -42,6 +41,7 @@ public:
 	void switchMaterialShader(string type);
 
 	void mouseReleased(ofMouseEventArgs& mouseArgs);
+	void setTopologie();
 
 	//Materiel test
 
@@ -128,6 +128,7 @@ private:
 	bool textureOn;
 	bool isSelected;
 	bool shaderOnMaterialOff;
+	bool boolTopologie;
 
 
 	void quadInit();

@@ -44,19 +44,35 @@ class ofApp : public ofBaseApp {
 	ofxButton newLight4;
 
 	//Matériaux(Classique)
+	ofxLabel labelMaterialPanel;
+	ofxPanel guiMaterialPanel;
 	ofxButton basicMaterialButton;
 	ofxButton obsidianMaterialButton;
 	ofxButton bronzeMaterialButton;
 	ofxButton goldMaterialButton;
 	ofxButton silverMaterialButton;
+	void changeMaterialBasic();
+	void changeMaterialObsidian();
+	void changeMaterialBronze();
+	void changeMaterialGold();
+	void changeMaterialSilver();
 
 	//Matériaux(Shader Illumination)
-	ofxButton color_pĥillButton;
+	ofxLabel labelShaderPanel;
+	ofxPanel guiShaderPanel;
+	ofxButton color_fillButton;
 	ofxButton lambertButton;
 	ofxButton phongButton;
 	ofxButton blinn_phongButton;
+	ofxButton gouraudButton;
 	//Matériaux(PBR)
 	ofxButton pbrButton;
+	void changeShaderColorFill();
+	void changeShaderLambert();
+	void changeShaderPhong();
+	void changeShaderBlinnPhong();
+	void changeShaderGouraud();
+	void changeShaderPBR();
 
 
 	//___________________________

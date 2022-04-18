@@ -94,6 +94,40 @@ void ofApp::setup(){
 	newLight2.addListener(this, &ofApp::addNewLight2);
 	newLight3.addListener(this, &ofApp::addNewLight3);
 	newLight4.addListener(this, &ofApp::addNewLight4);
+
+	//Panneau de matériaux
+	guiMaterialPanel.setup();
+	guiMaterialPanel.setPosition(0, guiCamera3D.getHeight());
+	guiMaterialPanel.add(labelMaterialPanel.setup("Panel", "Materiaux"));
+	guiMaterialPanel.add(basicMaterialButton.setup("Couleur personalisé"));
+	guiMaterialPanel.add(obsidianMaterialButton.setup("Obsidian"));
+	guiMaterialPanel.add(bronzeMaterialButton.setup("Bronze"));
+	guiMaterialPanel.add(goldMaterialButton.setup("Gold"));
+	guiMaterialPanel.add(silverMaterialButton.setup("Silver"));
+	basicMaterialButton.addListener(this, &ofApp::changeMaterialBasic);
+	obsidianMaterialButton.addListener(this, &ofApp::changeMaterialObsidian);
+	bronzeMaterialButton.addListener(this, &ofApp::changeMaterialBronze);
+	goldMaterialButton.addListener(this, &ofApp::changeMaterialGold);
+	silverMaterialButton.addListener(this, &ofApp::changeMaterialSilver);
+
+	//Panneau Shader
+	guiShaderPanel.setup();
+	guiShaderPanel.setPosition(0, guiCamera3D.getHeight());
+	guiShaderPanel.add(labelShaderPanel.setup("Panel", "Shader"));
+	guiShaderPanel.add(color_fillButton.setup("Color Fill"));
+	guiShaderPanel.add(lambertButton.setup("Lambert"));
+	guiShaderPanel.add(phongButton.setup("Phong"));
+	guiShaderPanel.add(blinn_phongButton.setup("Blinn-Phong"));
+	guiShaderPanel.add(gouraudButton.setup("Gouraud"));
+	guiShaderPanel.add(pbrButton.setup("PBR"));
+	color_fillButton.addListener(this, &ofApp::changeShaderColorFill);
+	lambertButton.addListener(this, &ofApp::changeShaderLambert);
+	phongButton.addListener(this, &ofApp::changeShaderPhong);
+	blinn_phongButton.addListener(this, &ofApp::changeShaderBlinnPhong);
+	gouraudButton.addListener(this, &ofApp::changeShaderGouraud);
+	pbrButton.addListener(this, &ofApp::changeShaderPBR);
+
+
 	//____________________________________________________________________
 
 	//Panneau de proprietes 2D
@@ -259,6 +293,8 @@ void ofApp::draw(){
 		guiObjects3D.draw();
 		guiCamera3D.draw();
 		guiLights.draw();
+		guiShaderPanel.draw();
+		guiMaterialPanel.draw();
 	}
 
 	if (mode3D==false) {
@@ -1113,4 +1149,65 @@ void ofApp::addNewLight4() {
 	renderer.addNewLight(4);
 }
 
+//Fonctions Matériaux
+void ofApp::changeMaterialBasic() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "basic");
+	}
+}
+void ofApp::changeMaterialObsidian() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "obsidian");
+	}
+}
+void ofApp::changeMaterialBronze() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "bronze");
+	}
+}
+void ofApp::changeMaterialGold() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "gold");
+	}
+}
+void ofApp::changeMaterialSilver() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "silver");
+	}
+}
+
+//Fonctions Shader
+void ofApp::changeShaderColorFill() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "color_fill");
+	}
+}
+void ofApp::changeShaderLambert() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "lambert");
+	}
+}
+void ofApp::changeShaderPhong() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "blinn_phong");
+	}
+}
+void ofApp::changeShaderBlinnPhong() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "phong");
+	}
+}
+
+void ofApp::changeShaderGouraud() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "gouraud");
+	}
+}
+
+void ofApp::changeShaderPBR() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "pbr");
+	}
+
+}
 

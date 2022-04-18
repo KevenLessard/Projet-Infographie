@@ -429,10 +429,27 @@ void object3D::changeShader(string type) {
 	}
 
 	shaderOnMaterialOff = 1;
+	boolTopologie = 0;
 
 	//Shader pbr à son shader à part shader_pbr
 
 	shader_name = type;
+}
+
+void object3D::setMaterial(string material) {
+	//basic (couleur modifiable)
+	//obsidian
+	//bronze
+	//gold
+	//silver
+	materialSelected = material;
+
+	shaderOnMaterialOff = 0;
+	boolTopologie = 0;
+}
+
+void object3D::setTopologie() {
+	boolTopologie = 1;
 }
 
 
@@ -449,7 +466,14 @@ void object3D::switchMaterialShader(string type) {
 
 
 void object3D::draw() {
-	if (shaderOnMaterialOff)
+
+	if (boolTopologie) {
+		materialSelected = "basic";
+		material1.begin();
+	}
+
+	cout << shaderOnMaterialOff << materialSelected;
+	if (shaderOnMaterialOff && boolTopologie == false)
 	{
 		if (shader_name == "pbr")
 		{
@@ -459,10 +483,13 @@ void object3D::draw() {
 			shader.begin();
 		}
 	}
-	if (shaderOnMaterialOff == false) {
+	if (shaderOnMaterialOff == false && boolTopologie == false) {
+		updateMaterial();
 		material1.begin();
-		//texture1.bind();
+		cout << shaderOnMaterialOff << materialSelected;
+		texture1.bind();
 	}
+	
 
 
 	ofPushMatrix();
@@ -535,6 +562,7 @@ void object3D::draw() {
 		ofPopMatrix();
 	}
 	else if (objectType == surfaceBezier) {
+
 		ofPushMatrix();
 		ofFill();
 		if (isSelected) {
@@ -545,6 +573,7 @@ void object3D::draw() {
 			surface.draw();
 		}
 		ofPopMatrix();
+
 	}
 	else if (objectType == quad3d) {
 		if (isSelected) {
@@ -554,8 +583,7 @@ void object3D::draw() {
 			quad.draw();
 		}
 	}
-	ofPopMatrix();
-  	texture1.unbind();
+
 	else if (objectType == delaunayTriangle) {
 		if (isSelected) {
 			ofNoFill();
@@ -567,7 +595,8 @@ void object3D::draw() {
 		}
 	}
 
-  	//texture1.unbind();
+	ofPopMatrix();
+	texture1.unbind();
 	material1.end();
 	shader_pbr.end();
 	shader.end();
@@ -669,16 +698,7 @@ void object3D::updateShader(ofLight light) {
 	}
 }
 
-void object3D::setMaterial(string material) {
-	//basic (couleur modifiable)
-	//obsidian
-	//bronze
-	//gold
-	//silver
-	materialSelected = material;
 
-	shaderOnMaterialOff = 0;
-}
 
 void object3D::updateMaterial() {
 
