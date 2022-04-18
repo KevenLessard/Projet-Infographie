@@ -32,6 +32,7 @@ void Renderer::setup()
         oscillation_frequency = 7500.0f;
         oscillation_amplitude = 45.0;
         reset();
+
 }
 
 void Renderer::update()
@@ -617,6 +618,9 @@ void Renderer::reset() {
     light_spot.setSpotConcentration(2);
     light_spot.setSpotlightCutOff(30);
     light_spot.setSpotlight();
+
+    //S'assure d'avoir une lumière de base d'ouverte.
+    light_directionalOn = true;
 }
 
 void Renderer::setAnimation(int index) {
@@ -642,6 +646,14 @@ void Renderer::setTexture(int index) {
         ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une texture");
         objects3d[index]->setTexture(openFileResult);
     }
+}
+
+void Renderer::setMetallic(int index, float value) {
+    objects3d[index]->setMetallic(value);
+}
+
+void Renderer::setRoughness(int index, float value) {
+    objects3d[index]->setRoughness(value);
 }
 
 //Camera

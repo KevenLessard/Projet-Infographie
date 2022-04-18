@@ -103,6 +103,8 @@ public:
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void setObjectColor(int index, ofColor newColor);
+	void setMetallic(int index, float value);
+	void setRoughness(int index, float value);
 
 
 

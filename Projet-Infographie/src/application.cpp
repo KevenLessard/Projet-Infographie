@@ -83,17 +83,9 @@ void ofApp::setup(){
 	toggleRotationButton.addListener(this, &ofApp::toggleRotation);
 
 	//Panneau de lumières
-	guiLights.setup();
-	guiLights.setPosition(guiCamera3D.getWidth(), ofGetWindowHeight() - guiLights.getHeight());
-	guiLights.add(labelLight.setup("Panel", "Lights"));
-	guiLights.add(newLight1.setup("Ambient Light"));
-	guiLights.add(newLight2.setup("Directional Light"));
-	guiLights.add(newLight3.setup("Cursor Light"));
-	guiLights.add(newLight4.setup("SpotLight"));
-	newLight1.addListener(this, &ofApp::addNewLight1);
-	newLight2.addListener(this, &ofApp::addNewLight2);
-	newLight3.addListener(this, &ofApp::addNewLight3);
-	newLight4.addListener(this, &ofApp::addNewLight4);
+	//guiLights.setup();
+	//guiLights.setPosition(guiCamera3D.getWidth(), ofGetWindowHeight() - guiLights.getHeight());
+
 
 	//Panneau de matériaux
 	guiMaterialPanel.setup();
@@ -109,6 +101,17 @@ void ofApp::setup(){
 	bronzeMaterialButton.addListener(this, &ofApp::changeMaterialBronze);
 	goldMaterialButton.addListener(this, &ofApp::changeMaterialGold);
 	silverMaterialButton.addListener(this, &ofApp::changeMaterialSilver);
+	//Lumière multiples pour matériaux
+	guiMaterialPanel.add(labelLight.setup("Panel", "Lights"));
+	guiMaterialPanel.add(newLight1.setup("Ambient Light"));
+	guiMaterialPanel.add(newLight2.setup("Directional Light"));
+	guiMaterialPanel.add(newLight3.setup("Cursor Light"));
+	guiMaterialPanel.add(newLight4.setup("SpotLight"));
+	newLight1.addListener(this, &ofApp::addNewLight1);
+	newLight2.addListener(this, &ofApp::addNewLight2);
+	newLight3.addListener(this, &ofApp::addNewLight3);
+	newLight4.addListener(this, &ofApp::addNewLight4);
+
 
 	//Panneau Shader
 	guiShaderPanel.setup();
@@ -120,6 +123,13 @@ void ofApp::setup(){
 	guiShaderPanel.add(blinn_phongButton.setup("Blinn-Phong"));
 	guiShaderPanel.add(gouraudButton.setup("Gouraud"));
 	guiShaderPanel.add(pbrButton.setup("PBR"));
+	guiShaderPanel.add(slider_metallic);
+	guiShaderPanel.add(slider_roughness);
+	slider_metallic.set("Metallic", material_metallic, 0.0f, 1.0f);
+	slider_roughness.set("Roughness", material_roughness, 0.0f, 1.0f);
+
+
+
 	color_fillButton.addListener(this, &ofApp::changeShaderColorFill);
 	lambertButton.addListener(this, &ofApp::changeShaderLambert);
 	phongButton.addListener(this, &ofApp::changeShaderPhong);
@@ -236,6 +246,7 @@ void ofApp::update(){
 		ofVec3f newProportion;
 		ofVec3f newPosition;
 		ofVec3f newRotation;
+
 		if (mode3D) {
 			newProportion = ofVec3f(proportionSlider);
 			newPosition = ofVec3f(positionSlider);
@@ -258,6 +269,8 @@ void ofApp::update(){
 		renderer.proportionateObject(i, newProportion);
 		renderer.moveObject(i, newPosition);
 		renderer.rotateObject(i, newRotation);
+		renderer.setMetallic(i, slider_metallic);
+		renderer.setRoughness(i, slider_roughness);
 		if (isRGBA) {
 			renderer.setObjectColor(i, colorPicker);
 		}
@@ -890,6 +903,11 @@ void ofApp::toggleListener(bool& value) {
 			ofVec3f position(renderer.objects3d[selectedObjects[0]]->getPosition());
 			ofVec3f rotation(renderer.objects3d[selectedObjects[0]]->getRotation());
 			ofColor color = renderer.objects3d[selectedObjects[0]]->getColor();
+			
+			material_metallic = renderer.objects3d[selectedObjects[0]]->getMetallic();
+			material_roughness = renderer.objects3d[selectedObjects[0]]->getRoughness();
+			slider_metallic = material_metallic;
+			slider_roughness = material_roughness;
 			proportionSlider = proportion;
 			positionSlider = position;
 			rotationSlider = rotation;
