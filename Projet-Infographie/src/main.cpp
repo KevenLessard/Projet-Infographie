@@ -11,7 +11,8 @@ int main( ){
 
 	// sélection de la version de OpenGL
 	windowSettings.setGLVersion(3, 3);
-
+	windowSettings.numSamples = 4;
+	windowSettings.doubleBuffering = true;
 	// création de la fenêtre
 	ofCreateWindow(windowSettings);
 

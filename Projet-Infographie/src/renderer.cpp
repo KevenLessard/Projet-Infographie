@@ -118,16 +118,17 @@ void Renderer::update()
     }
     
     //Code pour envoyer lumière sur shader
-    //light.setPointLight();
-    //light.setDiffuseColor(255);
-    //light.setGlobalPosition(center_x, center_y, 255.0f);
-    //
-    //
-    //if (isMode3D) {
-    //    for (object3D* object : objects3d) {
-    //        object->updateShader(light);
-    //    }
-    //}
+    light.setPointLight();
+    light.setDiffuseColor(200);
+    light.setGlobalPosition(center_x, center_y, 255.0f);
+    
+    
+    if (isMode3D) {
+        for (object3D* object : objects3d) {
+            object->updateShader(light);
+        }
+    }
+
 }
 
 // fonction de dessin du curseur
@@ -690,6 +691,10 @@ void Renderer::addNewImage(string name, string keypressed) {
 
 void Renderer::shaderActive(int index, string type) {
     objects3d[index]->changeShader(type);
+}
+
+void Renderer::setMaterial(int index, string type) {
+    objects3d[index]->setMaterial(type);
 }
 
 void Renderer::addNewLight(int light) {

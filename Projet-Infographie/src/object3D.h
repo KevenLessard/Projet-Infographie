@@ -6,8 +6,7 @@
 
 #pragma once
 
-enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d, delaunayTriangle
-};
+enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d, delaunayTriangle};
 // énumération des types de shader
 enum class ShaderType { color_fill, lambert, gouraud, phong, blinn_phong };
 
@@ -39,12 +38,15 @@ public:
 	void setAnimation();
 	void setTexture(ofFileDialogResult openFileResult);
 	void updateShader(ofLight light);
+	void switchMaterialShader(string type);
 
 	void mouseReleased(ofMouseEventArgs& mouseArgs);
+	void setTopologie();
 
 	//Materiel test
 
 	void updateMaterial();
+	void setMaterial(string material);
 
 	void toggleRotation();
 	void draw();
@@ -55,6 +57,33 @@ public:
 	float oscillate(float time, float frequency, float amplitude);
 	void setSelected(bool b);
 	bool getSelected();
+
+	//PBR
+	ofColor material_color_ambient;
+	ofColor material_color_diffuse;
+	ofColor material_color_specular;
+
+	float material_metallic;
+	float material_roughness;
+	float material_occlusion;
+	float material_brightness;
+
+	glm::vec3 material_fresnel_ior;
+
+	ofImage texture_diffuse;
+	ofImage texture_metallic;
+	ofImage texture_roughness;
+	ofImage texture_occlusion;
+	ofColor light_color;
+	float light_intensity;
+	bool light_motion;
+
+	float center_x;
+	float center_y;
+
+	float tone_mapping_exposure;
+	float tone_mapping_gamma;
+	bool tone_mapping_toggle;
 
 private:
 	string name;
@@ -83,6 +112,7 @@ private:
 	ofShader shader_gouraud;
 	ofShader shader_phong;
 	ofShader shader_blinn_phong;
+	ofShader shader_pbr;
 	ofShader shader;
 	ofLight light;
 	float oscillation;
@@ -90,16 +120,16 @@ private:
 	float oscillation_amplitude;
 
 	ofMaterial material1;
-	ofMaterial material2;
-	ofMaterial material3;
-	ofMaterial material4;
-	int materialNumber;
+	string materialSelected;
 
 	ofTexture texture1;
 	ofPoint points[4];
 	int cornerIndex = 0;
 	bool textureOn;
 	bool isSelected;
+	bool shaderOnMaterialOff;
+	bool boolTopologie;
+
 
 	void quadInit();
 	ofEasyCam * cam;
