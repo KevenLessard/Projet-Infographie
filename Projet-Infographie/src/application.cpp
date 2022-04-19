@@ -5,6 +5,8 @@ void ofApp::setup(){
 
 	ofSetWindowTitle("2D/3D engine");
 	ofLog() << "<app::setup>";
+	
+
 
 	renderer.setup();
 	
@@ -149,6 +151,7 @@ void ofApp::setup(){
 	//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 	guiProperties2D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties2D.add(HSBDisplayButton.setup("HSB"));
+	guiProperties2D.add(newTextureButton.setup("Add Texture"));
 
 	//Panneau d'ajout d'objects 2D
 
@@ -297,6 +300,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	
 	renderer.draw();
 	exportImage();
 
@@ -485,6 +489,11 @@ void ofApp::keyReleased(int key){
 		}
 		ofLog() << "<shader: phong>";
 		break;
+/*
+	case 54: // touche 1
+		renderer.kernel_type = ConvolutionKernel::identity;
+		renderer.kernel_name = "identité";
+		break;
 
 	case 53: // touche 5
 		for (int o : selectedObjects) {
@@ -546,12 +555,12 @@ void ofApp::keyReleased(int key){
 			
 		break;
 
-	case 57345: // touche F2 pour sauvegarde dynamique de la scene
+	case 65: // touche A pour sauvegarde dynamique de la scene
 		nbTakes = intSliderTakes;
 		nbFrames = 0;
 		nbFramesPerTake = intSliderFrames;
 		break;
-
+		
 	case 9: // touche TAB pour changer mode 2d 3d
 		selectedObjects.clear();
 		objectsToggle.clear();
@@ -1095,6 +1104,8 @@ void ofApp::refreshProperties() {
 	}
 }
 //__________________________________________-
+
+
 //2D
 
 void ofApp::addNewRectangle() {

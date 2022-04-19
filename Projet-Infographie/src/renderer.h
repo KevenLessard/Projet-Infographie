@@ -5,11 +5,20 @@
 #include "object3D.h"
 #include "object2D.h"
 #include "sphere.h"
+#include "SkyBox.h"
+#include "ofxCubeMap.h"
+
 #include "ofxVectorGraphics.h"
+
+
+
 
 class Renderer
 {
 public:
+	
+	
+
 	bool isMode3D;
 	// declaration des variables pour la fonction du curseur draw_cursor.
 	int mouse_press_x;
@@ -159,6 +168,9 @@ public:
 	float oscillation_amplitude;
 	float oscillate(float time, float frequency, float amplitude);
 	float camera_offset;
+	Skybox skybox;
+	
+
 
 	bool light_ambientOn;
 	bool light_directionalOn;

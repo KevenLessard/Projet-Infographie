@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "ofMain.h"
+#include <array>
 #include "ofxGui.h"
 #include "renderer.h"
 
@@ -8,6 +9,7 @@
 
 class ofApp : public ofBaseApp {
 	Renderer renderer;
+	
 	//GestionImages gestionImages;
 
 	//3D
@@ -37,13 +39,13 @@ class ofApp : public ofBaseApp {
 	ofxButton newQuadButton;
 	ofxButton newDelaunayButton;
 
-	//Lumières
+	//Lumi�res
 	ofxButton newLight1;
 	ofxButton newLight2;
 	ofxButton newLight3;
 	ofxButton newLight4;
 
-	//Matériaux(Classique)
+	//Mat�riaux(Classique)
 	ofxLabel labelMaterialPanel;
 	ofxPanel guiMaterialPanel;
 	ofxButton basicMaterialButton;
@@ -57,7 +59,7 @@ class ofApp : public ofBaseApp {
 	void changeMaterialGold();
 	void changeMaterialSilver();
 
-	//Matériaux(Shader Illumination)
+	//Mat�riaux(Shader Illumination)
 	ofxLabel labelShaderPanel;
 	ofxPanel guiShaderPanel;
 	ofxButton color_fillButton;
@@ -65,7 +67,7 @@ class ofApp : public ofBaseApp {
 	ofxButton phongButton;
 	ofxButton blinn_phongButton;
 	ofxButton gouraudButton;
-	//Matériaux(PBR)
+	//Mat�riaux(PBR)
 	ofxButton pbrButton;
 	void changeShaderColorFill();
 	void changeShaderLambert();
@@ -136,9 +138,11 @@ class ofApp : public ofBaseApp {
 		ofxIntSlider intSliderTakes;
 		ofxIntSlider intSliderFrames;
 
+
 		ofxButton HSBDisplayButton;
 		ofxLabel labelProperties3D;
 		ofxLabel labelProperties2D;
+		
 		ofxLabel labelHierarchy;
 		ofxLabel labelNewObject3D;
 		ofxLabel labelNewObject2D;

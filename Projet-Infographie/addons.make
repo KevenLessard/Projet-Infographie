@@ -1,4 +1,5 @@
 ofxAssimpModelLoader
 ofxDelaunay
 ofxGui
+ofxSkyBox
 ofxVectorGraphics
