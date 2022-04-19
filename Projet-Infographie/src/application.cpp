@@ -494,6 +494,7 @@ void ofApp::keyReleased(int key){
 		renderer.kernel_type = ConvolutionKernel::identity;
 		renderer.kernel_name = "identité";
 		break;
+		*/
 
 	case 53: // touche 5
 		for (int o : selectedObjects) {
