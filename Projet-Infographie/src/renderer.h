@@ -6,7 +6,7 @@
 #include "object2D.h"
 #include "sphere.h"
 #include "SkyBox.h"
-#include "ofxCubeMap.h"
+//#include "ofxCubeMap.h"
 
 #include "ofxVectorGraphics.h"
 
