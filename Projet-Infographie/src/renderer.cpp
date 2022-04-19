@@ -46,7 +46,8 @@ void Renderer::setup()
             doLUT = false;
         }
 
-        lutImage.allocate(1024, 768, OF_IMAGE_COLOR);
+        lutImage.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+        //lutImage.allocate(1024, 768, OF_IMAGE_COLOR);
         //ScreenGrabber.allocate(1024, 768, OF_IMAGE_COLOR);
         //ofBackground(0);
 
@@ -296,9 +297,9 @@ void Renderer::draw()
                 object->draw();
                 if (doLUT) {
 
-                    lutImage.draw(lutPos.x, lutPos.y);
+                    //lutImage.draw(lutPos.x, lutPos.y);
                     //grabScreen.draw(ofGetWindowWidth() - 100, ofGetWindowHeight() - 100);
-                    ofDrawBitmapString(dir.getName(dirLoadIndex), lutPos.x, -lutPos.y + 50);
+                    ofDrawBitmapString(dir.getName(dirLoadIndex), lutPos.x +500, -lutPos.y + 50);
                 }
                 ofPopMatrix();
             }
