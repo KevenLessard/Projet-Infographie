@@ -442,10 +442,10 @@ void Renderer::addNewCurve(string name, int type) {
     objects2D.push_back(curve);
 }
 */
-void Renderer::textureSelection(string name, int index)
-{
+//void Renderer::textureSelection(string name, int index)
+//{
 
-}
+//}
 
 void Renderer::addNewCurve(string name, int type) {
     if (nameAlreadyExists(name)) {
