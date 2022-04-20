@@ -1,9 +1,4 @@
-/*
- * GuiApp.cpp
- *
- *  Created on: Oct 28, 2014
- *      Author: arturo
- */
+
 
 #include "viewWindowApp.h"
 
@@ -18,12 +13,15 @@ void viewWindowApp::setup() {
 }
 
 void viewWindowApp::update() {
+	
 
 }
 
 void viewWindowApp::draw() {
 
-	renderer.applyLut(renderer.lutImage);
-	renderer.lutImage.draw(renderer.lutPos.x, renderer.lutPos.y,0);
+	ofLog() << "draw de viewWindowApp est appelé";
+	fboSecondScreen.draw(0,0);
+	//renderer.applyLut(renderer.lutImage);
+	//renderer.lutImage.draw(renderer.lutPos.x, renderer.lutPos.y,0);
 	
 }

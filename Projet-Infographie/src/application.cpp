@@ -252,10 +252,14 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+	viewWindow.fboSecondScreen.begin();
+	
 	
 	renderer.draw();
 
 	exportImage();
+
+	viewWindow.fboSecondScreen.end();
 
 	if (mode3D==true) {
 		ofDrawBitmapString("Press F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
@@ -279,6 +283,8 @@ void ofApp::draw(){
 	}
 
 	guiHierarchy.draw();
+	
+	
 }
 
 
@@ -1002,7 +1008,9 @@ void ofApp::exportImage() {
 }
 void ofApp::updateViewWindow()
 {
+	ofLog() << "button viewWindow pressed";
 	viewWindow.draw();
+
 }
 
 //Called when switching 2D/3D

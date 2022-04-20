@@ -145,14 +145,14 @@ void Renderer::update()
     // update image en lien avec LUT
     //grabScreen.update();
 
-   /* if (doLUT)
+   if (doLUT)
     {
         ofPushMatrix();
         lutImage.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
         ofPopMatrix();
         //lutImage.clear;
     //    applyLut(grabScreen.getPixels());
-    }*/
+    }
     
     //Code pour envoyer lumière sur shader
     //light.setPointLight();

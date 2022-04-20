@@ -152,6 +152,7 @@ class ofApp : public ofBaseApp {
 		bool mode3D = true;
 
 		shared_ptr<viewWindowApp> guiViewWindow;
+		ofFbo fboSecondScreen;
 
 
 private:
