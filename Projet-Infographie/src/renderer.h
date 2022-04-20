@@ -183,6 +183,7 @@ public:
 	glm::vec3 lut[32][32][32];
 
 	ofImage lutImage;
+	ofImage lutImageBuff;
 
 private:
 	bool nameAlreadyExists(string name);

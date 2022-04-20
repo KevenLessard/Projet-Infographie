@@ -11,6 +11,7 @@ void ofApp::setup(){
 	renderer.setup();
 	
 	is_verbose = false;
+	newWindow = false;
 
 	isRGBA = false;
 	//3D
@@ -92,6 +93,8 @@ void ofApp::setup(){
 	setAnimationButton.addListener(this, &ofApp::setAnimation);
 	guiCamera3D.add(toggleRotationButton.setup("Rotate 3D models"));
 	toggleRotationButton.addListener(this, &ofApp::toggleRotation);
+	guiCamera3D.add(viewWindowButton.setup("viewWindow"));
+	viewWindowButton.addListener(this, &ofApp::updateViewWindow);
 	//____________________________________________________________________
 
 	//Panneau de proprietes 2D
@@ -152,6 +155,7 @@ void ofApp::setup(){
 	is_key_press_s = false;
 	is_key_press_d = false;
 }
+
 
 //--------------------------------------------------------------
 void ofApp::update(){
@@ -276,6 +280,8 @@ void ofApp::draw(){
 
 	guiHierarchy.draw();
 }
+
+
 
 //---------------------------------------------------------------
 //Sort function for stl::sort http://www.cplusplus.com/reference/algorithm/sort/
@@ -993,6 +999,10 @@ void ofApp::exportImage() {
 		}
 		nbFrames++;
 	}
+}
+void ofApp::updateViewWindow()
+{
+	viewWindow.draw();
 }
 
 //Called when switching 2D/3D

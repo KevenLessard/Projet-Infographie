@@ -46,7 +46,7 @@ void Renderer::setup()
             doLUT = false;
         }
 
-        lutImage.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+        
         //lutImage.allocate(1024, 768, OF_IMAGE_COLOR);
         //ScreenGrabber.allocate(1024, 768, OF_IMAGE_COLOR);
         //ofBackground(0);
@@ -55,7 +55,7 @@ void Renderer::setup()
 
 
         //thumbPos = { lutImage.getWidth() * 0.5f - 80, -lutImage.getHeight() * 0.5f - 60, 0 };
-        //lutPos = { -lutImage.getWidth() * 0.5f, -lutImage.getHeight() * 0.5f, 0 };
+        lutPos = { -lutImage.getWidth()*0.5, -lutImage.getHeight()*0.5 , 0 };
 
 
 }
@@ -145,10 +145,14 @@ void Renderer::update()
     // update image en lien avec LUT
     //grabScreen.update();
 
-    //if (doLUT)
-    //{
+   /* if (doLUT)
+    {
+        ofPushMatrix();
+        lutImage.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
+        ofPopMatrix();
+        //lutImage.clear;
     //    applyLut(grabScreen.getPixels());
-    //}
+    }*/
     
     //Code pour envoyer lumière sur shader
     //light.setPointLight();

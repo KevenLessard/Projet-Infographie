@@ -4,12 +4,16 @@
 #include <array>
 #include "ofxGui.h"
 #include "renderer.h"
+#include "viewWindowApp.h"
 
 //#include "gestionImages.h"
 
 class ofApp : public ofBaseApp {
 
 	Renderer renderer;
+	viewWindowApp viewWindow;
+
+	
 	//GestionImages gestionImages;
 
 	//3D
@@ -71,6 +75,7 @@ class ofApp : public ofBaseApp {
 	ofParameterGroup parameterGroup;
 
 	bool is_verbose;
+	bool newWindow;
 	bool cursor_enabled;
 
 	public:
@@ -78,6 +83,7 @@ class ofApp : public ofBaseApp {
 		void setup();
 		void update();
 		void draw();
+		
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -130,6 +136,8 @@ class ofApp : public ofBaseApp {
 		ofxButton projectionModeButton;
 		ofxButton setAnimationButton;
 		ofxButton toggleRotationButton;
+		ofxButton viewWindowButton;
+
 		bool is_key_press_up;
 		bool is_key_press_down;
 		bool is_key_press_left;
@@ -143,11 +151,14 @@ class ofApp : public ofBaseApp {
 
 		bool mode3D = true;
 
+		shared_ptr<viewWindowApp> guiViewWindow;
+
 
 private:
 
 	void refreshHierarchy();
 	void exportImage();
+	void updateViewWindow();
 	void refreshProperties();
 
 	//3D
