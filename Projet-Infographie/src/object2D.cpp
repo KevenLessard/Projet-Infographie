@@ -138,11 +138,23 @@ void Rectangle2D::setName(string newRectangleName)
 	m_name = newRectangleName;
 }
 
+void Rectangle2D::applyTexture()
+{
+    ofLoadImage(form2Dtextures, "castleWall.jpg");
+    points[0].x = getPosition().x; points[0].y = getPosition().y;
+    points[1].x = getPosition().x + getRectanglewidth(); points[1].y = getPosition().y;
+    points[2].x = getPosition().x + getRectanglewidth(); points[2].y = getPosition().y + getRectangleHeight();
+    points[3].x = getPosition().x; points[3].y = getPosition().y + getRectangleHeight();
+    
+    form2Dtextures.draw(points[0], points[1], points[2], points[3]);
+}
+
 void Rectangle2D::draw()
 {
 	ofSetColor(getColor());
 	ofVec3f proportion = getProportion();
 	ofDrawRectangle( getPosition(), getRectanglewidth()*proportion.x, getRectangleHeight()*proportion.y);
+    applyTexture();
 }
 
 // Classe Triangle
@@ -649,7 +661,6 @@ void GestionImages::actionResearchImages(string keypressed) {
 
 		ofLog() << "file selected";
 
-
 		loadImage(openFileResult, keypressed);
 	}
 	else {
@@ -709,3 +720,6 @@ void GestionImages::loadImage(ofFileDialogResult openFileResult, string keypress
 			}
 		}
 	}
+
+//------------------------------------------------------------------------------
+//GESTION TEXTURES

@@ -31,6 +31,8 @@ public:
 
 	virtual ~Object2D();
 
+	ofTexture form2Dtextures;
+
 
 	
 
@@ -75,6 +77,10 @@ public:
 	void setRectanglewidth(float newRectangleWidth);
 	void setRectangleHeight(float newRectangleHeight);
 	void setName(string newRectangleName);
+	void applyTexture();
+
+	ofPoint points[4];
+	int cornerIndex = 0;
 
 	void draw();
 

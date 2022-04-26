@@ -6,8 +6,6 @@ void ofApp::setup(){
 	ofSetWindowTitle("2D/3D engine");
 	ofLog() << "<app::setup>";
 	
-
-
 	renderer.setup();
 	
 	is_verbose = false;
@@ -36,19 +34,6 @@ void ofApp::setup(){
 	guiHierarchy.setPosition(0, 0);
 	guiHierarchy.add(labelHierarchy.setup("Panel", "Hierarchy"));
 
-	//Panneau de lumières
-	guiLights.setup();
-	guiLights.setPosition(ofGetWindowWidth() - guiLights.getWidth(), guiProperties3D.getHeight());
-	guiLights.add(labelLight.setup("Panel", "Lights"));
-	guiLights.add(newLight1.setup("Ambient Light"));
-	guiLights.add(newLight2.setup("Directional Light"));
-	guiLights.add(newLight3.setup("Cursor Light"));
-	guiLights.add(newLight4.setup("SpotLight"));
-	newLight1.addListener(this, &ofApp::addNewLight1);
-	newLight2.addListener(this, &ofApp::addNewLight2);
-	newLight3.addListener(this, &ofApp::addNewLight3);
-	newLight4.addListener(this, &ofApp::addNewLight4);
-
 	//Panneau d'ajout d'objects 3D
 	guiObjects3D.setup();
 	guiObjects3D.setPosition(ofGetWindowWidth() - guiObjects3D.getWidth(), ofGetWindowHeight()- guiObjects3D.getHeight());
@@ -63,6 +48,8 @@ void ofApp::setup(){
 	guiObjects3D.add(newTVButton.setup("tv.fbx"));
 	guiObjects3D.add(newWolfButton.setup("Animated Wolf"));
 	guiObjects3D.add(newSurfaceButton.setup("Bezier surface"));
+	guiObjects3D.add(newQuadButton.setup("Quad"));
+	guiObjects3D.add(newDelaunayButton.setup("Delaunay"));
 	guiObjects3D.add(deleteButton.setup("Delete object"));
 
 	newObjectName.set("Name: ", "");
@@ -76,6 +63,8 @@ void ofApp::setup(){
 	newTVButton.addListener(this, &ofApp::addNewTV);
 	newWolfButton.addListener(this, &ofApp::addAnimatedWolf);
 	newSurfaceButton.addListener(this, &ofApp::addBezierSurface);
+	newQuadButton.addListener(this, &ofApp::addQuad);
+	newDelaunayButton.addListener(this, &ofApp::addDelaunay);
 	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
@@ -93,6 +82,63 @@ void ofApp::setup(){
 	setAnimationButton.addListener(this, &ofApp::setAnimation);
 	guiCamera3D.add(toggleRotationButton.setup("Rotate 3D models"));
 	toggleRotationButton.addListener(this, &ofApp::toggleRotation);
+
+	//Panneau de lumières
+	//guiLights.setup();
+	//guiLights.setPosition(guiCamera3D.getWidth(), ofGetWindowHeight() - guiLights.getHeight());
+
+
+	//Panneau de matériaux
+	guiMaterialPanel.setup();
+	guiMaterialPanel.setPosition(guiCamera3D.getWidth(), ofGetWindowHeight() - guiMaterialPanel.getHeight());
+	guiMaterialPanel.add(labelMaterialPanel.setup("Panel", "Materiaux"));
+	guiMaterialPanel.add(basicMaterialButton.setup("Couleur personalisé"));
+	guiMaterialPanel.add(obsidianMaterialButton.setup("Obsidian"));
+	guiMaterialPanel.add(bronzeMaterialButton.setup("Bronze"));
+	guiMaterialPanel.add(goldMaterialButton.setup("Gold"));
+	guiMaterialPanel.add(silverMaterialButton.setup("Silver"));
+	basicMaterialButton.addListener(this, &ofApp::changeMaterialBasic);
+	obsidianMaterialButton.addListener(this, &ofApp::changeMaterialObsidian);
+	bronzeMaterialButton.addListener(this, &ofApp::changeMaterialBronze);
+	goldMaterialButton.addListener(this, &ofApp::changeMaterialGold);
+	silverMaterialButton.addListener(this, &ofApp::changeMaterialSilver);
+	//Lumière multiples pour matériaux
+	guiMaterialPanel.add(labelLight.setup("Panel", "Lights"));
+	guiMaterialPanel.add(newLight1.setup("Ambient Light"));
+	guiMaterialPanel.add(newLight2.setup("Directional Light"));
+	guiMaterialPanel.add(newLight3.setup("Cursor Light"));
+	guiMaterialPanel.add(newLight4.setup("SpotLight"));
+	newLight1.addListener(this, &ofApp::addNewLight1);
+	newLight2.addListener(this, &ofApp::addNewLight2);
+	newLight3.addListener(this, &ofApp::addNewLight3);
+	newLight4.addListener(this, &ofApp::addNewLight4);
+
+
+	//Panneau Shader
+	guiShaderPanel.setup();
+	guiShaderPanel.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight() - guiShaderPanel.getHeight());
+	guiShaderPanel.add(labelShaderPanel.setup("Panel", "Shader"));
+	guiShaderPanel.add(color_fillButton.setup("Color Fill"));
+	guiShaderPanel.add(lambertButton.setup("Lambert"));
+	guiShaderPanel.add(phongButton.setup("Phong"));
+	guiShaderPanel.add(blinn_phongButton.setup("Blinn-Phong"));
+	guiShaderPanel.add(gouraudButton.setup("Gouraud"));
+	guiShaderPanel.add(pbrButton.setup("PBR"));
+	guiShaderPanel.add(slider_metallic);
+	guiShaderPanel.add(slider_roughness);
+	slider_metallic.set("Metallic", material_metallic, 0.0f, 1.0f);
+	slider_roughness.set("Roughness", material_roughness, 0.0f, 1.0f);
+
+
+
+	color_fillButton.addListener(this, &ofApp::changeShaderColorFill);
+	lambertButton.addListener(this, &ofApp::changeShaderLambert);
+	phongButton.addListener(this, &ofApp::changeShaderPhong);
+	blinn_phongButton.addListener(this, &ofApp::changeShaderBlinnPhong);
+	gouraudButton.addListener(this, &ofApp::changeShaderGouraud);
+	pbrButton.addListener(this, &ofApp::changeShaderPBR);
+
+
 	guiCamera3D.add(viewWindowButton.setup("viewWindow"));
 	viewWindowButton.addListener(this, &ofApp::updateViewWindow);
 	//____________________________________________________________________
@@ -106,6 +152,7 @@ void ofApp::setup(){
 	//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 	guiProperties2D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties2D.add(HSBDisplayButton.setup("HSB"));
+	//guiProperties2D.add(newTextureButton.setup("Add Texture"));
 
 	//Panneau d'ajout d'objects 2D
 
@@ -204,6 +251,7 @@ void ofApp::update(){
 		ofVec3f newProportion;
 		ofVec3f newPosition;
 		ofVec3f newRotation;
+
 		if (mode3D) {
 			newProportion = ofVec3f(proportionSlider);
 			newPosition = ofVec3f(positionSlider);
@@ -226,6 +274,8 @@ void ofApp::update(){
 		renderer.proportionateObject(i, newProportion);
 		renderer.moveObject(i, newPosition);
 		renderer.rotateObject(i, newRotation);
+		renderer.setMetallic(i, slider_metallic);
+		renderer.setRoughness(i, slider_roughness);
 		if (isRGBA) {
 			renderer.setObjectColor(i, colorPicker);
 		}
@@ -267,6 +317,8 @@ void ofApp::draw(){
 		guiObjects3D.draw();
 		guiCamera3D.draw();
 		guiLights.draw();
+		guiShaderPanel.draw();
+		guiMaterialPanel.draw();
 	}
 
 	if (mode3D==false) {
@@ -471,6 +523,12 @@ void ofApp::keyReleased(int key){
 		}
 		ofLog() << "<shader: phong>";
 		break;
+/*
+	case 54: // touche 1
+		renderer.kernel_type = ConvolutionKernel::identity;
+		renderer.kernel_name = "identité";
+		break;
+		*/
 
 	case 53: // touche 5
 		for (int o : selectedObjects) {
@@ -780,6 +838,8 @@ void ofApp::windowResized(int w, int h){
 		guiProperties3D.setPosition(w - guiProperties3D.getWidth(), 0);
 		guiCamera3D.setPosition(0, h - guiCamera3D.getHeight());
 		guiObjects3D.setPosition(w - guiObjects3D.getWidth(), h - guiObjects3D.getHeight());
+		guiMaterialPanel.setPosition(guiCamera3D.getWidth(), h - guiMaterialPanel.getHeight());
+		guiShaderPanel.setPosition(0, h - guiCamera3D.getHeight() - guiShaderPanel.getHeight());
 	} else {
 		guiHierarchy.setPosition(0, 0);
 		guiProperties2D.setPosition(w - guiProperties2D.getWidth(), 0);
@@ -867,6 +927,18 @@ void ofApp::addBezierSurface() {
 	newObjectName.set("");
 }
 
+void ofApp::addQuad() {
+	renderer.addNewQuad(newObjectName);
+	newToggleObject();
+	newObjectName.set("");
+}
+
+void ofApp::addDelaunay() {
+	renderer.addNewDelauney(newObjectName);
+	newToggleObject();
+	newObjectName.set("");
+}
+
 void ofApp::deleteObject() {
 	for (int i = 0; i < selectedObjects.size(); i++) {
 		int index = selectedObjects[i];
@@ -907,18 +979,20 @@ void ofApp::toggleListener(bool& value) {
 			ofVec3f position(renderer.objects3d[selectedObjects[0]]->getPosition());
 			ofVec3f rotation(renderer.objects3d[selectedObjects[0]]->getRotation());
 			ofColor color = renderer.objects3d[selectedObjects[0]]->getColor();
+			
+			material_metallic = renderer.objects3d[selectedObjects[0]]->getMetallic();
+			material_roughness = renderer.objects3d[selectedObjects[0]]->getRoughness();
+			slider_metallic = material_metallic;
+			slider_roughness = material_roughness;
 			proportionSlider = proportion;
 			positionSlider = position;
 			rotationSlider = rotation;
 			colorPicker = color;
 		}
 		else {
-			ofLog() << "Test 2D";
 			if (renderer.objects2D[selectedObjects[0]]->isCurve) {
-				ofLog() << "Test curveSelected";
 ;				vector<ofVec2f> points(renderer.objects2D[selectedObjects[0]]->getPoints());
 				for (int i = 1; i < 8; i++) {
-					ofLog() << points[i - 1];
 					string name = "Control point " + ofToString(i);
 					controlPoints[i - 1]->setup(name, points[i-1], ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
 				}
@@ -943,6 +1017,16 @@ void ofApp::updateSelection() {
 	for (int i = 0; i < objectsToggle.size(); i++) {
 		if (objectsToggle[i].get()) {
 			selectedObjects.push_back(i);
+			if (mode3D) {
+				renderer.objects3d[i]->setSelected(true);
+				renderer.mainCamera.disableMouseInput();
+			}
+		}
+		else {
+			if (mode3D) {
+				renderer.objects3d[i]->setSelected(false);
+				renderer.mainCamera.enableMouseInput();
+			}
 		}
 	}
 }
@@ -1167,4 +1251,65 @@ void ofApp::addNewLight4() {
 	renderer.addNewLight(4);
 }
 
+//Fonctions Matériaux
+void ofApp::changeMaterialBasic() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "basic");
+	}
+}
+void ofApp::changeMaterialObsidian() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "obsidian");
+	}
+}
+void ofApp::changeMaterialBronze() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "bronze");
+	}
+}
+void ofApp::changeMaterialGold() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "gold");
+	}
+}
+void ofApp::changeMaterialSilver() {
+	for (int o : selectedObjects) {
+		renderer.setMaterial(o, "silver");
+	}
+}
+
+//Fonctions Shader
+void ofApp::changeShaderColorFill() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "color_fill");
+	}
+}
+void ofApp::changeShaderLambert() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "lambert");
+	}
+}
+void ofApp::changeShaderPhong() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "blinn_phong");
+	}
+}
+void ofApp::changeShaderBlinnPhong() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "phong");
+	}
+}
+
+void ofApp::changeShaderGouraud() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "gouraud");
+	}
+}
+
+void ofApp::changeShaderPBR() {
+	for (int o : selectedObjects) {
+		renderer.shaderActive(o, "pbr");
+	}
+
+}
 

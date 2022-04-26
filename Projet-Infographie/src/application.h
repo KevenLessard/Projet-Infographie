@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "ofMain.h"
 #include <array>
@@ -9,7 +9,6 @@
 //#include "gestionImages.h"
 
 class ofApp : public ofBaseApp {
-
 	Renderer renderer;
 	viewWindowApp viewWindow;
 
@@ -40,12 +39,50 @@ class ofApp : public ofBaseApp {
 	ofxButton newTVButton;
 	ofxButton newWolfButton;
 	ofxButton newSurfaceButton;
+	ofxButton newQuadButton;
+	ofxButton newDelaunayButton;
 
-	//Lumières
+	//Lumiï¿½res
 	ofxButton newLight1;
 	ofxButton newLight2;
 	ofxButton newLight3;
 	ofxButton newLight4;
+
+	//Matï¿½riaux(Classique)
+	ofxLabel labelMaterialPanel;
+	ofxPanel guiMaterialPanel;
+	ofxButton basicMaterialButton;
+	ofxButton obsidianMaterialButton;
+	ofxButton bronzeMaterialButton;
+	ofxButton goldMaterialButton;
+	ofxButton silverMaterialButton;
+	void changeMaterialBasic();
+	void changeMaterialObsidian();
+	void changeMaterialBronze();
+	void changeMaterialGold();
+	void changeMaterialSilver();
+
+	//Matï¿½riaux(Shader Illumination)
+	ofxLabel labelShaderPanel;
+	ofxPanel guiShaderPanel;
+	ofxButton color_fillButton;
+	ofxButton lambertButton;
+	ofxButton phongButton;
+	ofxButton blinn_phongButton;
+	ofxButton gouraudButton;
+	//Matï¿½riaux(PBR)
+	ofxButton pbrButton;
+	void changeShaderColorFill();
+	void changeShaderLambert();
+	void changeShaderPhong();
+	void changeShaderBlinnPhong();
+	void changeShaderGouraud();
+	void changeShaderPBR();
+	ofParameter<float> slider_metallic;
+	ofParameter<float> slider_roughness;
+	float material_metallic;
+	float material_roughness;
+
 
 	//___________________________
 
@@ -173,6 +210,8 @@ private:
 	void addNewTV();
 	void addAnimatedWolf();
 	void addBezierSurface();
+	void addQuad();
+	void addDelaunay();
 	void deleteObject();
 	void cameraLookAt();
 	void switchProjectionMode();

@@ -7,7 +7,12 @@
 #include "object2D.h"
 #include "sphere.h"
 #include "fliters.h"
+#include "SkyBox.h"
+//#include "ofxCubeMap.h"
+
 #include "ofxVectorGraphics.h"
+
+
 
 
 class Renderer
@@ -98,6 +103,8 @@ public:
 	void addNewCylinder(string name);
 	void addNewCone(string name);
 	void addNewSurface(string name);
+	void addNewQuad(string name);
+	void addNewDelauney(string name);
 	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);
@@ -107,6 +114,9 @@ public:
 	void cameraLookAt(int index);
 	void switchProjectionMode();
 	void setObjectColor(int index, ofColor newColor);
+	void setMetallic(int index, float value);
+	void setRoughness(int index, float value);
+
 
 
 	string getObject3dName(int index);
@@ -118,6 +128,8 @@ public:
 	void lightingOn();
 	void lightingOff();
 	void setTexture(int index);
+	void shaderActive(int index, string type);
+	void setMaterial(int index, string material);
 
 	//2D
 
@@ -131,9 +143,8 @@ public:
 	void addNewCurve(string name, int type);
 	void moveCurve(int index, int pointIndex, ofVec3f newPosition);
 
-	void shaderActive(int index, string type);
-	void addNewImage(string name, string keypressed);
 
+	void addNewImage(string name, string keypressed);
 	bool squareDraw = false;
 	bool circleDraw = false;
 	bool RectangleDraw = false;
@@ -159,6 +170,9 @@ public:
 	float oscillation_amplitude;
 	float oscillate(float time, float frequency, float amplitude);
 	float camera_offset;
+	Skybox skybox;
+	
+
 
 	bool light_ambientOn;
 	bool light_directionalOn;
