@@ -6,8 +6,6 @@ void ofApp::setup(){
 	ofSetWindowTitle("2D/3D engine");
 	ofLog() << "<app::setup>";
 	
-
-
 	renderer.setup();
 	
 	is_verbose = false;
@@ -91,7 +89,7 @@ void ofApp::setup(){
 
 	//Panneau de matériaux
 	guiMaterialPanel.setup();
-	guiMaterialPanel.setPosition(0, guiCamera3D.getHeight());
+	guiMaterialPanel.setPosition(guiCamera3D.getWidth(), ofGetWindowHeight() - guiMaterialPanel.getHeight());
 	guiMaterialPanel.add(labelMaterialPanel.setup("Panel", "Materiaux"));
 	guiMaterialPanel.add(basicMaterialButton.setup("Couleur personalisé"));
 	guiMaterialPanel.add(obsidianMaterialButton.setup("Obsidian"));
@@ -117,7 +115,7 @@ void ofApp::setup(){
 
 	//Panneau Shader
 	guiShaderPanel.setup();
-	guiShaderPanel.setPosition(0, guiCamera3D.getHeight());
+	guiShaderPanel.setPosition(0, ofGetWindowHeight() - guiCamera3D.getHeight() - guiShaderPanel.getHeight());
 	guiShaderPanel.add(labelShaderPanel.setup("Panel", "Shader"));
 	guiShaderPanel.add(color_fillButton.setup("Color Fill"));
 	guiShaderPanel.add(lambertButton.setup("Lambert"));
@@ -302,6 +300,7 @@ void ofApp::update(){
 void ofApp::draw(){
 	
 	renderer.draw();
+
 	exportImage();
 
 	if (mode3D==true) {
@@ -773,7 +772,8 @@ void ofApp::windowResized(int w, int h){
 		guiProperties3D.setPosition(w - guiProperties3D.getWidth(), 0);
 		guiCamera3D.setPosition(0, h - guiCamera3D.getHeight());
 		guiObjects3D.setPosition(w - guiObjects3D.getWidth(), h - guiObjects3D.getHeight());
-		guiLights.setPosition(guiCamera3D.getWidth(), h - guiLights.getHeight());
+		guiMaterialPanel.setPosition(guiCamera3D.getWidth(), h - guiMaterialPanel.getHeight());
+		guiShaderPanel.setPosition(0, h - guiCamera3D.getHeight() - guiShaderPanel.getHeight());
 	} else {
 		guiHierarchy.setPosition(0, 0);
 		guiProperties2D.setPosition(w - guiProperties2D.getWidth(), 0);
