@@ -96,6 +96,7 @@ void Skybox::setSkyboxVAO() {
 }
 
 void Skybox::draw(const ofEasyCam& mainCamera) {
+    ofFill();
     glDepthFunc(GL_LEQUAL);
     m_shader.begin();
     m_shader.setUniformMatrix4f("view", glm::mat4(glm::mat3(mainCamera.getModelViewMatrix())));
