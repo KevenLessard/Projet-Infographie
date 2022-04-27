@@ -87,6 +87,9 @@ class ofApp : public ofBaseApp {
 	ofxPanel guiCamera2D;
 	ofxPanel guiControlPoints;
 	ofxPanel guiFilter;
+	ofxGuiGroup group_tone_mapping;
+	ofParameter<float> slider_exposure;
+	ofParameter<float> slider_gamma;
 
 	ofxButton newCircleButton;
 	ofxButton newSquareButton;

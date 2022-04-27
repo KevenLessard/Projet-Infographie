@@ -58,7 +58,12 @@ void Object2D::movePoint(int pointIndex, glm::vec3 newPosition) {
 void Object2D::changeFilter(int filter) {
 
 }
+void Object2D::change_gamma(float newGamma) {
 
+}
+void Object2D::change_exposure(float newExposure) {
+
+}
 vector<ofVec2f> Object2D::getPoints() {
     return vector<ofVec2f>();
 }
@@ -638,7 +643,7 @@ vector<ofVec2f> Curve2D::getPoints() {
 // Class gestionImage
 //----------------------------------------------------------------------
 GestionImages::GestionImages() {
-    isImage = true;
+
 }
 
 void GestionImages::setName(string newImageName) {
@@ -650,7 +655,14 @@ string GestionImages::getName() {
 }
 
 void GestionImages::draw() {
-	filteredImage.draw(getPosition());
+    shader.begin();
+    // passer les attributs uniformes au shader
+    shader.setUniformTexture("image", filteredImage.getTexture(), 1);
+    shader.setUniform1f("tone_mapping_exposure", tone_mapping_exposure);
+    shader.setUniform1f("tone_mapping_gamma", tone_mapping_gamma);
+    shader.setUniform1f("tone_mapping_toggle", false);
+	filteredImage.draw(getPosition().x, getPosition().y, filteredImage.getWidth() * getProportion().x, filteredImage.getHeight() * getProportion().y);
+    shader.end();
 }
 
 //Fonction pour rechercher dans le réseau local une image
@@ -728,6 +740,11 @@ void GestionImages::loadImage(ofFileDialogResult openFileResult, string keypress
             filteredImage.allocate(image_width, image_height, OF_IMAGE_COLOR);
             kernel_type = ConvolutionKernel::identity;
             filter();
+            setProportion(ofVec3f(1, 1, 0));
+            isImage = true;
+            tone_mapping_exposure = 1.0f;
+            tone_mapping_gamma = 2.2f;
+            shader.load("shader/tone_mapping_330_vs.glsl", "shader/tone_mapping_330_fs.glsl");
 		}
 }
 
@@ -888,6 +905,14 @@ void GestionImages::changeFilter(int newFilter) {
         break;
     }
     filter();
+}
+
+void GestionImages::change_gamma(float newGamma) {
+    tone_mapping_gamma = newGamma;
+}
+
+void GestionImages::change_exposure(float newExposure) {
+    tone_mapping_exposure = newExposure;
 }
 
 //------------------------------------------------------------------------------

@@ -15,6 +15,8 @@ public:
 	virtual void setName(string newObjectName);
 	virtual void movePoint(int pointIndex, glm::vec3 newPosition);
 	virtual void changeFilter(int filter);
+	virtual void change_gamma(float newGamma);
+	virtual void change_exposure(float exposure);
 	virtual vector<ofVec2f> getPoints();
 	
 	ofVec3f getPosition();
@@ -258,11 +260,11 @@ public:
 
 	void actionResearchImages(string keypressed);
 
-
 	void loadImage(ofFileDialogResult openFileResult, string keypressed);
 
 	void changeFilter(int newFilter);
-
+	void change_gamma(float newGamma);
+	void change_exposure(float newExposure);
 	void filter();
 
 private:
@@ -272,6 +274,9 @@ private:
 	int image_width;
 	int image_height;
 
+	ofShader shader;
+	float tone_mapping_exposure;
+	float tone_mapping_gamma;
 	
 	const std::array<float, 9> convolution_kernel_identity
 	{

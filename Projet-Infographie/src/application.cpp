@@ -177,6 +177,14 @@ void ofApp::setup(){
 	guiFilter.add(edge_detectFilterButton.setup("Edge detect"));
 	guiFilter.add(blurFilterButton.setup("Blur"));
 
+	slider_exposure.set("exposure", 1.0, 0.0f, 5.0f);
+	slider_gamma.set("gamma", 2.2, 0.0f, 5.0f);
+	group_tone_mapping.setup("tone mapping");
+
+	group_tone_mapping.add(slider_exposure);
+	group_tone_mapping.add(slider_gamma);
+	guiFilter.add(&group_tone_mapping);
+
 	identityFilterButton.addListener(this, &ofApp::setFilterIdentity);
 	embossFilterButton.addListener(this, &ofApp::setFilterEmboss);
 	sharpenFilterButton.addListener(this, &ofApp::setFilterSharpen);
@@ -280,6 +288,8 @@ void ofApp::update() {
 			}
 			else if (renderer.objects2D[i]->isImage) {
 				oneImageSelected = true;
+				renderer.objects2D[i]->change_exposure(slider_exposure);
+				renderer.objects2D[i]->change_gamma(slider_gamma);
 			}
 			ofVec3f newProportion2D(proportionSlider2D);
 			newProportion = ofVec3f(newProportion2D.x, newProportion2D.y, 1);

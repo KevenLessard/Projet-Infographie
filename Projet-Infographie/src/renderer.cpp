@@ -4,6 +4,7 @@
 void Renderer::setup()
 {
         ofSetFrameRate(60);
+        ofDisableArbTex();
         isMode3D = true;
 		mouse_press_x = mouse_press_y = mouse_current_x = mouse_current_y = 0;
 
