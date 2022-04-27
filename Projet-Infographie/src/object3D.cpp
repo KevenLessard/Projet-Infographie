@@ -110,6 +110,7 @@ object3D::object3D(string p_name, int type) {
 	texture_roughness.load("texture/metal_plate_roughness_1k.jpg");
 	texture_occlusion.load("texture/metal_plate_ao_1k.jpg");
 
+
 	// paramètres des textures du matériau
 	texture_diffuse.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
 	texture_metallic.getTexture().setTextureWrap(GL_REPEAT, GL_REPEAT);
@@ -534,6 +535,7 @@ void object3D::draw() {
 			float sizeBase = sphere.getRadius() * 2 * sphere.getGlobalScale().x;
 			ofNoFill();
 			ofDrawBox(sphere.getPosition(), sizeBase, sizeBase, sizeBase);
+
 		}
 		toggleBoundingBox = false;
 	}
@@ -675,7 +677,6 @@ void object3D::updateShader(ofLight light) {
 		//material_metallic = 0.5f;
 		//material_roughness = 0.5f;
 		
-		cout << material_metallic;
 		//-----------------
 
 		material_color_ambient = ofColor(63, 63, 63);
