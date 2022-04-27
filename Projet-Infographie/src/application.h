@@ -4,16 +4,11 @@
 #include <array>
 #include "ofxGui.h"
 #include "renderer.h"
-#include "viewWindowApp.h"
 
 //#include "gestionImages.h"
 
 class ofApp : public ofBaseApp {
 	Renderer renderer;
-	viewWindowApp viewWindow;
-
-	
-	//GestionImages gestionImages;
 
 	//3D
 	ofxPanel guiProperties3D;
@@ -91,6 +86,7 @@ class ofApp : public ofBaseApp {
 	ofxPanel guiObjects2D;
 	ofxPanel guiCamera2D;
 	ofxPanel guiControlPoints;
+	ofxPanel guiFilter;
 
 	ofxButton newCircleButton;
 	ofxButton newSquareButton;
@@ -102,10 +98,16 @@ class ofApp : public ofBaseApp {
 	ofxButton newHouseButton;
 	ofxButton newBezierSplineButton;
 	ofxButton newCRbutton;
+	ofxButton identityFilterButton;
+	ofxButton embossFilterButton;
+	ofxButton sharpenFilterButton;
+	ofxButton edge_detectFilterButton;
+	ofxButton blurFilterButton;
 
 	vector<ofxVec2Slider*> controlPoints;
 
 	bool curveSelected = false;
+	bool imageSelected = false;
 	//___________________________
 
 
@@ -134,8 +136,6 @@ class ofApp : public ofBaseApp {
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-
-		void getHsb();
 
 
 		ofxIntSlider intSlider;
@@ -188,15 +188,10 @@ class ofApp : public ofBaseApp {
 
 		bool mode3D = true;
 
-		shared_ptr<viewWindowApp> guiViewWindow;
-		ofFbo fboSecondScreen;
-
-
 private:
 
 	void refreshHierarchy();
 	void exportImage();
-	void updateViewWindow();
 	void refreshProperties();
 
 	//3D
@@ -236,6 +231,12 @@ private:
 	void addNewHouse();
 	void addNewBezierSpline();
 	void addNewCR();
+
+	void setFilterIdentity();
+	void setFilterEmboss();
+	void setFilterSharpen();
+	void setFilterEdgeDetect();
+	void setFilterBlur();
 		
 	void openFileSelection(ofFileDialogResult openFileResult);
 

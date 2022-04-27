@@ -1,6 +1,5 @@
 #include "ofMain.h"
 #include "application.h"
-#include "viewWindowApp.h"
 
 
 //========================================================================
@@ -16,22 +15,7 @@ int main( ){
 	windowSettings.setGLVersion(3, 3);
 	windowSettings.numSamples = 4;
 	windowSettings.doubleBuffering = true;
-	// création de la fenêtre
-	shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(windowSettings);
-
-	//Fenetre 2
-	windowSettings.setSize(600, 600);
-	windowSettings.setPosition(glm::vec2(1048, 300));
-	windowSettings.resizable = false;
-	shared_ptr<ofAppBaseWindow> viewWindow = ofCreateWindow(windowSettings);
-
-	shared_ptr<ofApp> mainApp(new ofApp);
-	shared_ptr<viewWindowApp> viewApp(new viewWindowApp);
-	mainApp->guiViewWindow = viewApp;
-		
-		
-		ofRunApp(viewWindow, viewApp);
-	ofRunApp(mainWindow, mainApp);
-	ofRunMainLoop();
+	ofCreateWindow(windowSettings);
+	ofRunApp(new ofApp());
 	
 }

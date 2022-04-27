@@ -139,8 +139,6 @@ void ofApp::setup(){
 	pbrButton.addListener(this, &ofApp::changeShaderPBR);
 
 
-	guiCamera3D.add(viewWindowButton.setup("viewWindow"));
-	viewWindowButton.addListener(this, &ofApp::updateViewWindow);
 	//____________________________________________________________________
 
 	//Panneau de proprietes 2D
@@ -171,6 +169,19 @@ void ofApp::setup(){
 	guiObjects2D.add(newCRbutton.setup("New Catmull-Rom curve"));
 	guiObjects2D.add(deleteButton.setup("Delete object"));
 
+	guiFilter.setup();
+	guiFilter.setPosition(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
+	guiFilter.add(identityFilterButton.setup("Identity"));
+	guiFilter.add(embossFilterButton.setup("Emboss"));
+	guiFilter.add(sharpenFilterButton.setup("Sharpen"));
+	guiFilter.add(edge_detectFilterButton.setup("Edge detect"));
+	guiFilter.add(blurFilterButton.setup("Blur"));
+
+	identityFilterButton.addListener(this, &ofApp::setFilterIdentity);
+	embossFilterButton.addListener(this, &ofApp::setFilterEmboss);
+	sharpenFilterButton.addListener(this, &ofApp::setFilterSharpen);
+	edge_detectFilterButton.addListener(this, &ofApp::setFilterEdgeDetect);
+	blurFilterButton.addListener(this, &ofApp::setFilterBlur);
 	//Panneau des points de controle
 	for (int i = 0; i < 7; i++) {
 		controlPoints.push_back(new ofxVec2Slider());
@@ -205,7 +216,7 @@ void ofApp::setup(){
 
 
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 
 	renderer.is_camera_move_left = is_key_press_left;
 	renderer.is_camera_move_right = is_key_press_right;
@@ -239,6 +250,7 @@ void ofApp::update(){
 		}
 	}
 	bool oneCurveSelected = false;
+	bool oneImageSelected = false;
 	for (int i : selectedObjects) {
 		if (otherCursorInUse == false) {
 			renderer.crossCursor_enabled = true;
@@ -266,6 +278,9 @@ void ofApp::update(){
 					renderer.moveCurve(i, j, newControlPoint);
 				}
 			}
+			else if (renderer.objects2D[i]->isImage) {
+				oneImageSelected = true;
+			}
 			ofVec3f newProportion2D(proportionSlider2D);
 			newProportion = ofVec3f(newProportion2D.x, newProportion2D.y, 1);
 			newPosition = ofVec3f(positionSlider2D);
@@ -274,8 +289,10 @@ void ofApp::update(){
 		renderer.proportionateObject(i, newProportion);
 		renderer.moveObject(i, newPosition);
 		renderer.rotateObject(i, newRotation);
-		renderer.setMetallic(i, slider_metallic);
-		renderer.setRoughness(i, slider_roughness);
+		if (mode3D) {
+			renderer.setMetallic(i, slider_metallic);
+			renderer.setRoughness(i, slider_roughness);
+		}
 		if (isRGBA) {
 			renderer.setObjectColor(i, colorPicker);
 		}
@@ -296,20 +313,24 @@ void ofApp::update(){
 	else {
 		curveSelected = false;
 	}
+	if (oneImageSelected) {
+		imageSelected = true;
+	}
+	else {
+		imageSelected = false;
+	}
 	updateHierarchy();
 	renderer.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-	viewWindow.fboSecondScreen.begin();
 	
 	
 	renderer.draw();
 
 	exportImage();
 
-	viewWindow.fboSecondScreen.end();
 
 	if (mode3D==true) {
 		ofDrawBitmapString("Press F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
@@ -332,11 +353,12 @@ void ofApp::draw(){
 		else {
 			guiProperties2D.draw();
 		}
+		if (imageSelected) {
+			guiFilter.draw();
+		}
 	}
 
 	guiHierarchy.draw();
-	
-	
 }
 
 
@@ -471,29 +493,6 @@ void ofApp::keyReleased(int key){
 
 	switch (key)
 	{
-	
-	case 43: // touche +
-		renderer.doLUT = true;
-		renderer.dirLoadIndex++;
-		if (renderer.dirLoadIndex >= (int)renderer.dir.size()) {
-			renderer.dirLoadIndex = 0;
-		}
-		renderer.loadLut(renderer.dir.getPath(renderer.dirLoadIndex));
-
-		break;
-
-	case 45: // touche -
-		renderer.doLUT = true;
-		renderer.dirLoadIndex--;
-		if (renderer.dirLoadIndex < 0)
-		{ 
-			renderer.dirLoadIndex = renderer.dir.size() - 1;
-		}
-		renderer.loadLut(renderer.dir.getPath(renderer.dirLoadIndex));
-
-		break;
-
-
 	case 49: // touche 1
 		for (int o : selectedObjects) {
 			renderer.shaderActive(o , "color_fill");
@@ -523,57 +522,18 @@ void ofApp::keyReleased(int key){
 		}
 		ofLog() << "<shader: phong>";
 		break;
-/*
-	case 54: // touche 1
-		renderer.kernel_type = ConvolutionKernel::identity;
-		renderer.kernel_name = "identité";
-		break;
-		*/
-
 	case 53: // touche 5
 		for (int o : selectedObjects) {
 			renderer.shaderActive(o, "blinn_phong");
 		}
 		ofLog() << "<shader: blinn-phong>";
 		break;
-		/*
-	case 54: // touche 1
-		renderer.kernel_type = ConvolutionKernel::identity;
-		renderer.kernel_name = "identité";
-		break;
-
-	case 55: // touche 2
-		renderer.kernel_type = ConvolutionKernel::emboss;
-		renderer.kernel_name = "bosseler";
-		renderer.filter();
-		break;
-
-	case 56: // touche 3
-		renderer.kernel_type = ConvolutionKernel::sharpen;
-		renderer.kernel_name = "aiguiser";
-		//renderer.image_destination2 = renderer.image_destination;
-		renderer.filter();
-		break;
-
-	case 57: // touche 4
-		renderer.kernel_type = ConvolutionKernel::edge_detect;
-		renderer.kernel_name = "détection de bordure";
-		//renderer.image_destination3 = renderer.image_destination;
-		renderer.filter();
-		break;
-
-	case 58: // touche 5
-		renderer.kernel_type = ConvolutionKernel::blur;
-		renderer.kernel_name = "flou";
-		break;
-		*/
-
 	case 57351:
 		for (int o : selectedObjects) {
 			renderer.setTexture(o);
 
 		}
-
+		break;
 	case 57350: //touche f7 pour rogner l'image
 		if (mode3D == false) {
 			string keypressed = "f7";
@@ -854,10 +814,6 @@ void ofApp::gotMessage(ofMessage msg){
 
 }
 //--------------------------------------------------------------
-void ofApp::getHsb()
-{
-
-}
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
@@ -1005,12 +961,11 @@ void ofApp::toggleListener(bool& value) {
 				positionSlider2D.setup("Position", ofVec2f(position.x, position.y), ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
 				rotationSlider2D.setup("Rotation", ofVec2f(rotation.x, rotation.y), ofVec2f(0, 0), ofVec2f(360, 360));
 			}
-
 			ofColor color = renderer.objects2D[selectedObjects[0]]->getColor();
 			colorPicker = color;
 		}
 	}
-}
+;}
 
 void ofApp::updateSelection() {
 	selectedObjects.clear();
@@ -1089,12 +1044,6 @@ void ofApp::exportImage() {
 		}
 		nbFrames++;
 	}
-}
-void ofApp::updateViewWindow()
-{
-	ofLog() << "button viewWindow pressed";
-	viewWindow.draw();
-
 }
 
 //Called when switching 2D/3D
@@ -1310,6 +1259,40 @@ void ofApp::changeShaderPBR() {
 	for (int o : selectedObjects) {
 		renderer.shaderActive(o, "pbr");
 	}
-
 }
 
+void ofApp::setFilterIdentity() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(0);
+		}
+	}
+}
+void ofApp::setFilterEmboss() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(1);
+		}
+	}
+}
+void ofApp::setFilterSharpen() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(2);
+		}
+	}
+}
+void ofApp::setFilterEdgeDetect() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(3);
+		}
+	}
+}
+void ofApp::setFilterBlur() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(4);
+		}
+	}
+}

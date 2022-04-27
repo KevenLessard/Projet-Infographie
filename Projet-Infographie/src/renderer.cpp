@@ -57,37 +57,10 @@ void Renderer::setup()
         oscillation_amplitude = 45.0;
         reset();
 
-        // setup LUT
-        dir.allowExt("cube");
-        dir.listDir("LUTs/");
-        dir.sort();
-        if (dir.size() > 0) {
-            dirLoadIndex = 0;
-            loadLut(dir.getPath(dirLoadIndex));
-            doLUT = true;
-        }
-        else {
-            doLUT = false;
-        }
-
-        
-        //lutImage.allocate(1024, 768, OF_IMAGE_COLOR);
-        //ScreenGrabber.allocate(1024, 768, OF_IMAGE_COLOR);
-        //ofBackground(0);
-
-        
-
-
-        //thumbPos = { lutImage.getWidth() * 0.5f - 80, -lutImage.getHeight() * 0.5f - 60, 0 };
-        lutPos = { -lutImage.getWidth()*0.5, -lutImage.getHeight()*0.5 , 0 };
-
-
 }
 
 void Renderer::update()
 {
-
-
     center_x = ofGetWidth() / 2.0f;
     center_y = ofGetHeight() / 2.0f;
 
@@ -165,17 +138,6 @@ void Renderer::update()
     for (object3D* object : objects3d) {
       object->updateMaterial();
     }
-    }
-    // update image en lien avec LUT
-    //grabScreen.update();
-
-   if (doLUT)
-    {
-        ofPushMatrix();
-        lutImage.grabScreen(0, 0, ofGetWindowWidth(), ofGetWindowHeight());
-        ofPopMatrix();
-        //lutImage.clear;
-    //    applyLut(grabScreen.getPixels());
     }
     
     //Code pour envoyer lumière sur shader
@@ -278,7 +240,6 @@ void Renderer::draw_MagnifyingGlass(float x, float y)const {
 
 void Renderer::draw()
 {
-
     //Ajouter une section pour le draw du 2D
     ofPushMatrix();
     mainCamera.begin();
@@ -289,10 +250,10 @@ void Renderer::draw()
     lightingOn();
 
     light.enable();
-    skybox.draw(mainCamera);
 
 
     if (isMode3D) {
+        skybox.draw(mainCamera);
         //Dessine les lumières mais marche mal
         //if (light_pointOn) {
         //    light_point.draw();
@@ -315,46 +276,39 @@ void Renderer::draw()
             ofPopMatrix();
         }
     }
-        
-        else {
-            for (Object2D* object : objects2D) {
-                ofPushMatrix();
-                ofFill();
-                object->draw();
-                if (doLUT) {
-
-                    //lutImage.draw(lutPos.x, lutPos.y);
-                    //grabScreen.draw(ofGetWindowWidth() - 100, ofGetWindowHeight() - 100);
-                    ofDrawBitmapString(dir.getName(dirLoadIndex), lutPos.x +500, -lutPos.y + 50);
-                }
-                ofPopMatrix();
-            }
-           
+    else {
+        for (Object2D* object : objects2D) {
+            ofPushMatrix();
+            ofFill();
+            object->draw();
+            ofPopMatrix();
         }
 
-        ofDisableLighting();
-        ofDisableDepthTest();
-        lightingOff();
-        mainCamera.end();
-        ofPopMatrix();
+    }
 
-        //Dessin des curseurs en fonction de l'état:
-        if (crossCursor_enabled)
-            draw_CrossCursor(mouse_current_x, mouse_current_y);
-        if (circleCursor_enabled)
-            draw_CircleCursor(mouse_current_x, mouse_current_y);
-        if (arrowCursor_enabled)
-            draw_ArrowCursor(mouse_current_x, mouse_current_y);
-        if (handCursor_enabled)
-            draw_HandCursor(mouse_current_x, mouse_current_y);
-        if (resizeCursor_enabled)
-            draw_ResizeCursor(mouse_current_x, mouse_current_y);
-        if (resizeCursorUpDown_enabled)
-            draw_ResizeCursorUpDown(mouse_current_x, mouse_current_y);
-        if (magnifyingGlassEnabled)
-            draw_MagnifyingGlass(mouse_current_x, mouse_current_y);
+    ofDisableLighting();
+    ofDisableDepthTest();
+    lightingOff();
+    mainCamera.end();
+    ofPopMatrix();
 
-};
+    //Dessin des curseurs en fonction de l'état:
+    if (crossCursor_enabled)
+        draw_CrossCursor(mouse_current_x, mouse_current_y);
+    if (circleCursor_enabled)
+        draw_CircleCursor(mouse_current_x, mouse_current_y);
+    if (arrowCursor_enabled)
+        draw_ArrowCursor(mouse_current_x, mouse_current_y);
+    if (handCursor_enabled)
+        draw_HandCursor(mouse_current_x, mouse_current_y);
+    if (resizeCursor_enabled)
+        draw_ResizeCursor(mouse_current_x, mouse_current_y);
+    if (resizeCursorUpDown_enabled)
+        draw_ResizeCursorUpDown(mouse_current_x, mouse_current_y);
+    if (magnifyingGlassEnabled)
+        draw_MagnifyingGlass(mouse_current_x, mouse_current_y);
+
+}
 
 //Ajout d'un cercle au vecteur 2D
 void Renderer::addNewCircle(string name) {
@@ -474,23 +428,6 @@ void Renderer::addNewHouse(string name) {
     house->setProportion(ofVec3f(1, 1, 1));
     objects2D.push_back(house);
 }
-/*
-void Renderer::addNewCurve(string name, int type) {
-    if (nameAlreadyExists(name)) {
-        return;
-    }
-    if (name == "") {
-        name = "Curve " + to_string(objects2D.size());
-    }
-    Curve2D* curve = new Curve2D(type);
-    curve->setName(name);
-    objects2D.push_back(curve);
-}
-*/
-//void Renderer::textureSelection(string name, int index)
-//{
-
-//}
 
 void Renderer::addNewCurve(string name, int type) {
     if (nameAlreadyExists(name)) {
@@ -795,136 +732,6 @@ void Renderer::shaderActive(int index, string type) {
     objects3d[index]->changeShader(type);
 }
 */
-/*
-// Fonction de flitrage par convolution
-// -------------------------------------------------------------------
-
-void Renderer::filter()
-{
-    // résolution du kernel de convolution
-    const int kernel_size = 3;
-
-    // décalage à partir du centre du kernel
-    const int kernel_offset = kernel_size / 2;
-
-    // nombre de composantes de couleur (RGB)
-    const int color_component_count = 3;
-
-    // indices de l'image
-    int x, y;
-
-    // indices du kernel
-    int i, j;
-
-    // index des composantes de couleur
-    int c;
-
-    // index du pixel de l'image source utilisé pour le filtrage
-    int pixel_index_img_src;
-
-    // index du pixel de l'image de destination en cours de filtrage
-    int pixel_index_img_dst;
-
-    // index du pixel de l'image de destination en cours de filtrage
-    int kernel_index;
-
-    // valeur à un des indices du kernel de convolution
-    float kernel_value;
-
-    // extraire les pixels de l'image source
-    ofPixels pixel_array_src = image_source.getPixels();
-
-    // extraire les pixels de l'image de destination
-    ofPixels pixel_array_dst = image_destination.getPixels();
-
-    // ofPixels pixel_array_dst = image_destination.getPixels();
-
-
-     // couleur du pixel lu dans l'image source
-    ofColor pixel_color_src;
-
-    // couleur du pixel à écrire dans l'image de destination
-    ofColor pixel_color_dst;
-
-    // somme du kernel appliquée à chaque composante de couleur d'un pixel
-    float sum[color_component_count];
-
-    // itération sur les rangées des pixels de l'image source
-    for (y = 0; y < image_height; ++y)
-    {
-        // itération sur les colonnes des pixels de l'image source
-        for (x = 0; x < image_width; ++x)
-        {
-            // initialiser le tableau où les valeurs de filtrage sont accumulées
-            for (c = 0; c < color_component_count; ++c)
-                sum[c] = 0;
-
-            // déterminer l'index du pixel de l'image de destination
-            pixel_index_img_dst = (image_width * y + x) * color_component_count;
-
-            // itération sur les colonnes du kernel de convolution
-            for (j = -kernel_offset; j <= kernel_offset; ++j)
-            {
-                // itération sur les rangées du kernel de convolution
-                for (i = -kernel_offset; i <= kernel_offset; ++i)
-                {
-                    // déterminer l'index du pixel de l'image source à lire
-                    pixel_index_img_src = (image_width * (y - j) + (x - i)) * color_component_count;
-
-                    // lire la couleur du pixel de l'image source
-                    pixel_color_src = pixel_array_src.getColor(pixel_index_img_src);
-
-                    // déterminer l'indice du facteur à lire dans le kernel de convolution
-                    kernel_index = kernel_size * (j + kernel_offset) + (i + kernel_offset);
-
-                    // extraction de la valeur à cet index du kernel
-                    switch (kernel_type)
-                    {
-                    case ConvolutionKernel::identity:
-                        kernel_value = convolution_kernel_identity.at(kernel_index);
-                        break;
-
-                    case ConvolutionKernel::emboss:
-                        kernel_value = convolution_kernel_emboss.at(kernel_index);
-                        break;
-
-                    case ConvolutionKernel::sharpen:
-                        kernel_value = convolution_kernel_sharpen.at(kernel_index);
-                        break;
-
-                    case ConvolutionKernel::edge_detect:
-                        kernel_value = convolution_kernel_edge_detect.at(kernel_index);
-                        break;
-
-                    case ConvolutionKernel::blur:
-                        kernel_value = convolution_kernel_blur.at(kernel_index);
-                        break;
-
-                    default:
-                        kernel_value = convolution_kernel_identity.at(kernel_index);
-                        break;
-                    }
-
-                    // itération sur les composantes de couleur
-                    for (c = 0; c < color_component_count; ++c)
-                    {
-                        // accumuler les valeurs de filtrage en fonction du kernel de convolution
-                        sum[c] = sum[c] + kernel_value * pixel_color_src[c];
-                    }
-                }
-            }
-
-            // déterminer la couleur du pixel à partir des valeurs de filtrage accumulées pour chaque composante
-            for (c = 0; c < color_component_count; ++c)
-            {
-                // conversion vers entier et validation des bornes de l'espace de couleur
-                pixel_color_dst[c] = (int)ofClamp(sum[c], 0, 255);
-            }
-
-            // écrire la couleur à l'index du pixel en cours de filtrage
-            pixel_array_dst.setColor(pixel_index_img_dst, pixel_color_dst);
-        }
-    } */
 
 void Renderer::shaderActive(int index, string type) {
     objects3d[index]->changeShader(type);
@@ -993,64 +800,8 @@ float Renderer::oscillate(float time, float frequency, float amplitude)
     return sinf(time * 2.0f * PI / frequency) * amplitude;
 }
 
-//_______________________________________________________________
-//Fonction en lien avec le filtrage LUT
-
-void Renderer::loadLut(string path)
-{
-    LUTLoaded = false;
-
-    ofFile file(path);
-    string line;
-    for (int i = 0; i < 5; i++) {
-        getline(file, line);
-        ofLog() << "Skipped line: " << line;
+void Renderer::changeFilter(int index, int filter) {
+    if (!isMode3D) {
+        objects2D[index]->changeFilter(filter);
     }
-    for (int z = 0; z < 32; z++) {
-        for (int y = 0; y < 32; y++) {
-            for (int x = 0; x < 32; x++) {
-                glm::vec3 cur;
-                file >> cur.x >> cur.y >> cur.z;
-                lut[x][y][z] = cur;
-            }
-        }
-    }
-    ofLog() << "Lut loaded";
-
-    LUTLoaded = true;
-
-}
-void Renderer::applyLut(ofPixelsRef pix)
-{
-    if (LUTLoaded) {
-
-        for (size_t y = 0; y < pix.getHeight(); y++) {
-            for (size_t x = 0; x < pix.getWidth(); x++) {
-
-                ofColor color = pix.getColor(x, y);
-
-                int lutPos[3];
-                for (int m = 0; m < 3; m++) {
-                    lutPos[m] = color[m] / 8;
-                    if (lutPos[m] == 31) {
-                        lutPos[m] = 30;
-                    }
-                }
-
-                glm::vec3 start = lut[lutPos[0]][lutPos[1]][lutPos[2]];
-                glm::vec3 end = lut[lutPos[0] + 1][lutPos[1] + 1][lutPos[2] + 1];
-
-                for (int k = 0; k < 3; k++) {
-                    float amount = (color[k] % 8) / 8.0f;
-                    color[k] = (start[k] + amount * (end[k] - start[k])) * 255;
-                }
-
-                lutImage.setColor(x, y, color);
-
-            }
-        }
-
-        lutImage.update();
-    }
-
 }

@@ -6,10 +6,7 @@
 #include "object3D.h"
 #include "object2D.h"
 #include "sphere.h"
-#include "fliters.h"
 #include "SkyBox.h"
-//#include "ofxCubeMap.h"
-
 #include "ofxVectorGraphics.h"
 
 
@@ -18,8 +15,6 @@
 class Renderer
 {
 public:
-	ConvolutionKernel kernel_type;
-	string kernel_name;
 
 	bool isMode3D;
 	// declaration des variables pour la fonction du curseur draw_cursor.
@@ -179,25 +174,7 @@ public:
 	bool light_pointOn;
 	bool light_spotOn;
 
-	//___________________________________________________________________
-	// LUT Fonctions and Parameters
-
-	void loadLut(string path);
-	void applyLut(ofPixelsRef pix);
-
-	bool doLUT;
-	ofImage grabScreen;
-	//ofFbo ScreenGrabber;
-	int dirLoadIndex;
-	ofDirectory dir;
-	glm::vec3 lutPos;
-	//glm::vec3 thumbPos;
-
-	bool LUTLoaded;
-	glm::vec3 lut[32][32][32];
-
-	ofImage lutImage;
-	ofImage lutImageBuff;
+	void changeFilter(int index, int filter);
 
 private:
 	bool nameAlreadyExists(string name);
