@@ -9,8 +9,6 @@
 
 class ofApp : public ofBaseApp {
 	Renderer renderer;
-	
-	//GestionImages gestionImages;
 
 	//3D
 	ofxPanel guiProperties3D;
@@ -89,6 +87,10 @@ class ofApp : public ofBaseApp {
 	ofxPanel guiObjects2D;
 	ofxPanel guiCamera2D;
 	ofxPanel guiControlPoints;
+	ofxPanel guiFilter;
+	ofxGuiGroup group_tone_mapping;
+	ofParameter<float> slider_exposure;
+	ofParameter<float> slider_gamma;
 
 	ofxButton newCircleButton;
 	ofxButton newSquareButton;
@@ -100,16 +102,23 @@ class ofApp : public ofBaseApp {
 	ofxButton newHouseButton;
 	ofxButton newBezierSplineButton;
 	ofxButton newCRbutton;
+	ofxButton identityFilterButton;
+	ofxButton embossFilterButton;
+	ofxButton sharpenFilterButton;
+	ofxButton edge_detectFilterButton;
+	ofxButton blurFilterButton;
 
 	vector<ofxVec2Slider*> controlPoints;
 
 	bool curveSelected = false;
+	bool imageSelected = false;
 	//___________________________
 
 
 	ofParameterGroup parameterGroup;
 
 	bool is_verbose;
+	bool newWindow;
 	bool cursor_enabled;
 
 	public:
@@ -117,6 +126,7 @@ class ofApp : public ofBaseApp {
 		void setup();
 		void update();
 		void draw();
+		
 
 		void keyPressed(int key);
 		void keyReleased(int key);
@@ -130,8 +140,6 @@ class ofApp : public ofBaseApp {
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-
-		void getHsb();
 
 
 		ofxIntSlider intSlider;
@@ -169,6 +177,8 @@ class ofApp : public ofBaseApp {
 		ofxButton projectionModeButton;
 		ofxButton setAnimationButton;
 		ofxButton toggleRotationButton;
+		ofxButton viewWindowButton;
+
 		bool is_key_press_up;
 		bool is_key_press_down;
 		bool is_key_press_left;
@@ -181,7 +191,6 @@ class ofApp : public ofBaseApp {
 		bool otherCursorInUse = false;
 
 		bool mode3D = true;
-
 
 private:
 
@@ -227,6 +236,12 @@ private:
 	void addNewHouse();
 	void addNewBezierSpline();
 	void addNewCR();
+
+	void setFilterIdentity();
+	void setFilterEmboss();
+	void setFilterSharpen();
+	void setFilterEdgeDetect();
+	void setFilterBlur();
 		
 	void openFileSelection(ofFileDialogResult openFileResult);
 

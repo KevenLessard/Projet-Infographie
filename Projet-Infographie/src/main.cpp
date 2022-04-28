@@ -5,6 +5,7 @@
 //========================================================================
 int main( ){
 
+
 	ofGLFWWindowSettings windowSettings;
 
 	// résolution de la fenêtre d'affichage
@@ -14,9 +15,7 @@ int main( ){
 	windowSettings.setGLVersion(3, 3);
 	windowSettings.numSamples = 4;
 	windowSettings.doubleBuffering = true;
-	// création de la fenêtre
 	ofCreateWindow(windowSettings);
-
-
 	ofRunApp(new ofApp());
+	
 }

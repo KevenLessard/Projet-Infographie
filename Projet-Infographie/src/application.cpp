@@ -9,6 +9,7 @@ void ofApp::setup(){
 	renderer.setup();
 	
 	is_verbose = false;
+	newWindow = false;
 
 	isRGBA = false;
 	//3D
@@ -170,6 +171,27 @@ void ofApp::setup(){
 	guiObjects2D.add(newCRbutton.setup("New Catmull-Rom curve"));
 	guiObjects2D.add(deleteButton.setup("Delete object"));
 
+	guiFilter.setup();
+	guiFilter.setPosition(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
+	guiFilter.add(identityFilterButton.setup("Identity"));
+	guiFilter.add(embossFilterButton.setup("Emboss"));
+	guiFilter.add(sharpenFilterButton.setup("Sharpen"));
+	guiFilter.add(edge_detectFilterButton.setup("Edge detect"));
+	guiFilter.add(blurFilterButton.setup("Blur"));
+
+	slider_exposure.set("exposure", 1.0, 0.0f, 5.0f);
+	slider_gamma.set("gamma", 2.2, 0.0f, 5.0f);
+	group_tone_mapping.setup("tone mapping");
+
+	group_tone_mapping.add(slider_exposure);
+	group_tone_mapping.add(slider_gamma);
+	guiFilter.add(&group_tone_mapping);
+
+	identityFilterButton.addListener(this, &ofApp::setFilterIdentity);
+	embossFilterButton.addListener(this, &ofApp::setFilterEmboss);
+	sharpenFilterButton.addListener(this, &ofApp::setFilterSharpen);
+	edge_detectFilterButton.addListener(this, &ofApp::setFilterEdgeDetect);
+	blurFilterButton.addListener(this, &ofApp::setFilterBlur);
 	//Panneau des points de controle
 	for (int i = 0; i < 7; i++) {
 		controlPoints.push_back(new ofxVec2Slider());
@@ -202,8 +224,9 @@ void ofApp::setup(){
 	is_key_press_d = false;
 }
 
+
 //--------------------------------------------------------------
-void ofApp::update(){
+void ofApp::update() {
 
 	renderer.is_camera_move_left = is_key_press_left;
 	renderer.is_camera_move_right = is_key_press_right;
@@ -237,6 +260,7 @@ void ofApp::update(){
 		}
 	}
 	bool oneCurveSelected = false;
+	bool oneImageSelected = false;
 	for (int i : selectedObjects) {
 		if (otherCursorInUse == false) {
 			renderer.crossCursor_enabled = true;
@@ -264,6 +288,11 @@ void ofApp::update(){
 					renderer.moveCurve(i, j, newControlPoint);
 				}
 			}
+			else if (renderer.objects2D[i]->isImage) {
+				oneImageSelected = true;
+				renderer.objects2D[i]->change_exposure(slider_exposure);
+				renderer.objects2D[i]->change_gamma(slider_gamma);
+			}
 			ofVec3f newProportion2D(proportionSlider2D);
 			newProportion = ofVec3f(newProportion2D.x, newProportion2D.y, 1);
 			newPosition = ofVec3f(positionSlider2D);
@@ -272,8 +301,10 @@ void ofApp::update(){
 		renderer.proportionateObject(i, newProportion);
 		renderer.moveObject(i, newPosition);
 		renderer.rotateObject(i, newRotation);
-		renderer.setMetallic(i, slider_metallic);
-		renderer.setRoughness(i, slider_roughness);
+		if (mode3D) {
+			renderer.setMetallic(i, slider_metallic);
+			renderer.setRoughness(i, slider_roughness);
+		}
 		if (isRGBA) {
 			renderer.setObjectColor(i, colorPicker);
 		}
@@ -294,6 +325,12 @@ void ofApp::update(){
 	else {
 		curveSelected = false;
 	}
+	if (oneImageSelected) {
+		imageSelected = true;
+	}
+	else {
+		imageSelected = false;
+	}
 	updateHierarchy();
 	renderer.update();
 }
@@ -301,9 +338,11 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
 	
+	
 	renderer.draw();
 
 	exportImage();
+
 
 	if (mode3D==true) {
 		ofDrawBitmapString("Press F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
@@ -326,10 +365,15 @@ void ofApp::draw(){
 		else {
 			guiProperties2D.draw();
 		}
+		if (imageSelected) {
+			guiFilter.draw();
+		}
 	}
 
 	guiHierarchy.draw();
 }
+
+
 
 //---------------------------------------------------------------
 //Sort function for stl::sort http://www.cplusplus.com/reference/algorithm/sort/
@@ -490,26 +534,18 @@ void ofApp::keyReleased(int key){
 		}
 		ofLog() << "<shader: phong>";
 		break;
-/*
-	case 54: // touche 1
-		renderer.kernel_type = ConvolutionKernel::identity;
-		renderer.kernel_name = "identité";
-		break;
-		*/
-
 	case 53: // touche 5
 		for (int o : selectedObjects) {
 			renderer.shaderActive(o, "blinn_phong");
 		}
 		ofLog() << "<shader: blinn-phong>";
 		break;
-
 	case 57351:
 		for (int o : selectedObjects) {
 			renderer.setTexture(o);
 
 		}
-
+		break;
 	case 57350: //touche f7 pour rogner l'image
 		if (mode3D == false) {
 			string keypressed = "f7";
@@ -790,10 +826,6 @@ void ofApp::gotMessage(ofMessage msg){
 
 }
 //--------------------------------------------------------------
-void ofApp::getHsb()
-{
-
-}
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo){ 
@@ -947,12 +979,11 @@ void ofApp::toggleListener(bool& value) {
 				positionSlider2D.setup("Position", ofVec2f(position.x, position.y), ofVec2f(-1920, -1080), ofVec2f(1920, 1080));
 				rotationSlider2D.setup("Rotation", ofVec2f(rotation.x, rotation.y), ofVec2f(0, 0), ofVec2f(360, 360));
 			}
-
 			ofColor color = renderer.objects2D[selectedObjects[0]]->getColor();
 			colorPicker = color;
 		}
 	}
-}
+;}
 
 void ofApp::updateSelection() {
 	selectedObjects.clear();
@@ -1246,6 +1277,40 @@ void ofApp::changeShaderPBR() {
 	for (int o : selectedObjects) {
 		renderer.shaderActive(o, "pbr");
 	}
-
 }
 
+void ofApp::setFilterIdentity() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(0);
+		}
+	}
+}
+void ofApp::setFilterEmboss() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(1);
+		}
+	}
+}
+void ofApp::setFilterSharpen() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(2);
+		}
+	}
+}
+void ofApp::setFilterEdgeDetect() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(3);
+		}
+	}
+}
+void ofApp::setFilterBlur() {
+	for (int i : selectedObjects) {
+		if (renderer.objects2D[i]->isImage) {
+			renderer.objects2D[i]->changeFilter(4);
+		}
+	}
+}

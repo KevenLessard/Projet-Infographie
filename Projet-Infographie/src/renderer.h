@@ -2,12 +2,11 @@
 
 #include "ofMain.h"
 #include "ofxAssimpModelLoader.h"
+#include "ofImage.h"
 #include "object3D.h"
 #include "object2D.h"
 #include "sphere.h"
 #include "SkyBox.h"
-//#include "ofxCubeMap.h"
-
 #include "ofxVectorGraphics.h"
 
 
@@ -16,7 +15,6 @@
 class Renderer
 {
 public:
-	
 
 	bool isMode3D;
 	// declaration des variables pour la fonction du curseur draw_cursor.
@@ -176,6 +174,8 @@ public:
 	bool light_directionalOn;
 	bool light_pointOn;
 	bool light_spotOn;
+
+	void changeFilter(int index, int filter);
 
 private:
 	bool nameAlreadyExists(string name);

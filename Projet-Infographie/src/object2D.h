@@ -14,6 +14,9 @@ public:
 	virtual string getName();
 	virtual void setName(string newObjectName);
 	virtual void movePoint(int pointIndex, glm::vec3 newPosition);
+	virtual void changeFilter(int filter);
+	virtual void change_gamma(float newGamma);
+	virtual void change_exposure(float exposure);
 	virtual vector<ofVec2f> getPoints();
 	
 	ofVec3f getPosition();
@@ -26,6 +29,7 @@ public:
 	void setRotation(ofVec3f newRotation);
 	void setProportion(ofVec3f newProportion);
 	bool isCurve = false;
+	bool isImage = false;
 
 	virtual void draw()=0;
 
@@ -228,6 +232,15 @@ public:
 	void draw();
 };
 
+enum ConvolutionKernel
+{
+	identity,
+	emboss,
+	sharpen,
+	edge_detect,
+	blur
+};
+
 class GestionImages : public Object2D
 {
 public:
@@ -243,15 +256,63 @@ public:
 	string originalFileExtension;
 
 	ofImage image;
+	ofImage filteredImage;
 
 	void actionResearchImages(string keypressed);
 
-
 	void loadImage(ofFileDialogResult openFileResult, string keypressed);
 
-
+	void changeFilter(int newFilter);
+	void change_gamma(float newGamma);
+	void change_exposure(float newExposure);
+	void filter();
 
 private:
 	string m_name;
+	ConvolutionKernel kernel_type;
 
+	int image_width;
+	int image_height;
+
+	ofShader shader;
+	float tone_mapping_exposure;
+	float tone_mapping_gamma;
+	
+	const std::array<float, 9> convolution_kernel_identity
+	{
+		0.0f,  0.0f,  0.0f,
+	  0.0f,  1.0f,  0.0f,
+	  0.0f,  0.0f,  0.0f
+	};
+	// kernel de convolution (3x3) : aiguiser
+	const std::array<float, 9> convolution_kernel_sharpen
+	{
+	  0.0f, -1.0f,  0.0f,
+	 -1.0f,  5.0f, -1.0f,
+	  0.0f, -1.0f,  0.0f
+	};
+
+	// kernel de convolution (3x3) : détection de bordure
+	const std::array<float, 9> convolution_kernel_edge_detect
+	{
+	  0.0f,  1.0f,  0.0f,
+	  1.0f, -4.0f,  1.0f,
+	  0.0f,  1.0f,  0.0f
+	};
+
+	// kernel de convolution (3x3) : bosseler
+	const std::array<float, 9> convolution_kernel_emboss
+	{
+	 -2.0f, -1.0f,  0.0f,
+	 -1.0f,  1.0f,  1.0f,
+	  0.0f,  1.0f,  2.0f
+	};
+
+	// kernel de convolution (3x3) : flou
+	const std::array<float, 9> convolution_kernel_blur
+	{
+	  1.0f / 9.0f,  1.0f / 9.0f,  1.0f / 9.0f,
+	  1.0f / 9.0f,  1.0f / 9.0f,  1.0f / 9.0f,
+	  1.0f / 9.0f,  1.0f / 9.0f,  1.0f / 9.0f
+	};
 };
