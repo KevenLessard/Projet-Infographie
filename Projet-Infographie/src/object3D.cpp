@@ -74,10 +74,16 @@ object3D::object3D(string p_name, int type) {
 		objectType = delaunayTriangle;
 		ofAddListener(ofEvents().mouseReleased, this, &object3D::mouseReleased);
 		break;
+	case 9:
+		glassBox = ofMesh();
+		objectType = GBox;
+		setupGlassBox();
+
 	default:
 		ofLog() << "Invalid type.";
 	}
 
+	
 	//Chargement du shader
 	shader_color_fill.load(
 		"shader/color_fill_330_vs.glsl",
@@ -129,6 +135,7 @@ object3D::object3D(string p_name, int type) {
 	material_roughness = 0.5f;
 
 	isSelected = false;
+
 }
 
 object3D::object3D(string p_name, int type, ofEasyCam *p_cam) {
@@ -396,6 +403,7 @@ void object3D::setProportion(ofVec3f newProportion) {
 	else if (objectType == surfaceBezier) {
 		surface.setProportion(newProportion);
 	}
+
 }
 
 void object3D::setRadius(float newRadius) {
@@ -496,6 +504,21 @@ void object3D::switchMaterialShader(string type) {
 	}
 }
 
+//Test
+void object3D::draw(const ofEasyCam& mainCamera) {
+
+	if (objectType == GBox) {
+		ofEnableDepthTest();
+		glEnable(GL_CULL_FACE);
+
+		//Ref[0].drawBackground(mainCamera);
+
+		Ref[0].drawMeshGlass(mainCamera, ofVec3f(100, 0, 0));
+		glDisable(GL_CULL_FACE);
+		ofDisableDepthTest();
+	}
+
+}
 
 void object3D::draw() {
 
@@ -535,7 +558,7 @@ void object3D::draw() {
 			float sizeBase = sphere.getRadius() * 2 * sphere.getGlobalScale().x;
 			ofNoFill();
 			ofDrawBox(sphere.getPosition(), sizeBase, sizeBase, sizeBase);
-
+		
 		}
 		toggleBoundingBox = false;
 	}
@@ -635,28 +658,31 @@ void object3D::draw() {
 }
 
 void object3D::draw(ofVec3f camPosition) {
-	material1.begin();
-	double distance = abs(camPosition.x) + abs(camPosition.y) + abs(camPosition.z);
-	int nbIteration = 0;
-	if (distance > 2000) {
-		nbIteration = 0;
-	}
-	else if (distance > 1500) {
-		nbIteration = 1;
-	}
-	else if (distance > 1000) {
-		nbIteration = 2;
-	}
-	else if (distance <= 1000) {
-		nbIteration = 4;
-	}
-	if (isSelected) {
-		quad.subdivide(nbIteration).drawWireframe();
-	}
-	else {
-		quad.subdivide(nbIteration).draw();
-	}
-	material1.end();
+
+
+		material1.begin();
+		double distance = abs(camPosition.x) + abs(camPosition.y) + abs(camPosition.z);
+		int nbIteration = 0;
+		if (distance > 2000) {
+			nbIteration = 0;
+		}
+		else if (distance > 1500) {
+			nbIteration = 1;
+		}
+		else if (distance > 1000) {
+			nbIteration = 2;
+		}
+		else if (distance <= 1000) {
+			nbIteration = 4;
+		}
+		if (isSelected) {
+			quad.subdivide(nbIteration).drawWireframe();
+		}
+		else {
+			quad.subdivide(nbIteration).draw();
+		}
+		material1.end();
+
 }
 
 void object3D::updateShader(ofLight light) {
@@ -830,4 +856,18 @@ void object3D::mouseReleased(ofMouseEventArgs& mouseArgs) {
 		delaunay.addPoint(actualPoint);
 		delaunay.triangulate();
 	}
+}
+
+void object3D::setupGlassBox() {
+	ofImage px("skybox/posx.jpg"); pos.push_back(px);
+	ofImage py("skybox/posy.jpg"); pos.push_back(py);
+	ofImage pz("skybox/posz.jpg"); pos.push_back(pz);
+	ofImage nx("skybox/negx.jpg"); neg.push_back(nx);
+	ofImage ny("skybox/negy.jpg"); neg.push_back(ny);
+	ofImage nz("skybox/negz.jpg"); neg.push_back(nz);
+	ofxReflectionRefraction r1;
+	glassBox = ofMesh::box(100, 100, 100, 1, 1, 1);
+	r1.setup(glassBox, pos, neg, false);
+	Ref.push_back(r1);
+
 }

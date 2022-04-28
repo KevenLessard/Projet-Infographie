@@ -3,10 +3,12 @@
 #include "bezierSurface.h"
 #include "Quad.h"
 #include "ofxDelaunay.h"
+#include "ofxReflectionRefraction.h"
+
 
 #pragma once
 
-enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d, delaunayTriangle};
+enum ObjectType { importation, primitive3d, sphere3d, box3d, cylinder3d, cone3d, surfaceBezier, quad3d, delaunayTriangle, GBox};
 // énumération des types de shader
 enum class ShaderType { color_fill, lambert, gouraud, phong, blinn_phong };
 
@@ -50,8 +52,12 @@ public:
 	void toggleRotation();
 	void draw();
 	void draw(ofVec3f camPosition);
+	void draw(const ofEasyCam& mainCamera);
 	void drawBoundingBox();
 	void changeShader(string type);
+
+	vector<ofxReflectionRefraction> Ref;
+	void setupGlassBox();
 
 	float oscillate(float time, float frequency, float amplitude);
 	void setSelected(bool b);
@@ -89,6 +95,10 @@ public:
 	float tone_mapping_gamma;
 	bool tone_mapping_toggle;
 
+	vector<ofImage> pos;
+	vector<ofImage> neg;
+	ofParameter<ofVec3f> translate;
+
 private:
 	string name;
 	ofVec3f position;
@@ -110,6 +120,7 @@ private:
 	ofxBezierSurface surface;
 	ofx::Quad quad;
 	ofxDelaunay delaunay;
+	ofMesh glassBox;
 	string shader_name;
 	ofShader shader_color_fill;
 	ofShader shader_lambert;
