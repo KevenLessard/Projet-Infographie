@@ -343,13 +343,13 @@ void ofApp::draw(){
 
 	exportImage();
 
-
 	if (mode3D==true) {
 		ofDrawBitmapString("Press F2 to save, TAB to switch between 2D and 3D.", guiHierarchy.getWidth(), 10);
+		ofDrawBitmapString("Press F8 to import a texture", guiHierarchy.getWidth(), 30);
 		guiProperties3D.draw();
 		guiObjects3D.draw();
 		guiCamera3D.draw();
-		guiLights.draw();
+		//guiLights.draw();
 		guiShaderPanel.draw();
 		guiMaterialPanel.draw();
 	}

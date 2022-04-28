@@ -224,7 +224,7 @@ void ofxBezierSurface::mousePressed(ofMouseEventArgs& mouseArgs) {
     if (!ofGetKeyPressed(OF_KEY_SHIFT)) {
         selectedPnts.clear();
     }
-
+             
     for (int i = 0; i < selectedPnts.size(); i++) {
         if (selectedPnts[i].x == tmp.x && selectedPnts[i].y == tmp.y)
             missing = false;
@@ -244,6 +244,7 @@ ofPoint ofxBezierSurface::findPoint(ofMouseEventArgs mouseArgs) {
 
     for (int i = 0; i <= cx; i++) {
         for (int j = 0; j <= cy; j++) {
+            //ofLog() << inp[i][j].x << ", " << inp[i][j].y;
             distance = ofDist(inp[i][j].x, inp[i][j].y, mousePoint.x, mousePoint.y);
             if (nearest == -1)
                 nearest = distance;

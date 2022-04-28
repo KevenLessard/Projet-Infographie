@@ -31,21 +31,6 @@ void Renderer::setup()
         //sphereCenter = ofVec3f(0, 0, 500);
 
         skybox.setup({ 
-        /*"skybox/right.jpg",
-        "skybox/left.jpg",
-        "skybox/top.jpg",
-        "skybox/bottom.jpg",
-        "skybox/front.jpg",
-        "skybox/back.jpg"*/
-
-        /*"skybox/dark_rt.png",
-        "skybox/dark_lf.png",
-        "skybox/dark_up.png",
-        "skybox/dark_dn.png",
-        "skybox/dark_ft.png",
-        "skybox/dark_bk.png",
-        */
-
             "skybox/posx.jpg","skybox/negx.jpg",
             "skybox/posy.jpg","skybox/negy.jpg",
             "skybox/posz.jpg","skybox/negz.jpg"
@@ -256,6 +241,7 @@ void Renderer::draw()
 
     if (isMode3D) {
         skybox.draw(mainCamera);
+
         //Dessine les lumières mais marche mal
         //if (light_pointOn) {
         //    light_point.draw();
@@ -266,7 +252,6 @@ void Renderer::draw()
         if (light_spotOn) {
             light_spot.draw();
         }
-
 
         for (object3D* object : objects3d) {
             ofPushMatrix();
