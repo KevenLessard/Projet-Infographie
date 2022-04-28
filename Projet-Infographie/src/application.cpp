@@ -18,8 +18,8 @@ void ofApp::setup(){
 	guiProperties3D.setup();
 	guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
 	guiProperties3D.add(labelProperties3D.setup("Panel", "Properties"));
-	guiProperties3D.add(proportionSlider.setup("Proportion", ofVec3f(1, 1, 1), ofVec3f(0, 0, 0), ofVec3f(100, 100, 100)));
-	guiProperties3D.add(positionSlider.setup("Position", ofVec3f(0, 0, 0), ofVec3f(-1920, -1080, 0), ofVec3f(1920, 1080, 1000)));
+	guiProperties3D.add(proportionSlider.setup("Proportion", ofVec3f(1, 1, 1), ofVec3f(0, 0, 0), ofVec3f(10, 10, 10)));
+	guiProperties3D.add(positionSlider.setup("Position", ofVec3f(0, 0, 0), ofVec3f(-1920, -1080, -1000), ofVec3f(1920, 1080, 1000)));
 	guiProperties3D.add(rotationSlider.setup("Rotation", ofVec3f(0, 0, 0), ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
 	guiProperties3D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties3D.add(HSBDisplayButton.setup("HSB"));
@@ -50,6 +50,7 @@ void ofApp::setup(){
 	guiObjects3D.add(newSurfaceButton.setup("Bezier surface"));
 	guiObjects3D.add(newQuadButton.setup("Quad"));
 	guiObjects3D.add(newDelaunayButton.setup("Delaunay"));
+	guiObjects3D.add(newGlassBoxButton.setup("GlassBox"));
 	guiObjects3D.add(deleteButton.setup("Delete object"));
 
 	newObjectName.set("Name: ", "");
@@ -65,6 +66,7 @@ void ofApp::setup(){
 	newSurfaceButton.addListener(this, &ofApp::addBezierSurface);
 	newQuadButton.addListener(this, &ofApp::addQuad);
 	newDelaunayButton.addListener(this, &ofApp::addDelaunay);
+	newGlassBoxButton.addListener(this, &ofApp::addGlassBox);
 	deleteButton.addListener(this, &ofApp::deleteObject);
 
 
@@ -905,6 +907,12 @@ void ofApp::addDelaunay() {
 	newObjectName.set("");
 }
 
+void ofApp::addGlassBox() {
+	renderer.addNewGlassBox(newObjectName);
+	newToggleObject();
+	newObjectName.set("");
+}
+
 void ofApp::deleteObject() {
 	for (int i = 0; i < selectedObjects.size(); i++) {
 		int index = selectedObjects[i];
@@ -1088,8 +1096,8 @@ void ofApp::refreshProperties() {
 		guiProperties3D.setup();
 		guiProperties3D.setPosition(ofGetWindowWidth() - guiProperties3D.getWidth(), 0);
 		guiProperties3D.add(labelProperties3D.setup("Panel", "Properties"));
-		guiProperties3D.add(proportionSlider.setup("Proportion", proportionSlider, ofVec3f(0, 0, 0), ofVec3f(100, 100, 100)));
-		guiProperties3D.add(positionSlider.setup("Position", positionSlider, ofVec3f(-1920, -1080, 0), ofVec3f(1920, 1080, 1000)));
+		guiProperties3D.add(proportionSlider.setup("Proportion", proportionSlider, ofVec3f(0, 0, 0), ofVec3f(10, 10, 10)));
+		guiProperties3D.add(positionSlider.setup("Position", positionSlider, ofVec3f(-1920, -1080, -1000), ofVec3f(1920, 1080, 1000)));
 		guiProperties3D.add(rotationSlider.setup("Rotation", rotationSlider, ofVec3f(0, 0, 0), ofVec3f(360, 360, 360)));
 		guiProperties3D.add(colorPicker.set("Color RGBA", ofColor(myRGBColor), ofColor(0, 0, 0, 0), ofColor(255, 255, 255, 255)));
 		guiProperties3D.add(HSBDisplayButton.setup("HSB"));

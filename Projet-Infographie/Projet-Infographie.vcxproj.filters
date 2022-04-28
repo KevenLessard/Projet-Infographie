@@ -147,6 +147,12 @@
     <Filter Include="addons\ofxGui\src">
       <UniqueIdentifier>{645E9533-4DCD-6179-1CDF-CB65}</UniqueIdentifier>
     </Filter>
+    <Filter Include="addons\ofxReflectionRefraction">
+      <UniqueIdentifier>{FCEE8873-1FF9-CFC3-7AA4-4571}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="addons\ofxReflectionRefraction\src">
+      <UniqueIdentifier>{6CEEFBE7-0952-9EDB-3766-ED3B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="addons\ofxSkyBox">
       <UniqueIdentifier>{01BD29BA-9FB4-6940-5EF5-4F44}</UniqueIdentifier>
     </Filter>
@@ -367,6 +373,12 @@
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxGui\src\ofxToggle.h">
       <Filter>addons\ofxGui\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\addons\ofxReflectionRefraction\src\glsl.h">
+      <Filter>addons\ofxReflectionRefraction\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\addons\ofxReflectionRefraction\src\ofxReflectionRefraction.h">
+      <Filter>addons\ofxReflectionRefraction\src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxSkyBox\src\ofxCubeMap.h">
       <Filter>addons\ofxSkyBox\src</Filter>

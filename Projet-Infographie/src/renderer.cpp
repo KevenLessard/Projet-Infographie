@@ -131,7 +131,8 @@ void Renderer::update()
 
         light_spot.setOrientation(orientation_spot);
 
-        light_spot.setPosition(center_x, center_y - 75.0f, camera_offset * 0.75f);
+       //light_spot.setPosition(center_x, center_y-75.0f, camera_offset * 0.75f);
+        light_spot.setPosition(0, 0, camera_offset * 0.75f);
     }
     ofPopMatrix();
 
@@ -262,14 +263,19 @@ void Renderer::draw()
         //if (light_directionalOn) {
         //    light_directional.draw();
         //}
-        //if (light_spotOn) {
-        //    light_spot.draw();
-        //}
+        if (light_spotOn) {
+            light_spot.draw();
+        }
+
 
         for (object3D* object : objects3d) {
             ofPushMatrix();
             if (object->objectType == 7) {
                 object->draw(mainCamera.getPosition());
+            }
+            //Test
+            else if (object->objectType == 9) {
+                object->draw(mainCamera);
             }
             else {
                 object->draw();
@@ -532,6 +538,17 @@ void Renderer::addNewDelauney(string name) {
     }
     object3D* delaunay = new object3D(name, 8, &mainCamera);
     objects3d.push_back(delaunay);
+}
+
+void Renderer::addNewGlassBox(string name) {
+    if (nameAlreadyExists(name)) {
+        return;
+    }
+    if (name == "") {
+        name = "GlassBox " + to_string(objects3d.size());
+    }
+    object3D* glassBox = new object3D(name, 9);
+    objects3d.push_back(glassBox);
 }
 
 

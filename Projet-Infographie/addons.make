@@ -1,5 +1,6 @@
 ofxAssimpModelLoader
 ofxDelaunay
 ofxGui
+ofxReflectionRefraction
 ofxSkyBox
 ofxVectorGraphics

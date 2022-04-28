@@ -100,6 +100,7 @@ public:
 	void addNewSurface(string name);
 	void addNewQuad(string name);
 	void addNewDelauney(string name);
+	void addNewGlassBox(string name);
 	void deleteObject(int index);
 	void proportionateObject(int index, ofVec3f newProportion);
 	void moveObject(int index, ofVec3f newPosition);

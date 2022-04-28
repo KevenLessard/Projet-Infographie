@@ -36,6 +36,7 @@ class ofApp : public ofBaseApp {
 	ofxButton newSurfaceButton;
 	ofxButton newQuadButton;
 	ofxButton newDelaunayButton;
+	ofxButton newGlassBoxButton;
 
 	//Lumi�res
 	ofxButton newLight1;
@@ -210,6 +211,7 @@ private:
 	void addBezierSurface();
 	void addQuad();
 	void addDelaunay();
+	void addGlassBox();
 	void deleteObject();
 	void cameraLookAt();
 	void switchProjectionMode();
