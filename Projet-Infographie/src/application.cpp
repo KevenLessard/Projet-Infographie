@@ -85,11 +85,6 @@ void ofApp::setup(){
 	guiCamera3D.add(toggleRotationButton.setup("Rotate 3D models"));
 	toggleRotationButton.addListener(this, &ofApp::toggleRotation);
 
-	//Panneau de lumières
-	//guiLights.setup();
-	//guiLights.setPosition(guiCamera3D.getWidth(), ofGetWindowHeight() - guiLights.getHeight());
-
-
 	//Panneau de matériaux
 	guiMaterialPanel.setup();
 	guiMaterialPanel.setPosition(guiCamera3D.getWidth(), ofGetWindowHeight() - guiMaterialPanel.getHeight());
@@ -619,6 +614,8 @@ void ofApp::keyReleased(int key){
 			renderer.resizeCursor_enabled = false;
 			renderer.resizeCursorUpDown_enabled = false;
 		}
+		renderer.mainCamera.setPosition(0, 0, 500);
+		renderer.mainCamera.setOrientation(ofVec3f(0, 0, 0));
 		refreshHierarchy();
 		windowResized(ofGetWindowWidth(), ofGetWindowHeight());
 		break;

@@ -10,6 +10,7 @@ void Renderer::setup()
 
 		is_mouse_button_pressed = false;
         mainCamera.setPosition(0, 0, 500);
+        mainCamera.setOrientation(ofVec3f(0, 0, 0));
         mainCamera.setFov(60.0f);
 
         is_camera_move_left = false;
