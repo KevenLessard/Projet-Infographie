@@ -704,6 +704,10 @@ void object3D::updateShader(ofLight light) {
 	}
 
 	else if (shader_name == "pbr") {
+<<<<<<< HEAD
+=======
+		
+>>>>>>> f60079f976a1601f41193d063c23b47887d0fe36
 		//-----------------
 
 		material_color_ambient = ofColor(63, 63, 63);
