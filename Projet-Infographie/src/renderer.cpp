@@ -499,6 +499,7 @@ void Renderer::addNewQuad(string name) {
     }
     object3D* quad = new object3D(name, 7);
     objects3d.push_back(quad);
+    shader_light = 0;
 }
 
 void Renderer::addNewDelauney(string name) {

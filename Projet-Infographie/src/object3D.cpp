@@ -514,7 +514,6 @@ void object3D::draw(const ofEasyCam& mainCamera) {
 
 		Ref[0].drawMeshGlass(mainCamera, ofVec3f(100, 0, 0));
 		glDisable(GL_CULL_FACE);
-		ofDisableDepthTest();
 	}
 
 }
@@ -664,7 +663,7 @@ void object3D::draw() {
 
 void object3D::draw(ofVec3f camPosition) {
 
-
+		//Desine le quad
 		material1.begin();
 		double distance = abs(camPosition.x) + abs(camPosition.y) + abs(camPosition.z);
 		int nbIteration = 0;
