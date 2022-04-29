@@ -812,6 +812,7 @@ void object3D::updateMaterial() {
 
 void object3D::setTexture(ofFileDialogResult openFileResult) {
 	ofLoadImage(texture1, openFileResult.getPath());
+	texture1.generateMipmap();
 	shaderOnMaterialOff = false;
 	boolTopologie = false;
 	textureOn = true;

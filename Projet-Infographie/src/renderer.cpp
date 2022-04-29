@@ -657,7 +657,7 @@ void Renderer::drawBoundingBox(int index) {
 
 void Renderer::setTexture(int index) {
     if (isMode3D) {
-
+        shader_light = false;
         ofFileDialogResult openFileResult = ofSystemLoadDialog("choisir une texture");
         objects3d[index]->setTexture(openFileResult);
     }
