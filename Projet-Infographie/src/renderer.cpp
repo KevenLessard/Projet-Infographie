@@ -37,7 +37,7 @@ void Renderer::setup()
             
          });
 
-
+        shader_light = 1;
         camera_offset = 350.0f;
         oscillation_frequency = 7500.0f;
         oscillation_amplitude = 45.0;
@@ -235,19 +235,11 @@ void Renderer::draw()
     lightingOn();
     ofEnableLighting();
 
-    //light.enable();
 
 
     if (isMode3D) {
         skybox.draw(mainCamera);
 
-        //Dessine les lumières mais marche mal
-        //if (light_pointOn) {
-        //    light_point.draw();
-        //}
-        //if (light_directionalOn) {
-        //    light_directional.draw();
-        //}
         if (light_spotOn) {
             light_spot.draw();
         }
@@ -740,10 +732,17 @@ void Renderer::shaderActive(int index, string type) {
 
 void Renderer::shaderActive(int index, string type) {
     objects3d[index]->changeShader(type);
+    light_ambientOn = 0;
+    light_directionalOn = 0;
+    light_pointOn = 0;
+    light_spotOn = 0;
+    shader_light = 1;
+
 }
 
 void Renderer::setMaterial(int index, string type) {
     objects3d[index]->setMaterial(type);
+    shader_light = 0;
 }
 
 void Renderer::addNewLight(int light) {
@@ -790,6 +789,9 @@ void Renderer::lightingOn() {
 
     if (light_spotOn)
         light_spot.enable();
+
+    if (shader_light)
+        light.enable();
 }
 
 void Renderer::lightingOff() {
@@ -797,6 +799,7 @@ void Renderer::lightingOff() {
     light_directional.disable();
     light_point.disable();
     light_spot.disable();
+    light.disable();
 }
 
 // fonction d'oscillation

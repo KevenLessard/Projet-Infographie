@@ -512,8 +512,6 @@ void object3D::draw(const ofEasyCam& mainCamera) {
 		ofEnableDepthTest();
 		glEnable(GL_CULL_FACE);
 
-		//Ref[0].drawBackground(mainCamera);
-
 		Ref[0].drawMeshGlass(mainCamera, ofVec3f(100, 0, 0));
 		glDisable(GL_CULL_FACE);
 		ofDisableDepthTest();
@@ -706,9 +704,6 @@ void object3D::updateShader(ofLight light) {
 	}
 
 	else if (shader_name == "pbr") {
-		//Doit créer setter
-		//material_metallic = 0.5f;
-		//material_roughness = 0.5f;
 		
 		//-----------------
 

@@ -174,6 +174,7 @@ public:
 	bool light_directionalOn;
 	bool light_pointOn;
 	bool light_spotOn;
+	bool shader_light;
 
 	void changeFilter(int index, int filter);
 
