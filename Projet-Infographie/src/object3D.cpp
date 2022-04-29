@@ -830,10 +830,10 @@ bool object3D::getSelected() {
 void object3D::setSelected(bool b) {
 	isSelected = b;
 	if (isSelected && objectType == surfaceBezier) {
-		surface.addListeners();
+		//surface.addListeners();
 	}
 	else {
-		surface.removeListeners();
+		//surface.removeListeners();
 	}
 }
 
