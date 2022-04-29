@@ -188,7 +188,6 @@
     <ClCompile Include="src\Quad.cpp" />
     <ClCompile Include="src\renderer.cpp" />
     <ClCompile Include="src\Skybox.cpp" />
-    <ClCompile Include="src\sphere.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.cpp" />
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpModelLoader.cpp" />
@@ -218,7 +217,6 @@
     <ClInclude Include="src\Quad.h" />
     <ClInclude Include="src\renderer.h" />
     <ClInclude Include="src\Skybox.h" />
-    <ClInclude Include="src\sphere.h" />
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h" />
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpMeshHelper.h" />
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpModelLoader.h" />

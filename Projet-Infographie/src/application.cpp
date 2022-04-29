@@ -149,10 +149,8 @@ void ofApp::setup(){
 	guiProperties2D.add(labelProperties2D.setup("Panel", "Properties 2D"));
 	guiProperties2D.add(proportionSlider2D.setup("Proportion", ofVec2f(1, 1), ofVec2f(0, 0), ofVec2f(100, 100)));
 	guiProperties2D.add(positionSlider2D.setup("Position", ofVec2f(0, 0), ofVec2f(-1920, -1080), ofVec2f(1920,1080)));
-	//guiProperties2D.add(rotationSlider2D.setup("Rotation", ofVec2f(0, 0), ofVec2f(0, 0), ofVec2f(360, 360)));
 	guiProperties2D.add(colorPicker.set("Color", ofColor(31), ofColor(0, 0), ofColor(255, 255)));
 	guiProperties2D.add(HSBDisplayButton.setup("HSB"));
-	//guiProperties2D.add(newTextureButton.setup("Add Texture"));
 
 	//Panneau d'ajout d'objects 2D
 
@@ -349,7 +347,6 @@ void ofApp::draw(){
 		guiProperties3D.draw();
 		guiObjects3D.draw();
 		guiCamera3D.draw();
-		//guiLights.draw();
 		guiShaderPanel.draw();
 		guiMaterialPanel.draw();
 	}

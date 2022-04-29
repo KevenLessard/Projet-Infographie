@@ -512,8 +512,6 @@ void object3D::draw(const ofEasyCam& mainCamera) {
 		ofEnableDepthTest();
 		glEnable(GL_CULL_FACE);
 
-		//Ref[0].drawBackground(mainCamera);
-
 		Ref[0].drawMeshGlass(mainCamera, ofVec3f(100, 0, 0));
 		glDisable(GL_CULL_FACE);
 		ofDisableDepthTest();
@@ -706,10 +704,6 @@ void object3D::updateShader(ofLight light) {
 	}
 
 	else if (shader_name == "pbr") {
-		//Doit créer setter
-		//material_metallic = 0.5f;
-		//material_roughness = 0.5f;
-		
 		//-----------------
 
 		material_color_ambient = ofColor(63, 63, 63);
@@ -744,7 +738,6 @@ void object3D::updateShader(ofLight light) {
 
 		shader_pbr.setUniform1f("tone_mapping_exposure", 1.0f);
 		shader_pbr.setUniform1f("tone_mapping_gamma", 2.2f);
-		//shader_pbr.setUniform1f("tone_mapping_gamma", tone_mapping_gamma);
 		shader_pbr.setUniform1i("tone_mapping_toggle", tone_mapping_toggle);
 
 		shader_pbr.end();
@@ -758,7 +751,6 @@ void object3D::updateShader(ofLight light) {
 		shader.setUniform3f("color_specular", 1.0f, 1.0f, 0.0f);
 		shader.setUniform1f("brightness", oscillation);
 		shader.setUniform3f("light_position", light.getGlobalPosition());
-		//shader.setUniform3f("light_position", glm::vec4(light.getGlobalPosition(), 0.0f) * ofGetCurrentMatrix(OF_MATRIX_MODELVIEW));
 		shader.end();
 	}
 }

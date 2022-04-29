@@ -914,6 +914,3 @@ void GestionImages::change_gamma(float newGamma) {
 void GestionImages::change_exposure(float newExposure) {
     tone_mapping_exposure = newExposure;
 }
-
-//------------------------------------------------------------------------------
-//GESTION TEXTURES

@@ -15,7 +15,6 @@ class ofApp : public ofBaseApp {
 	ofxPanel guiObjects3D;
 	ofxPanel guiCamera3D;
 	ofxPanel guiHierarchy;
-	ofxPanel guiLights;
 
 	//Hierarchy
 	vector<ofParameter<bool>> objectsToggle;

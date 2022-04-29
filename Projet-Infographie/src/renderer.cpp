@@ -227,7 +227,6 @@ void Renderer::draw_MagnifyingGlass(float x, float y)const {
 
 void Renderer::draw()
 {
-    //Ajouter une section pour le draw du 2D
     ofPushMatrix();
     mainCamera.begin();
     ofEnableDepthTest();
@@ -235,19 +234,10 @@ void Renderer::draw()
     lightingOn();
     ofEnableLighting();
 
-    //light.enable();
-
 
     if (isMode3D) {
         skybox.draw(mainCamera);
 
-        //Dessine les lumières mais marche mal
-        //if (light_pointOn) {
-        //    light_point.draw();
-        //}
-        //if (light_directionalOn) {
-        //    light_directional.draw();
-        //}
         if (light_spotOn) {
             light_spot.draw();
         }
@@ -332,8 +322,6 @@ void Renderer::addNewRectangle(string name) {
     rectangle->setRectangleHeight(100);
     rectangle->setRectanglewidth(200);
     rectangle->setProportion(ofVec3f(1, 1, 1));
-    //rectangle->applyTexture();
-    //ofLog() << "applyTexture appelé";
     objects2D.push_back(rectangle);
 }
 
@@ -577,11 +565,9 @@ void Renderer::rotateObject(int index, ofVec3f newRotation) {
     else {
         objects2D[index]->setRotation(newRotation);
     }
-    //ofQuaternion actualRotation(newRotation);
 }
 
 void Renderer::setObjectColor(int index, ofColor newColor) {
-    //if hsb, convert to rbg first
     if (isMode3D) {
         objects3d[index]->setColor(newColor);
     }
@@ -667,9 +653,6 @@ void Renderer::drawBoundingBox(int index) {
     if (isMode3D) {
         objects3d[index]->drawBoundingBox();
     }
-    else {
-        //drawBoundingBox for 2d objects
-    }
 }
 
 void Renderer::setTexture(int index) {
@@ -732,11 +715,6 @@ void Renderer::addNewImage(string name, string keypressed) {
     image->actionResearchImages(keypressed);
     objects2D.push_back(image);
 }
-/*
-void Renderer::shaderActive(int index, string type) {
-    objects3d[index]->changeShader(type);
-}
-*/
 
 void Renderer::shaderActive(int index, string type) {
     objects3d[index]->changeShader(type);

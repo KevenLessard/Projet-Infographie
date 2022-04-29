@@ -28,9 +28,6 @@
     <ClCompile Include="src\Skybox.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\sphere.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.cpp">
       <Filter>addons\ofxAssimpModelLoader\src</Filter>
     </ClCompile>
@@ -189,9 +186,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Skybox.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sphere.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\..\addons\ofxAssimpModelLoader\src\ofxAssimpAnimation.h">

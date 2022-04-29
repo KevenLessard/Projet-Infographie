@@ -5,7 +5,6 @@
 #include "ofImage.h"
 #include "object3D.h"
 #include "object2D.h"
-#include "sphere.h"
 #include "SkyBox.h"
 #include "ofxVectorGraphics.h"
 
@@ -48,12 +47,8 @@ public:
 	vector<Object2D*> objects2D;
 	//vector<Form*> shapes;
 
-	
-	
-	//Test Cam
 	ofEasyCam mainCamera;
 
-	//ofCamera mainCamera;
 	bool is_camera_ortho = false;
 	bool is_camera_move_left;
 	bool is_camera_move_right;
