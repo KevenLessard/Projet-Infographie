@@ -116,8 +116,8 @@ void Renderer::update()
 
         light_spot.setOrientation(orientation_spot);
 
-       //light_spot.setPosition(center_x, center_y-75.0f, camera_offset * 0.75f);
-        light_spot.setPosition(0, 0, camera_offset * 0.75f);
+       light_spot.setPosition(center_x, center_y-75.0f, camera_offset * 0.75f);
+       light_spot.setPosition(0, 0, camera_offset * 0.75f);
     }
     ofPopMatrix();
 
@@ -232,11 +232,10 @@ void Renderer::draw()
     mainCamera.begin();
     ofEnableDepthTest();
 
-
-    ofEnableLighting();
     lightingOn();
+    ofEnableLighting();
 
-    light.enable();
+    //light.enable();
 
 
     if (isMode3D) {
@@ -649,8 +648,11 @@ void Renderer::reset() {
     light_spot.setSpotlightCutOff(30);
     light_spot.setSpotlight();
 
-    //S'assure d'avoir une lumière de base d'ouverte.
-    light_directionalOn = true;
+    light_ambientOn = 0;
+    light_directionalOn = 0;
+    light_pointOn = 0;
+    light_spotOn = 0;
+    
 }
 
 void Renderer::setAnimation(int index) {

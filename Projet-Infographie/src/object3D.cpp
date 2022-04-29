@@ -30,6 +30,7 @@ object3D::object3D(string p_name) {
 	shader = shader_lambert;
 	shaderOnMaterialOff = true;
 	boolTopologie = false;
+	textureOn = false;
 	material_metallic = 0.5f;
 	material_roughness = 0.5f;
 
@@ -126,11 +127,11 @@ object3D::object3D(string p_name, int type) {
 	setColor(ofColor(200, 200, 200));
 
 	ofDisableArbTex();
-	//ofLoadImage(texture1, "texture/metal_rust.jpg");
 
 	shader = shader_lambert;
 	shaderOnMaterialOff = true;
 	boolTopologie = false;
+	textureOn = false;
 	material_metallic = 0.5f;
 	material_roughness = 0.5f;
 
@@ -208,6 +209,7 @@ object3D::object3D(string p_name, string fileName) {
 	shader = shader_lambert;
 	shaderOnMaterialOff = true;
 	boolTopologie = false;
+	textureOn = false;
 	material_metallic = 0.5f;
 	material_roughness = 0.5f;
 
@@ -462,6 +464,7 @@ void object3D::changeShader(string type) {
 
 	shaderOnMaterialOff = 1;
 	boolTopologie = 0;
+	textureOn = 0;
 
 	//Shader pbr à son shader à part shader_pbr
 
@@ -478,6 +481,7 @@ void object3D::setMaterial(string material) {
 
 	shaderOnMaterialOff = 0;
 	boolTopologie = 0;
+	textureOn = false;
 }
 
 void object3D::setMetallic(float value) {
@@ -492,8 +496,6 @@ void object3D::setTopologie() {
 	boolTopologie = 1;
 }
 
-
-//Bonne chance que j'utilise pas-------------------------------------------------------------------------------------------------------
 void object3D::switchMaterialShader(string type) {
 	if (type == "shader") {
 		shaderOnMaterialOff = 1;
@@ -504,10 +506,10 @@ void object3D::switchMaterialShader(string type) {
 	}
 }
 
-//Test
 void object3D::draw(const ofEasyCam& mainCamera) {
 
 	if (objectType == GBox) {
+		cout << "1";
 		ofEnableDepthTest();
 		glEnable(GL_CULL_FACE);
 
@@ -523,6 +525,7 @@ void object3D::draw(const ofEasyCam& mainCamera) {
 void object3D::draw() {
 
 	if (boolTopologie) {
+		cout << "2";
 		materialSelected = "basic";
 		material1.begin();
 	}
@@ -537,7 +540,13 @@ void object3D::draw() {
 			shader.begin();
 		}
 	}
-	if (shaderOnMaterialOff == false && boolTopologie == false) {
+
+	if (shaderOnMaterialOff == false && boolTopologie == false && textureOn == false) {
+		updateMaterial();
+		material1.begin();
+	}
+
+	if (shaderOnMaterialOff == false && boolTopologie == false && textureOn == true) {
 		updateMaterial();
 		material1.begin();
 		texture1.bind();
@@ -650,8 +659,8 @@ void object3D::draw() {
 	}
 
 	ofPopMatrix();
-	texture1.unbind();
 	material1.end();
+	texture1.unbind();
 	shader_pbr.end();
 	shader.end();
 	
@@ -809,6 +818,9 @@ void object3D::updateMaterial() {
 
 void object3D::setTexture(ofFileDialogResult openFileResult) {
 	ofLoadImage(texture1, openFileResult.getPath());
+	shaderOnMaterialOff = false;
+	boolTopologie = false;
+	textureOn = true;
 }
 
 // fonction d'oscillation
