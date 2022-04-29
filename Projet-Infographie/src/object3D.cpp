@@ -509,7 +509,6 @@ void object3D::switchMaterialShader(string type) {
 void object3D::draw(const ofEasyCam& mainCamera) {
 
 	if (objectType == GBox) {
-		cout << "1";
 		ofEnableDepthTest();
 		glEnable(GL_CULL_FACE);
 
@@ -525,7 +524,6 @@ void object3D::draw(const ofEasyCam& mainCamera) {
 void object3D::draw() {
 
 	if (boolTopologie) {
-		cout << "2";
 		materialSelected = "basic";
 		material1.begin();
 	}
