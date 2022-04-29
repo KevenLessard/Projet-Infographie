@@ -79,7 +79,7 @@ object3D::object3D(string p_name, int type) {
 		glassBox = ofMesh();
 		objectType = GBox;
 		setupGlassBox();
-
+		break;
 	default:
 		ofLog() << "Invalid type.";
 	}
