@@ -704,10 +704,10 @@ void object3D::updateShader(ofLight light) {
 	}
 
 	else if (shader_name == "pbr") {
-<<<<<<< HEAD
-=======
+		//Doit créer setter
+		//material_metallic = 0.5f;
+		//material_roughness = 0.5f;
 		
->>>>>>> f60079f976a1601f41193d063c23b47887d0fe36
 		//-----------------
 
 		material_color_ambient = ofColor(63, 63, 63);

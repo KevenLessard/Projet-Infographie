@@ -234,10 +234,6 @@ void Renderer::draw()
     lightingOn();
     ofEnableLighting();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> f60079f976a1601f41193d063c23b47887d0fe36
 
     if (isMode3D) {
         skybox.draw(mainCamera);
